@@ -63,8 +63,6 @@ public abstract class BaseDao<T extends BasePO> {
 		return sessionFactory.getCurrentSession();
 	}
 
-
-
 	public T load(Serializable id, String... splitTable) {
 		return (T) getSession(splitTable).load(entityClass, id);
 	}
@@ -180,6 +178,11 @@ public abstract class BaseDao<T extends BasePO> {
 		Query query = createQuery(hql, obj, true, splitTable);
 		return query.executeUpdate();
 	}
+
+	public Object executeScalarByHql(String hql, Object obj, String... splitTable) {
+		return executeScalar(hql, obj, false, splitTable);
+	}
+
 
 	private String getCountSQL(String sql) {
 		String newSql = sql.replaceAll("\\s+", " ");
@@ -383,5 +386,23 @@ public abstract class BaseDao<T extends BasePO> {
 			flag = nativeFlag[0];
 		}
 		return flag;
+	}
+
+
+
+	private Object executeScalar(String sql, Object obj, boolean nativeFlag, String... splitTable) {
+		Query query = createQuery(sql, obj, nativeFlag, splitTable);
+		List list = query.list();
+		if (CollectionUtils.isNotEmpty(list)) {
+			Object objtemp = list.get(0);
+			if (null != objtemp) {
+				if (objtemp instanceof Map) {
+					Map map = (Map) objtemp;
+					return map.values().toArray()[0];
+				}
+				return objtemp;
+			}
+		}
+		return null;
 	}
 }

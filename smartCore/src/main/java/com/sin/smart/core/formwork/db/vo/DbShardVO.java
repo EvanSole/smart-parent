@@ -1,8 +1,8 @@
 package com.sin.smart.core.formwork.db.vo;
 
-
 import com.sin.smart.core.formwork.db.util.DbShareField;
 import com.sin.smart.entity.CurrentUserEntity;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class DbShardVO implements Serializable {
 	private String shardDbId;// 分库规则id
 	private String shardTableId;// 分表规则id
-	private DbShareField source = DbShareField.VEHICLE;
+	private DbShareField source = DbShareField.DEFAULT;
 
 	private CurrentUserEntity currentUser;
-	private Long zoneId;
+	private Long warehouseId;//仓库Id
 
 	public String getShardDbId() {
 		return shardDbId;
@@ -24,29 +24,28 @@ public class DbShardVO implements Serializable {
 	}
 
 	public String getShardTableId() {
-		if (null == shardTableId || "".equals(shardTableId)) {
-			// 如果分表id没有set，默认使用区域id分表
-			long temp = this.getZoneId();
+		if (StringUtils.isEmpty(shardTableId)) {
+			// 如果分表id没有set，默认使用仓库id分表
+			long temp = this.getWarehouseId();
 			if (temp > 0) {
-				this.setShardTableId(this.getZoneId() + "");
+				this.setShardTableId(this.getWarehouseId() + "");
+			} else {
+				//如果仓库id没有set，默认使用租户id分表
+				this.setShardTableId(this.getCurrentUser().getTenantId() + "");
 			}
 		}
 		return shardTableId;
 	}
 
-	public void setShardTableId(String shardTableId) {
-		this.shardTableId = shardTableId;
-	}
-
-	/**
-	 * 默认主库
-	 *
-	 * @return
-	 */
 	public static DbShardVO getInstance(CurrentUserEntity userEntity) {
 		DbShardVO dbShardVO = new DbShardVO();
 		dbShardVO.setCurrentUser(userEntity);
+		dbShardVO.setShardDbId(userEntity.getTenantId() + "");
 		return dbShardVO;
+	}
+
+	public void setShardTableId(String shardTableId) {
+		this.shardTableId = shardTableId;
 	}
 
 	public DbShareField getSource() {
@@ -65,12 +64,11 @@ public class DbShardVO implements Serializable {
 		this.currentUser = currentUser;
 	}
 
-	public Long getZoneId() {
-		return zoneId;
+	public Long getWarehouseId() {
+		return warehouseId;
 	}
 
-	public void setZoneId(Long zoneId) {
-		this.zoneId = zoneId;
+	public void setWarehouseId(Long warehouseId) {
+		this.warehouseId = warehouseId;
 	}
-
 }

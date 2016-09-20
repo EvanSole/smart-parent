@@ -1,7 +1,7 @@
 package com.sin.smart.core.web;
 
+import com.sin.smart.core.web.message.Messages;
 import com.sin.smart.enums.ResultTypeEnum;
-import com.sin.smart.message.Messages;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;

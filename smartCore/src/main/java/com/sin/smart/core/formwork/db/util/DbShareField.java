@@ -8,7 +8,7 @@ package com.sin.smart.core.formwork.db.util;
  */
 public enum DbShareField {
 
-	GPS("gps"), ORDER("order"), VEHICLE("vehicle");
+	DEFAULT("default"), ORDER("order"), IN_WH("inwh"), OUT_WH("outwh");
 
 	private String value;
 

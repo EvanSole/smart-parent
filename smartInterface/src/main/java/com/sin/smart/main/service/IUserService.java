@@ -1,7 +1,11 @@
 package com.sin.smart.main.service;
 
-/**
- * Created by Evan on 2016/9/19.
- */
+import com.sin.smart.po.main.SmartUserEntity;
+
 public interface IUserService {
+
+    SmartUserEntity getUserById(Long userId);
+
+    SmartUserEntity getUser(String userName, String password);
+
 }

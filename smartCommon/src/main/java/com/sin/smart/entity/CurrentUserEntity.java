@@ -1,12 +1,9 @@
 package com.sin.smart.entity;
 
-/**
- * Created by Evan on 2016/9/19.
- */
 public class CurrentUserEntity {
     private String userName;
     private String password;
-    private String realName;
+    private Long tenantId; //租户Id
 
     public String getUserName() {
         return userName;
@@ -24,12 +21,12 @@ public class CurrentUserEntity {
         this.password = password;
     }
 
-    public String getRealName() {
-        return realName;
+    public Long getTenantId() {
+        return tenantId;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -37,7 +34,7 @@ public class CurrentUserEntity {
         return "CurrentUserEntity{" +
                 "userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", realName='" + realName + '\'' +
+                ", tenantId='" + tenantId + '\'' +
                 '}';
     }
 }

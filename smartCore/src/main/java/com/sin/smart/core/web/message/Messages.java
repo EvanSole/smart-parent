@@ -1,4 +1,4 @@
-package com.sin.smart.message;
+package com.sin.smart.core.web.message;
 
 public interface Messages {
 
