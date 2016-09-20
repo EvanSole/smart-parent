@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+       default-lazy-init="true">
+
+    <description>Spring aop 配置</description>
+
+    <aop:aspectj-autoproxy/>
+
+    <!--异常处理类-->
+    <bean id="exceptionHandler" class="com.sin.smart.core.execption.handle.ExceptionHandler"/>
+
+    <!--异常拦截器-->
+    <bean id="exceptionInteceptor" class="com.sin.smart.core.interceptor.ExceptionInterceptor">
+        <property name="exceptionHandler" ref="exceptionHandler"/>
+        <property name="logHandler" ref="logHandler"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect id="aspectException" ref="exceptionInteceptor">
+            <aop:pointcut id="exceptionPointcut" expression="execution(* com.sin.smart.*.service..*(..))"/>
+            <aop:around method="intercept" pointcut-ref="exceptionPointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+
+    <!--需要打印日志的类-->
+    <bean id="purchaseServiceImplLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
+        <property name="logClassName" value="com.meili.logistics.oms.tesla.impl.PurchaseServiceImpl"/>
+        <property name="response" value="false"/>
+    </bean>
+
+    <!---日志处理类-->
+    <bean id="logHandler" class="com.sin.smart.aspectj.handle.log.LogHandler">
+        <property name="needLogConfigList">
+            <list>
+                <ref bean="purchaseServiceImplLog"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

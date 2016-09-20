@@ -1,0 +1,136 @@
+<configuration debug="false" scan="true" scanPeriod="10 seconds">
+	<conversionRule conversionWord="ip" converterClass="com.mogujie.service.xiaodian.trade.base.utils.IpConvert" />
+	<property name="FILE_PATTERN" value="%d [%ip] [%t] %5p %c %F:%L - %m%n" />
+	<property name="LOG_FILE_NAME" value="trade-web-warehouse" />
+	<property name="STDOUT_LOG_FILE_NAME" value="warehouse_web_stdout" />
+	<property name="ERROR_LOG_FILE_NAME" value="warehouse_web_error" />
+	<property name="INFO_LOG_FILE_NAME" value="warehouse_web_info" />
+
+	<appender name="FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${CATALINA_APPLOG}/${LOG_FILE_NAME}.log</File>
+		<encoder>
+			<pattern>${FILE_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${CATALINA_APPLOG}/${LOG_FILE_NAME}-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="com.mogujie.session.HttpSessionFilter" level="WARN">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+
+	<appender name ="ASYNC_FILE" class= "ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold >80</discardingThreshold>
+		<queueSize>8192</queueSize>
+		<appender-ref ref ="FILE"/>
+	</appender>
+
+	<appender name="ERROR_FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+		<File>${CATALINA_APPLOG}/${ERROR_LOG_FILE_NAME}.log</File>
+
+		<encoder>
+			<pattern>${FILE_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${CATALINA_APPLOG}/${ERROR_LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<appender name ="ASYNC_ERROR_FILE" class= "ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold >80</discardingThreshold>
+		<queueSize>8192</queueSize>
+		<appender-ref ref ="ERROR_FILE"/>
+	</appender>
+
+	<appender name="INFO_FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<File>${CATALINA_APPLOG}/${INFO_LOG_FILE_NAME}.log</File>
+		<encoder>
+			<pattern>${FILE_PATTERN}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${CATALINA_APPLOG}/${INFO_LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<appender name ="ASYNC_INFO_FILE" class= "ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold >80</discardingThreshold>
+		<queueSize>8192</queueSize>
+		<appender-ref ref ="INFO_FILE"/>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>${FILE_PATTERN}</pattern>
+		</encoder>
+		<File>${CATALINA_APPLOG}/${STDOUT_LOG_FILE_NAME}.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${CATALINA_APPLOG}/${STDOUT_LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<appender name ="ASYNC_STDOUT" class= "ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold >80</discardingThreshold>
+		<queueSize>8192</queueSize>
+		<appender-ref ref ="STDOUT"/>
+	</appender>
+
+	<logger name="com.mogujie.tesla" level="INFO" />
+
+	<appender name="LURKERFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${CATALINA_APPLOG}/tesla_trace.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${CATALINA_APPLOG}/tesla_trace.%d{yyyy-MM-dd}.gz</FileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name ="ASYNCLURKERFILE" class= "ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold >80</discardingThreshold>
+		<queueSize>8192</queueSize>
+		<appender-ref ref ="LURKERFILE"/>
+	</appender>
+
+	<logger name="com.mogujie.trace.lurker.LurkerAgent" level="DEBUG" additivity="true">
+		<appender-ref ref="ASYNCLURKERFILE" />
+	</logger>
+
+
+	<logger name="com.mogujie.trade.warehouse" level="INFO" addtivity="false">
+		<appender-ref ref="ERROR_FILE" />
+		<appender-ref ref="ASYNC_INFO_FILE" />
+	</logger>
+
+
+    <logger name="druid.sql" level="DEBUG" additivity="true">
+       <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="com.alibaba.druid" level="WARN" additivity="true">
+       <appender-ref ref="STDOUT" />
+    </logger>
+
+
+	<root level="INFO">
+		<appender-ref ref="ASYNC_STDOUT" />
+	</root>
+
+</configuration>
