@@ -20,15 +20,6 @@ java应用的部署单元下面划分多个模块，以smart platform为例，�
         |------smartPOJO  ： POJO类
 
 
-目前已经在写的拦截器有：
-
-	RequestContextWrapper  请求的数据包装器，在整个处理中进行线程安全的数据共享；
-	SessionInterceptor   用户session处理，基于sessionfilter；
-	ProfileInterceptor   对请求进行profile的统一处理
-	ExceptionInterceptor 请求的异常处理
-	ProductModeInterceptor 生产模式和开发模式处理
-	SaftyInterceptor.java   安全和风控处理（crsf、xss、sql injection等等）
-	I18nInterceptor      多语言处理
 
 ****
 ### 2.maven依赖管理
@@ -45,7 +36,9 @@ java应用的部署单元下面划分多个模块，以smart platform为例，�
 
 ### 3.web应用部署和运维规范
 
-初步定了一下路径的规则，其他方面有待和运维同学进一步讨论。
+初步定了一下路径的规则，可自定义（约定优于配置）
+
+* 参数化构建 mvn clean package -DskipTests -P online
 
 * 部署基础文件
 
