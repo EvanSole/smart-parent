@@ -4,20 +4,18 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
-public class AutoBasePO extends BasePO{
-
-	private static final long serialVersionUID = -4527499105191666161L;
-	
+@MappedSuperclass
+public class AutoBasePO extends BasePO {
 	protected long id;
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long getId() {
 		return id;
 	}
-
 	public void setId(long id) {
 		this.id = id;
 	}

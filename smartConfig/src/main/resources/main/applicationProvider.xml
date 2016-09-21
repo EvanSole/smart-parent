@@ -7,7 +7,7 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         ">
     <!-- Application name -->
-    <dubbo:application name="SmartMainServer" />
+    <dubbo:application name="smartMainServer" />
 
     <dubbo:provider timeout="5000" cluster="failfast"/>
 
@@ -20,4 +20,4 @@
     <dubbo:service  interface="com.sin.smart.main.service.IUserService"  ref="userService"/>
 
 
-</beans>    
+</beans>

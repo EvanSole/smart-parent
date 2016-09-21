@@ -4,17 +4,22 @@ import com.sin.smart.main.dao.UserDao;
 import com.sin.smart.main.service.IUserService;
 import com.sin.smart.core.service.BaseService;
 import com.sin.smart.po.main.SmartUserEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService extends BaseService implements IUserService {
 
+    private static final Logger _logger = LoggerFactory.getLogger(UserService.class);
+
     @Autowired
     private UserDao userDao;
 
     @Override
     public SmartUserEntity getUserById(Long userId) {
+        _logger.info("get User...");
         return userDao.get(userId);
     }
 

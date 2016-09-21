@@ -5,9 +5,6 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- autoId 服务调用 消费者 -->
-    <dubbo:reference id="autoIdClient" interface="com.sin.smart.autoid.client.IAutoIdClient" />
-
-
-
+    <dubbo:reference id="autoIdClient" interface="com.sin.smart.client.IAutoIdClient" />
 
 </beans> 

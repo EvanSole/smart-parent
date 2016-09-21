@@ -14,12 +14,22 @@
     <dependencies>
         <dependency>
             <groupId>com.sin.smart</groupId>
+            <artifactId>smartCommon</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sin.smart</groupId>
             <artifactId>smartInterface</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sin.smart</groupId>
             <artifactId>smartConfig</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sin.smart</groupId>
+            <artifactId>smartPOJO</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

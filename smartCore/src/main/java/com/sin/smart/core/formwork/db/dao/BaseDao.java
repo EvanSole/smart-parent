@@ -35,6 +35,7 @@ public abstract class BaseDao<T extends BasePO> {
 
 	@Autowired
 	public IAutoIdClient autoIdClient;
+
 	@Autowired
 	private SessionFactory sessionFactory;
 

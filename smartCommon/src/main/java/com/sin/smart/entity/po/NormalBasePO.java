@@ -2,10 +2,10 @@ package com.sin.smart.entity.po;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
-public class NormalBasePO extends BasePO{
-
-	private static final long serialVersionUID = 8741539399351260915L;
+@MappedSuperclass
+public class NormalBasePO extends BasePO {
 	protected long id;
 
 	@Id

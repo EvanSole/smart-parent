@@ -27,8 +27,8 @@
 
 
     <!--需要打印日志的类-->
-    <bean id="purchaseServiceImplLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
-        <property name="logClassName" value="com.meili.logistics.oms.tesla.impl.PurchaseServiceImpl"/>
+    <bean id="userServiceLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
+        <property name="logClassName" value="com.sin.smart.main.service.impl.UserService"/>
         <property name="response" value="false"/>
     </bean>
 
@@ -36,7 +36,7 @@
     <bean id="logHandler" class="com.sin.smart.aspectj.handle.log.LogHandler">
         <property name="needLogConfigList">
             <list>
-                <ref bean="purchaseServiceImplLog"/>
+                <ref bean="userServiceLog"/>
             </list>
         </property>
     </bean>

@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * Created by Evan on 2016/9/19.
  */
 @Entity
-@Table(name = "t_smc_user")
+@Table(name = "t_smart_user")
 public class SmartUserEntity extends AutoBasePO {
 
     private String userName;
@@ -22,7 +22,6 @@ public class SmartUserEntity extends AutoBasePO {
     private String mobile;
     private Byte isAdmin;
     private Byte isActive;
-    private Long expiredDate;
     private Byte isDel;
 
     @Basic
@@ -103,16 +102,6 @@ public class SmartUserEntity extends AutoBasePO {
 
     public void setIsActive(Byte isActive) {
         this.isActive = isActive;
-    }
-
-    @Basic
-    @Column(name = "expired_date", nullable = false, insertable = true, updatable = true)
-    public Long getExpiredDate() {
-        return expiredDate;
-    }
-
-    public void setExpiredDate(Long expiredDate) {
-        this.expiredDate = expiredDate;
     }
 
     @Basic

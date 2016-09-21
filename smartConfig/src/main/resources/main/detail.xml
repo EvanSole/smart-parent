@@ -18,7 +18,6 @@
     </context:component-scan>
 
     <import resource="spring-jdbc.xml"/>
-    <import resource="spring-comon.xml"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
@@ -41,5 +40,6 @@
 
     <import resource="applicationProvider.xml"/>
     <import resource="applicationConsumer.xml"/>
+    <import resource="spring-needLog.xml"/>
     <import resource="../config.xml"/>
 </beans>

@@ -2,12 +2,13 @@ package com.sin.smart.entity.po;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import java.io.Serializable;
 
+@MappedSuperclass
 public class BasePO implements Serializable, Cloneable {
 
-	private static final long serialVersionUID = 4030486044744353522L;
 	private int page = 0;
 	private int pageSize = 15;
 	private String sotrKey;
