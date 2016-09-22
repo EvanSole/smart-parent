@@ -45,11 +45,24 @@
         <property name="password" value="${jdbc.dbreader.password}"/>
     </bean>
 
+    <bean id="dataSource_sku0_w" parent="parentDataSource">
+        <property name="url" value="${jdbc.sku0_w.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <bean id="dataSource_sku0_r" parent="parentDataSource">
+        <property name="url" value="${jdbc.sku0_r.url}"/>
+        <property name="username" value="${jdbc.dbreader.username}"/>
+        <property name="password" value="${jdbc.dbreader.password}"/>
+    </bean>
+
     <bean id="dynamicDataSource" class="com.sin.smart.core.formwork.db.dao.DynamicDataSource">
         <property name="targetDataSources">
             <map key-type="java.lang.String">
                 <entry value-ref="dataSource" key="main_w"></entry>
                 <entry value-ref="dataSource_main_r" key="main_r"></entry>
+                <entry value-ref="dataSource_sku0_r" key="sku0_r"></entry>
+                <entry value-ref="dataSource_sku0_w" key="sku0_w"></entry>
             </map>
         </property>
         <property name="defaultTargetDataSource" ref="dataSource">
@@ -72,7 +85,7 @@
             </props>
         </property>
         <property name="packagesToScan">
-            <value>com.sin.smart.po.main</value>
+            <value>com.sin.smart.po.sku</value>
         </property>
         <property name="entityInterceptor" ref="splitTableInterceptor">
         </property>

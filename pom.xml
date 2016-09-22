@@ -15,6 +15,7 @@
     <module>smartAutoIdServer</module>
     <module>smartMainServer</module>
     <module>smartAppweb</module>
+    <module>smartSkuServer</module>
   </modules>
 
   <name>smart</name>

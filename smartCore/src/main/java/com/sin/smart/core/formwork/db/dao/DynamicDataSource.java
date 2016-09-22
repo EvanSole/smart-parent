@@ -3,7 +3,7 @@ package com.sin.smart.core.formwork.db.dao;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
- * 动态数据源实现类
+ * spring动态数据源实现类
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
     @Override

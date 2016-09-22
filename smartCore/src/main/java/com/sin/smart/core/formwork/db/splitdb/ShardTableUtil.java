@@ -1,8 +1,7 @@
-package com.sin.smart.core.formwork.db.util;
+package com.sin.smart.core.formwork.db.splitdb;
 
 import com.sin.smart.core.formwork.db.vo.DbShardVO;
 import com.sin.smart.inner.SmartConfig;
-import com.sin.smart.utils.StringPool;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.delete.Delete;
@@ -16,12 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-/**
- * Created by MLS on 14/12/2.
- */
-public class DbShardsUtil {
+public class ShardTableUtil {
 
-	private static transient Logger log = LoggerFactory.getLogger(DbShardsUtil.class);
+	private static transient Logger log = LoggerFactory.getLogger(ShardTableUtil.class);
 
 	private static int dbCount = 2;
 	private static int tableCount = 1;
@@ -66,6 +62,7 @@ public class DbShardsUtil {
 	}
 
 	public static String parseSql(String sql, String splitflag) {
+		String newSql = sql.trim();
 		TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
 		List<String> tableList = null;
 		try {
@@ -85,7 +82,6 @@ public class DbShardsUtil {
 				tableList = tablesNamesFinder.getTableList(select);
 			}
 			int suffix = getTableIndex(splitflag);
-			String newSql = StringPool.SPACE;
 			if (suffix > 0) {
 				for (String table : tableList) {
 					newSql = sql.replaceAll(table, table + "_" + suffix);
@@ -93,7 +89,7 @@ public class DbShardsUtil {
 			}
 			return newSql;
 		} catch (Exception ex) {
-				log.error("sql解析出错：" + sql + "--" + ex.toString());
+				log.error(" parse sql error !!! sql:{} ||| exception:{} ", sql, ex.toString());
 		}
 		return null;
 	}

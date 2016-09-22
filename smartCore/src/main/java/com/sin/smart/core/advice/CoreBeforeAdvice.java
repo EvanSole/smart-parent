@@ -1,7 +1,8 @@
 package com.sin.smart.core.advice;
 
 import com.sin.smart.core.formwork.db.dao.DatabaseContextHolder;
-import com.sin.smart.core.formwork.db.util.DbShardsUtil;
+import com.sin.smart.core.formwork.db.splitdb.ShardTableUtil;
+import com.sin.smart.core.formwork.db.util.DbShareField;
 import com.sin.smart.core.formwork.db.vo.DbShardVO;
 import org.springframework.aop.MethodBeforeAdvice;
 
@@ -56,7 +57,7 @@ public class CoreBeforeAdvice implements MethodBeforeAdvice {
 
         //如果dbShardVO为空 说明不分库 则默认
         if(dbShardVO == null){
-            DatabaseContextHolder.setCustomerType("main" + ms);
+            DatabaseContextHolder.setCustomerType(DbShareField.DEFAULT + ms);
         }else{
             DatabaseContextHolder.setCustomerType(getDbName(dbShardVO)+ ms);
         }
@@ -76,7 +77,7 @@ public class CoreBeforeAdvice implements MethodBeforeAdvice {
 
     private String getDbName(DbShardVO dbShardVO) {
         String dbName = "";
-        Integer packageStr = DbShardsUtil.getJdbcIndex(dbShardVO.getShardDbId());
+        Integer packageStr = ShardTableUtil.getJdbcIndex(dbShardVO.getShardDbId());
         dbName += dbShardVO.getSource().toString() + packageStr;
         return dbName;
     }

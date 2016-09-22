@@ -3,12 +3,10 @@ package com.sin.smart.core.formwork.db.util;
 
 /****
  * 数据源划分
- * @author Administrator
- *
  */
 public enum DbShareField {
 
-	DEFAULT("default"), ORDER("order"), IN_WH("inwh"), OUT_WH("outwh");
+	DEFAULT("main"),SKU("sku"), ORDER("order"), IN_WH("inwh"), OUT_WH("outwh");
 
 	private String value;
 

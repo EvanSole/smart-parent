@@ -17,4 +17,23 @@
         <property name="cacheSeconds" value="-1"/>
     </bean>
 
+
+    <aop:aspectj-autoproxy/>
+
+    <!--异常处理类-->
+    <bean id="exceptionHandler" class="com.sin.smart.core.execption.handle.ExceptionHandler"/>
+
+    <!--异常拦截器-->
+    <bean id="exceptionInteceptor" class="com.sin.smart.core.interceptor.ExceptionInterceptor">
+        <property name="exceptionHandler" ref="exceptionHandler"/>
+        <property name="logHandler" ref="logHandler"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect id="aspectException" ref="exceptionInteceptor">
+            <aop:pointcut id="exceptionPointcut" expression="execution(* com.sin.smart.*.service..*(..))"/>
+            <aop:around method="intercept" pointcut-ref="exceptionPointcut"/>
+        </aop:aspect>
+    </aop:config>
+
 </beans>

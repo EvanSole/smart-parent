@@ -5,11 +5,12 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
        default-lazy-init="true">
 
-    <description>日志SpringAop配置</description>
+    <description>SpringAop配置</description>
+
 
     <!--需要打印日志的类-->
-    <bean id="userServiceLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
-        <property name="logClassName" value="com.sin.smart.main.service.impl.UserService"/>
+    <bean id="skuServiceLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
+        <property name="logClassName" value="com.sin.smart.sku.service.impl.SkuService"/>
         <property name="response" value="false"/>
     </bean>
 
@@ -17,7 +18,7 @@
     <bean id="logHandler" class="com.sin.smart.aspectj.handle.log.LogHandler">
         <property name="needLogConfigList">
             <list>
-                <ref bean="userServiceLog"/>
+                <ref bean="skuServiceLog"/>
             </list>
         </property>
     </bean>

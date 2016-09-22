@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/***
+ * 主键自定义使用NormalBasePO
+ */
 @MappedSuperclass
 public class NormalBasePO extends BasePO {
 	protected long id;

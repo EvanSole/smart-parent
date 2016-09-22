@@ -19,6 +19,7 @@ public class DatabaseContextHolder {
 		contextHolder.remove();
 	}
 
+
 	private static final ThreadLocal<String> contextHolderTable = new ThreadLocal<String>();
 
 	public static void setCustomerTable(String customerTable) {

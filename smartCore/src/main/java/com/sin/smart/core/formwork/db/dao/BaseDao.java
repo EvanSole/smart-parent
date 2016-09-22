@@ -252,18 +252,10 @@ public abstract class BaseDao<T extends BasePO> {
 		}
 	}
 
-	/**
-	 *
-	 * @param entity
-	 */
 	private void setAutoEntityId(T entity) {
-		try {
-			if (entity instanceof AutoBasePO) {
-				Long id = (Long)getSession().getIdentifier(entity);
-				((AutoBasePO) entity).setId(id);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (entity instanceof AutoBasePO) {
+			Long id = (Long)getSession().getIdentifier(entity);
+			((AutoBasePO) entity).setId(id);
 		}
 	}
 

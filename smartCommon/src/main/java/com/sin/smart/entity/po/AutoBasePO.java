@@ -6,6 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/***
+ * 主键自动使用AutoBasePO
+ */
 @MappedSuperclass
 public class AutoBasePO extends BasePO {
 	protected long id;

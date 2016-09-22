@@ -1,7 +1,7 @@
 package com.sin.smart.core.interceptor;
 
 import com.sin.smart.core.formwork.db.dao.DatabaseContextHolder;
-import com.sin.smart.core.formwork.db.util.DbShardsUtil;
+import com.sin.smart.core.formwork.db.splitdb.ShardTableUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.EmptyInterceptor;
 
@@ -13,7 +13,7 @@ public class SplitTableInterceptor extends EmptyInterceptor {
         if (StringUtils.isEmpty(splitFlag)) {
             return sql;
         }
-        return DbShardsUtil.parseSql(sql, splitFlag);
+        return ShardTableUtil.parseSql(sql, splitFlag);
     }
 
 }

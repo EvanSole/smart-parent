@@ -1,9 +1,8 @@
-package com.sin.smart.main.common;
+package com.sin.smart.sku.common;
 
 import com.sin.smart.core.formwork.db.util.DbShareField;
 import com.sin.smart.core.formwork.db.vo.DbShardVO;
 import com.sin.smart.entity.CurrentUserEntity;
-import com.sin.smart.po.main.SmartUserEntity;
 import org.junit.runner.RunWith;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,7 +19,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
  * 在方法名上添加@Rollback(false)表示这个测试用例不需要回滚。
  */
 @RunWith(value = SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/main/spring-core.xml"})
+@ContextConfiguration(locations = {"classpath:/sku/spring-core.xml"})
 @TransactionConfiguration(defaultRollback = false)
 @ActiveProfiles(value = "develop")
 public abstract class SpringTxTestCase extends AbstractJUnit4SpringContextTests {
@@ -36,7 +35,8 @@ public abstract class SpringTxTestCase extends AbstractJUnit4SpringContextTests 
         CurrentUserEntity user = new CurrentUserEntity();
         user.setUserName("admin");
         dbShardVO.setCurrentUser(user);
-        dbShardVO.setSource(DbShareField.DEFAULT);
+        dbShardVO.setSource(DbShareField.SKU);
+        //88取模为0，读取无后缀的Table; 89 取模为1，读取后缀为1的table  Eg:t_smart_sku (88)  t_smart_sku_1 (89)
         dbShardVO.setShardTableId("88");
         dbShardVO.setShardDbId("88");
         dbShardVO.setWarehouseId(88L);
