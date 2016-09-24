@@ -59,22 +59,14 @@
     <!--分库切面-->
     <bean id="coreBeforeAdvice" class="com.sin.smart.core.advice.CoreBeforeAdvice"/>
 
-    <!--分表拦截-->
-    <bean id="splitTableInterceptor" scope="prototype" class="com.sin.smart.core.interceptor.SplitTableInterceptor"/>
-
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dynamicDataSource" />
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-                <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
-            </props>
-        </property>
-        <property name="packagesToScan">
-            <value>com.sin.smart.po.main</value>
-        </property>
-        <property name="entityInterceptor" ref="splitTableInterceptor">
-        </property>
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="mapperLocations" value="classpath*:com/sin/smart/*/mapper/*-mapper.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.sin.smart.main.mapper"/>
     </bean>
 </beans>

@@ -1,7 +1,7 @@
 package com.sin.smart.sku.service.impl;
 
-import com.sin.smart.po.sku.SmartSkuEntity;
 import com.sin.smart.sku.common.SpringTxTestCase;
+import com.sin.smart.entity.sku.SmartSkuEntity;
 import com.sin.smart.sku.service.ISkuService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ public class SkuServiceTest extends SpringTxTestCase {
 
     @Test
     public void testGetSkuByBarcode(){
-      SmartSkuEntity smartUserEntity = skuService.getSkuByBarcode("S20161101",getDbshardVO());
-      Assert.notNull(smartUserEntity);
+      SmartSkuEntity smartUserEntity = skuService.getSkuByBarcode("B68079103",getDbshardVO());
+        System.out.println("sku-->"+smartUserEntity.getSku());
     }
 
     @Test

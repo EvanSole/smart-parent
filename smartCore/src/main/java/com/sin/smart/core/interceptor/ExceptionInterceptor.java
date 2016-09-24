@@ -25,6 +25,7 @@ public class ExceptionInterceptor implements AbstractExceptionInterceptor {
             request.setResult(re);
             this.logHandler.handle(request);
         } catch (Exception e) {
+            e.printStackTrace();
             request.setException(e);
             HandleResponse response = this.exceptionHandler.handle(request);
             re = response.getResult();

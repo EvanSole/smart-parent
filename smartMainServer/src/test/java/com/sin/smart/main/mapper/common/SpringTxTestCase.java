@@ -1,9 +1,8 @@
-package com.sin.smart.main.common;
+package com.sin.smart.main.mapper.common;
 
 import com.sin.smart.core.formwork.db.util.DbShareField;
 import com.sin.smart.core.formwork.db.vo.DbShardVO;
 import com.sin.smart.entity.CurrentUserEntity;
-import com.sin.smart.po.main.SmartUserEntity;
 import org.junit.runner.RunWith;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;

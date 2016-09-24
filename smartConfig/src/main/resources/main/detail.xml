@@ -17,23 +17,31 @@
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
+    <!-- 启用Aop AspectJ注解 -->
+    <aop:aspectj-autoproxy/>
+
     <import resource="spring-jdbc.xml"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dynamicDataSource" />
     </bean>
 
     <tx:advice id="coreTxAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="get*" read-only="true"/>
-            <tx:method name="list*" read-only="true"/>
-            <tx:method name="find*" read-only="true"/>
-            <tx:method name="search*" read-only="true"/>
-            <tx:method name="*" propagation="REQUIRED" rollback-for="Throwable"/>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="edit*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="execute*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="*" read-only="true" />
         </tx:attributes>
     </tx:advice>
     <aop:config proxy-target-class="true">
-        <aop:pointcut id="pointcut" expression="execution( * com.sin.smart..*Service*.*(..))"/>
+        <aop:pointcut id="pointcut" expression="execution( * com.sin.smart.*.service..*.*(..))"/>
         <aop:advisor advice-ref="coreBeforeAdvice" pointcut-ref="pointcut"/>
         <aop:advisor advice-ref="coreTxAdvice" pointcut-ref="pointcut"/>
     </aop:config>

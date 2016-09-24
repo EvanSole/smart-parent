@@ -34,28 +34,25 @@ public class CoreBeforeAdvice implements MethodBeforeAdvice {
 
         Class[] types = m.getParameterTypes();
         DbShardVO dbShardVO = null;
-
         for (int j = types.length - 1; j >= 0; j--) {
             Class cls = types[j];
-
             if ("DbShardVO[]".equals(cls.getSimpleName())) {
                 DbShardVO[] dbs = (DbShardVO[]) arg[j];
-                if (null != dbs && dbs.length>0) {
+                if (null != dbs && dbs.length > 0) {
                     dbShardVO = dbs[0];
                     break;
                 }
-            }else if("DbShardVO".equals(cls.getSimpleName())){
-                dbShardVO= (DbShardVO) arg[j];
+            } else if ("DbShardVO".equals(cls.getSimpleName())) {
+                dbShardVO = (DbShardVO) arg[j];
             }
 
         }
         String ms ="_w";
-
         if(isHaveReadMethodName(m.getName())){
             ms = "_r";
         }
 
-        //如果dbShardVO为空 说明不分库 则默认
+        //如果dbShardVO为空 说明不分库 则默认main库
         if(dbShardVO == null){
             DatabaseContextHolder.setCustomerType(DbShareField.DEFAULT + ms);
         }else{
@@ -70,7 +67,6 @@ public class CoreBeforeAdvice implements MethodBeforeAdvice {
                 return true;
             }
         }
-
         return false;
     }
 

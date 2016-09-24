@@ -1,19 +1,10 @@
-package com.sin.smart.po.main;
+package com.sin.smart.entity.main;
 
-import com.sin.smart.entity.po.AutoBasePO;
+import com.sin.smart.entity.po.BasePO;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+public class SmartUserEntity extends BasePO {
 
-/**
- * Created by Evan on 2016/9/19.
- */
-@Entity
-@Table(name = "t_smart_user")
-public class SmartUserEntity extends AutoBasePO {
-
+    private Long tenantId;
     private String userName;
     private String password;
     private String realName;
@@ -24,8 +15,14 @@ public class SmartUserEntity extends AutoBasePO {
     private Byte isActive;
     private Byte isDel;
 
-    @Basic
-    @Column(name = "user_name", nullable = false, insertable = true, updatable = true, length = 25)
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -34,8 +31,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.userName = userName;
     }
 
-    @Basic
-    @Column(name = "password", nullable = false, insertable = true, updatable = true, length = 100)
     public String getPassword() {
         return password;
     }
@@ -44,8 +39,7 @@ public class SmartUserEntity extends AutoBasePO {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "real_name", nullable = true, insertable = true, updatable = true, length = 25)
+
     public String getRealName() {
         return realName;
     }
@@ -54,8 +48,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.realName = realName;
     }
 
-    @Basic
-    @Column(name = "email", nullable = true, insertable = true, updatable = true, length = 50)
     public String getEmail() {
         return email;
     }
@@ -64,8 +56,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "telephone", nullable = true, insertable = true, updatable = true, length = 25)
     public String getTelephone() {
         return telephone;
     }
@@ -74,8 +64,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.telephone = telephone;
     }
 
-    @Basic
-    @Column(name = "mobile", nullable = true, insertable = true, updatable = true, length = 25)
     public String getMobile() {
         return mobile;
     }
@@ -84,8 +72,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.mobile = mobile;
     }
 
-    @Basic
-    @Column(name = "is_admin", nullable = false, insertable = true, updatable = true)
     public Byte getIsAdmin() {
         return isAdmin;
     }
@@ -94,8 +80,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.isAdmin = isAdmin;
     }
 
-    @Basic
-    @Column(name = "is_active", nullable = false, insertable = true, updatable = true)
     public Byte getIsActive() {
         return isActive;
     }
@@ -104,8 +88,6 @@ public class SmartUserEntity extends AutoBasePO {
         this.isActive = isActive;
     }
 
-    @Basic
-    @Column(name = "is_del", nullable = false, insertable = true, updatable = true)
     public Byte getIsDel() {
         return isDel;
     }

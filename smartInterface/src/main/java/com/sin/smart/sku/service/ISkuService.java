@@ -1,7 +1,7 @@
 package com.sin.smart.sku.service;
 
 import com.sin.smart.core.formwork.db.vo.DbShardVO;
-import com.sin.smart.po.sku.SmartSkuEntity;
+import com.sin.smart.entity.sku.SmartSkuEntity;
 
 public interface ISkuService {
 

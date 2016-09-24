@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sin.smart.main.mapper.UserMapper">
+    <resultMap id="smartUserEntityResult" type="com.sin.smart.entity.main.SmartUserEntity">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="tenant_id" property="tenantId" jdbcType="BIGINT" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="real_name" property="realName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="is_admin" property="isAdmin" jdbcType="BIT" />
+        <result column="is_active" property="isActive" jdbcType="BIT" />
+        <result column="is_del" property="isDel" jdbcType="BIT" />
+        <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="BIGINT" />
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        `id`,`tenant_id`,`user_name`,`real_name`, `password`,`email`,`telephone`,`mobile`,`is_admin`,
+        `is_active`,`is_del`,`create_user`,`create_time`,`update_user`,`update_time`
+    </sql>
+
+    <select id="getUserById" resultMap="smartUserEntityResult" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_smart_user
+        WHERE id = #{userId,jdbcType=BIGINT}
+        limit 1
+    </select>
+
+    <select id="getUser" resultMap="smartUserEntityResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_smart_user
+        WHERE user_name = #{userName,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR}
+        limit 1
+    </select>
+
+
+</mapper>

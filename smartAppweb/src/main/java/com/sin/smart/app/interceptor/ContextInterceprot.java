@@ -1,7 +1,7 @@
 package com.sin.smart.app.interceptor;
 
 import com.sin.smart.constants.GlobalConstants;
-import com.sin.smart.po.main.SmartUserEntity;
+import com.sin.smart.entity.main.SmartUserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;

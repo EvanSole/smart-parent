@@ -7,6 +7,6 @@
     <!-- Sku服务调用消费者 -->
     <dubbo:reference id="autoIdClient" interface="com.sin.smart.client.IAutoIdClient" />
 
-    <!--<dubbo:reference id="userService" interface="com.sin.smart.main.service.IUserService" />-->
+    <!--<dubbo:reference id="userService" interface="IUserService" />-->
 
 </beans> 

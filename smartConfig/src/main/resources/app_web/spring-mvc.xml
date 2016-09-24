@@ -20,7 +20,6 @@
     </bean>
 
     <bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 

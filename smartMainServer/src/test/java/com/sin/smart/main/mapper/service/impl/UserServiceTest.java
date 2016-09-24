@@ -1,8 +1,8 @@
-package com.sin.smart.main.service.impl;
+package com.sin.smart.main.mapper.service.impl;
 
-import com.sin.smart.main.common.SpringTxTestCase;
+import com.sin.smart.entity.main.SmartUserEntity;
+import com.sin.smart.main.mapper.common.SpringTxTestCase;
 import com.sin.smart.main.service.IUserService;
-import com.sin.smart.po.main.SmartUserEntity;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -16,9 +16,15 @@ public class UserServiceTest extends SpringTxTestCase {
     IUserService userService;
 
     @Test
-    public void testGetUser(){
+    public void testGetUserById(){
       SmartUserEntity smartUserEntity = userService.getUserById(1L);
       Assert.notNull(smartUserEntity);
+    }
+
+    @Test
+    public void testGetUser(){
+        SmartUserEntity smartUserEntity = userService.getUser("admin","admin");
+        System.out.println(smartUserEntity.getRealName());
     }
 
 }

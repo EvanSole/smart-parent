@@ -1,6 +1,6 @@
 package com.sin.smart.dto;
 
-import com.sin.smart.po.main.SmartUserEntity;
+import com.sin.smart.entity.main.SmartUserEntity;
 
 public class SimpleUserDTO extends SmartUserEntity {
 

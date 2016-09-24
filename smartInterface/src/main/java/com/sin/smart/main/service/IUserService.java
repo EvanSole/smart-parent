@@ -1,6 +1,7 @@
 package com.sin.smart.main.service;
 
-import com.sin.smart.po.main.SmartUserEntity;
+
+import com.sin.smart.entity.main.SmartUserEntity;
 
 public interface IUserService {
 

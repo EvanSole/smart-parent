@@ -7,6 +7,11 @@ public class GlobalConstants {
     public static final String WAREHOUSE_ID = "warehouseId";
     public static final String TENAN_ID = "tenanId";
 
-    public static final String SQL_UPDATE = "update";
+    /***
+     * 分表标示
+     */
+    public static final String SPLIT_TABLE_KEY = "splitTableKey";
+
+
 
 }

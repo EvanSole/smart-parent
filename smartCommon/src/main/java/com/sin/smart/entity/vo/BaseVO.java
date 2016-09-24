@@ -4,7 +4,6 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.MappedSuperclass;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@MappedSuperclass
 public class BaseVO implements java.io.Serializable, Cloneable {
 
 	private static final long serialVersionUID = 264765786896335032L;

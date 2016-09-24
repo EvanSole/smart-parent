@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sin.smart.core.mapper.BaseMapper">
+    <resultMap id="CommonBaseEntity" type="com.sin.smart.entity.po.BasePO" >
+        <id property="id" column="id"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- order by 子句 -->
+    <sql id="queryOrderByClause">
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="orderBy == null">
+            ORDER BY create_time desc
+        </if>
+    </sql>
+
+    <!-- query limit 子句 -->
+    <sql id="queryLimitClause">
+        <if test="page != null and page >= 0 and pageSize != null and pageSize > 0">
+            LIMIT #{page}, #{pageSize}
+        </if>
+    </sql>
+
+</mapper>

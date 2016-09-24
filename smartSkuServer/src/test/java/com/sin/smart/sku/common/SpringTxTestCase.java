@@ -37,9 +37,9 @@ public abstract class SpringTxTestCase extends AbstractJUnit4SpringContextTests 
         dbShardVO.setCurrentUser(user);
         dbShardVO.setSource(DbShareField.SKU);
         //88取模为0，读取无后缀的Table; 89 取模为1，读取后缀为1的table  Eg:t_smart_sku (88)  t_smart_sku_1 (89)
-        dbShardVO.setShardTableId("88");
         dbShardVO.setShardDbId("88");
-        dbShardVO.setWarehouseId(88L);
+        dbShardVO.setShardTableId("88");
+        dbShardVO.setWarehouseId(89L);
         return dbShardVO;
     }
 
