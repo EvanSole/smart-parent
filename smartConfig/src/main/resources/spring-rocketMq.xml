@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+       default-lazy-init="true">
+
+    <!--使用CGLib动态代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="smartProducer" class="com.sin.smart.mq.producer.SmartProducer"/>
+    <bean id="logProducer" class="com.sin.smart.mq.producer.order.LogProducer"/>
+    <bean id="orderProducer" class="com.sin.smart.mq.producer.order.OrderProducer"/>
+
+</beans>

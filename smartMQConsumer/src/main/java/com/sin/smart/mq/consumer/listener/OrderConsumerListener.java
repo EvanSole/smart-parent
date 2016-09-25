@@ -1,5 +1,6 @@
 package com.sin.smart.mq.consumer.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
@@ -24,7 +25,7 @@ public class OrderConsumerListener extends ConsumeListener {
 
             Map map = (Map) SerializationUtils.H2Deserialize(messageExts.get(0).getBody(), Map.class);
 
-            System.out.println(map.toString());
+            System.out.println("Message content : " + JSON.toJSONString(map));
 
         } catch (Exception e) {
             log.error("mq:exec mq message is{} ex:{} ",messageExts.get(0),e.getMessage());

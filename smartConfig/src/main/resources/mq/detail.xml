@@ -17,9 +17,11 @@
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="smartConsumerService" class="com.sin.smart.mq.consumer.service.SmartConsumerService"/>
 
     <import resource="applicationConsumer.xml"/>
-    <import resource="spring-rocketMq.xml"/>
     <import resource="spring-needLog.xml"/>
     <import resource="../config.xml"/>
 </beans>

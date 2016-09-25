@@ -9,7 +9,7 @@
 
     <!--需要打印日志的类-->
     <bean id="orderListenerLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
-        <property name="logClassName" value="com.sin.smart.mq.consumer.listener.shipment.OrderListener"/>
+        <property name="logClassName" value="com.sin.smart.mq.consumer.listener.OrderConsumerListener"/>
         <property name="response" value="false"/>
     </bean>
 

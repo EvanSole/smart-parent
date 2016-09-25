@@ -10,20 +10,25 @@ import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.alibaba.rocketmq.common.message.MessageQueue;
 import com.alibaba.rocketmq.remoting.exception.RemotingException;
+import com.sin.smart.constants.MqConstants;
 import com.sin.smart.core.mq.producer.AbstractProducer;
+import com.sin.smart.inner.SmartConfigUtil;
 import com.sin.smart.utils.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public class SmartProducer extends AbstractProducer {
+@Component
+public class SmartProducer extends AbstractProducer implements FactoryBean<DefaultMQProducer>,DisposableBean,InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(SmartProducer.class);
 
-    @Autowired
     private DefaultMQProducer producer;
 
     /**
@@ -96,5 +101,34 @@ public class SmartProducer extends AbstractProducer {
 
     private SendResult sendResult(Message msg) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         return producer.send(msg);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        log.info("producer shutdown.");
+        this.producer.shutdown();
+    }
+
+    @Override
+    public DefaultMQProducer getObject() throws Exception {
+        return this.producer;
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return DefaultMQProducer.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return false;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.producer = new DefaultMQProducer(MqConstants.PRODUCER_INSTANCENAME);
+        this.producer.setDefaultTopicQueueNums(8);
+        this.producer.setNamesrvAddr(SmartConfigUtil.get("rocketmq.address", "127.0.0.1:9876"));
+        this.producer.start();
     }
 }

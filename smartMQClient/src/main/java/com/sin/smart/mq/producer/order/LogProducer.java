@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-/**
- * Created by Evan on 2016/9/25.
- */
+
 public class LogProducer {
 
     @Autowired

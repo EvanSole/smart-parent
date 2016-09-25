@@ -4,10 +4,10 @@ import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
 import com.sin.smart.constants.MqConstants;
 import com.sin.smart.core.mq.consumer.ConsumeListener;
+import com.sin.smart.inner.SmartConfigUtil;
 import com.sin.smart.queue.service.ISmartConsumerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -15,12 +15,6 @@ import org.springframework.stereotype.Service;
 public class SmartConsumerService implements ISmartConsumerService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(SmartConsumerService.class);
-
-    /***
-     * rocketMQ address
-     */
-    @Value("#{smartConfig['rocketmq.address']}")
-    private String rocketmqAddress;
 
     @Override
     public void registerListenerConsumer(String groupName, String topic, final ConsumeListener consumeListener){
@@ -33,8 +27,7 @@ public class SmartConsumerService implements ISmartConsumerService {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
         consumer.setConsumeThreadMin(1);
         consumer.setConsumeThreadMax(10);
-        //consumer.setNamesrvAddr(SmartConfigUtil.get("rocketmq.address", "127.0.0.1:9876"));
-        consumer.setNamesrvAddr(rocketmqAddress);
+        consumer.setNamesrvAddr(SmartConfigUtil.get("rocketmq.address", "127.0.0.1:9876"));
         consumer.setInstanceName(MqConstants.CONSUMER_INSTANCENAME);
         try {
             //订阅PushTopic下Tag为push的消息

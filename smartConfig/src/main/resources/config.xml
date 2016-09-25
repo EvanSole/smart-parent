@@ -18,7 +18,7 @@
     </bean>
 
 
-    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!--异常处理类-->
     <bean id="exceptionHandler" class="com.sin.smart.core.execption.handle.ExceptionHandler"/>
