@@ -1,7 +1,7 @@
 package com.sin.smart.core.formwork.db.splitdb;
 
 import com.sin.smart.core.formwork.db.vo.DbShardVO;
-import com.sin.smart.inner.SmartConfig;
+import com.sin.smart.inner.SmartConfigUtil;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.delete.Delete;
@@ -23,8 +23,8 @@ public class ShardTableUtil {
 	private static int tableCount = 1;
 
 	static {
-		dbCount = Integer.valueOf(SmartConfig.get("db.dbCount"));
-		tableCount = Integer.valueOf(SmartConfig.get("db.tableCount"));
+		dbCount = Integer.valueOf(SmartConfigUtil.get("db.dbCount"));
+		tableCount = Integer.valueOf(SmartConfigUtil.get("db.tableCount"));
 	}
 
 	private static int getDbCount() {

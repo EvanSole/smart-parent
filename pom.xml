@@ -16,6 +16,8 @@
     <module>smartMainServer</module>
     <module>smartAppweb</module>
     <module>smartSkuServer</module>
+    <module>smartMQConsumer</module>
+    <module>smartMQClient</module>
   </modules>
 
   <name>smart</name>
@@ -336,9 +338,28 @@
     </dependency>
     <!-- Spring end -->
 
-
-
-
+    <!--serialization start-->
+    <dependency>
+      <groupId>com.caucho</groupId>
+      <artifactId>hessian</artifactId>
+      <version>4.0.38</version>
+    </dependency>
+    <dependency>
+      <groupId>com.dyuproject.protostuff</groupId>
+      <artifactId>protostuff-core</artifactId>
+      <version>1.0.10</version>
+    </dependency>
+    <dependency>
+      <groupId>com.dyuproject.protostuff</groupId>
+      <artifactId>protostuff-runtime</artifactId>
+      <version>1.0.10</version>
+    </dependency>
+    <dependency>
+      <groupId>com.esotericsoftware</groupId>
+      <artifactId>kryo</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+    <!--serialization end-->
 
     <dependency>
       <groupId>net.sf.ehcache</groupId>

@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by Evan on 2016/9/19.
+ * 读取系统资源配置文件 smartConfig.properties
  */
-public class SmartConfig {
-    private static final String CONFIG_FILE = "SmartConfig.properties";
+public class SmartConfigUtil {
+    private static final String CONFIG_FILE = "smartConfig.properties";
     private static final Map<String, String> properties;
 
     public static String get(String key){
@@ -29,12 +29,12 @@ public class SmartConfig {
         Map _properties = new HashMap();
 
         Properties tmp = new Properties();
-        InputStream in = SmartConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
+        InputStream in = SmartConfigUtil.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
         if (in != null) {
             try {
                 tmp.load(in);
             } catch (IOException e) {
-                throw new RuntimeException("read SmartConfig.properties config file failed!", e);
+                throw new RuntimeException("read smartConfig.properties config file failed!", e);
             }
             for (Iterator i$ = tmp.entrySet().iterator(); i$.hasNext(); ) { Map.Entry entry = (Map.Entry)i$.next();
                 _properties.put(entry.getKey().toString(), entry.getValue().toString());
