@@ -5,7 +5,7 @@ package com.sin.smart.core.execption;
  */
 public class BusinessException extends CoreException  {
 
-    private Integer code;
+    private String code;
     private String errorMessage;
 
     public BusinessException(String message) {
@@ -20,11 +20,11 @@ public class BusinessException extends CoreException  {
         super(cause);
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

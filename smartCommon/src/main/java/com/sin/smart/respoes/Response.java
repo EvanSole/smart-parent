@@ -1,8 +1,5 @@
 package com.sin.smart.respoes;
 
-/**
- * Created by Evan on 2016/9/20.
- */
 public class Response<T> {
     private Integer code;
     private T data;
@@ -23,6 +20,9 @@ public class Response<T> {
     public Response(Integer code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public Response() {
     }
 
     public Integer getCode() {
@@ -49,12 +49,4 @@ public class Response<T> {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "Response{" +
-                "code=" + code +
-                ", data=" + data +
-                ", message='" + message + '\'' +
-                '}';
-    }
 }

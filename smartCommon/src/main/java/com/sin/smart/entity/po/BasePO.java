@@ -5,14 +5,17 @@ import java.io.Serializable;
 public class BasePO implements Serializable, Cloneable {
 
 	protected long id;
-	private boolean isAsc = true;
+
 	private String createUser;
 	private Long createTime;
 	private String updateUser;
 	private Long updateTime;
-	private int page = 0;
+
+	private String orderBy;
+	private int offset = 0;
 	private int pageSize = 15;
-	private String sotrKey;
+	private Integer page = 1;
+	private Integer total;
 
 	public long getId() {
 		return id;
@@ -35,22 +38,6 @@ public class BasePO implements Serializable, Cloneable {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
-	}
-
-	public String getSotrKey() {
-		return sotrKey;
-	}
-
-	public void setSotrKey(String sotrKey) {
-		this.sotrKey = sotrKey;
-	}
-
-	public boolean isAsc() {
-		return isAsc;
-	}
-
-	public void setAsc(boolean isAsc) {
-		this.isAsc = isAsc;
 	}
 
 	public String getCreateUser() {
@@ -83,6 +70,44 @@ public class BasePO implements Serializable, Cloneable {
 
 	public void setUpdateTime(Long updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public Integer getOffset() {
+		if(pageSize<=0){
+			pageSize = 1;
+		}
+
+		this.offset = (page-1)*pageSize;
+		return offset;
+	}
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
+
+	public void setOffset(Integer offset) {
+		this.offset = offset;
+	}
+
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public Integer getpage() {
+		return page;
+	}
+
+	public void setpage(Integer page) {
+		this.page = page;
 	}
 
 }

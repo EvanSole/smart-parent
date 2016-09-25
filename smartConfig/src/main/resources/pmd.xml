@@ -42,7 +42,7 @@
     <rule ref="rulesets/design.xml/SimplifyBooleanReturns"/>
     <rule ref="rulesets/design.xml/SimplifyBooleanExpressions"/>
     <rule ref="rulesets/design.xml/SwitchStmtsShouldHaveDefault"/>
-    <rule ref="rulesets/design.xml/AvoidReassigningParameters"/>
+    <!--<rule ref="rulesets/design.xml/AvoidReassigningParameters"/>-->
     <rule ref="rulesets/design.xml/ConstructorCallsOverridableMethod"/>
     <rule ref="rulesets/design.xml/AccessorClassGeneration"/>
     <rule ref="rulesets/design.xml/FinalFieldCouldBeStatic"/>

@@ -1,0 +1,11 @@
+<h4 class="block" ui-sref="index">{{label}}</h4>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li ng-repeat="crumb in breadcrumbs " ng-class="{ active: $last }">
+            <a ng-href="#{{ crumb.path }}" ng-bind="crumb.label" ></a>
+            <i ng-if="!$last" ng-show="!$last" class="fa fa-angle-right"></i>
+        </li>
+    </ul>
+</div>
+
+

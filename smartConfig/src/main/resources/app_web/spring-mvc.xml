@@ -15,7 +15,7 @@
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/pages/"/>
+        <property name="prefix" value="/"/>
         <property name="suffix" value=".html"/>
     </bean>
 
@@ -25,7 +25,6 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/app/**" location="/app/" />
-    <mvc:resources mapping="/swagger/**" location="/swagger/" />
 
     <mvc:annotation-driven validator="globalValidator" >
         <mvc:message-converters>

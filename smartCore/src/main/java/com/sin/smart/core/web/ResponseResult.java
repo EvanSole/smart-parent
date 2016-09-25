@@ -51,6 +51,10 @@ public class ResponseResult implements Serializable {
         setMessage(messageKey,resultType,params);
     }
 
+    public void mergeMessage(String message){
+        this.message = this.message + message;
+    }
+
     public void setFaultMessage(String messageKey,Object ...params){
         this.suc = false;
         if(StringUtils.isNotBlank(messageKey)){

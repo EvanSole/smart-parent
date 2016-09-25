@@ -95,4 +95,5 @@ public class SmartUserEntity extends BasePO {
     public void setIsDel(Byte isDel) {
         this.isDel = isDel;
     }
+
 }

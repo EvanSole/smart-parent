@@ -64,11 +64,11 @@ public class BaseController {
        return 0;
     }
 
-    protected void setCurrentTenantId(String tenantId) {
+    protected void setCurrentTenant(String tenantId) {
         getSession().setAttribute(GlobalConstants.TENAN_ID, tenantId);
     }
 
-    protected String getCurrentTenantId() {
+    protected String getCurrentTenant() {
         Object tenantId = getSession().getAttribute(GlobalConstants.TENAN_ID);
         if(tenantId!=null){
             return tenantId.toString();
@@ -169,6 +169,10 @@ public class BaseController {
         getSession().removeAttribute(GlobalConstants.SESSION_USER);
         getSession().removeAttribute(GlobalConstants.WAREHOUSE_ID);
         getSession().removeAttribute(GlobalConstants.TENAN_ID);
+    }
+
+    public String getBasePath(){
+        return getRequest().getScheme() + "://" + getRequest().getServerName() + ":" + getRequest().getServerPort() + getRequest().getContextPath() + "/";
     }
 
   }

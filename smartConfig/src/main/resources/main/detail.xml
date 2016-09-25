@@ -50,5 +50,6 @@
     <import resource="applicationConsumer.xml"/>
     <import resource="spring-needLog.xml"/>
     <import resource="../config.xml"/>
+    <import resource="../redis/spring-redis.xml"/>
     <import resource="../spring-rocketMq.xml"/>
 </beans>

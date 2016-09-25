@@ -2,9 +2,6 @@ package com.sin.smart.respoes;
 
 import com.sin.smart.enums.ResponseEnum;
 
-/**
- * Created by Evan on 2016/9/20.
- */
 public class ResponseUtil {
 
     public static <T> Response<T> getResponse(T data){

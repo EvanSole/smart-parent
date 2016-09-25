@@ -24,6 +24,15 @@
         `is_active`,`is_del`,`create_user`,`create_time`,`update_user`,`update_time`
     </sql>
 
+    <select id="findByUserName" resultMap="smartUserEntityResult">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_smart_user
+        WHERE user_name = #{userName,jdbcType=VARCHAR}
+        limit 1
+    </select>
+
+
     <select id="getUserById" resultMap="smartUserEntityResult" parameterType="java.lang.Long">
         SELECT
         <include refid="Base_Column_List"/>

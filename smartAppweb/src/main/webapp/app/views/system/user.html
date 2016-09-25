@@ -1,0 +1,39 @@
+ <div class="row" ng-controller="UserController">
+    <div class="col-md-12">
+        <div class="portlet light form-fit bordered">
+            <div class="portlet-title">
+              <panel_heading_search bind-ui="userGrid">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">用户名</label>
+                            <input type="text" class="form-control"> 
+                        </div>
+                    </div>
+                </panel_heading_search>
+            </div>
+
+	        <div class="form-body">
+	            <div kendo-grid="userGrid" options="mainGridOptions"></div>
+	        </div>
+
+       </div>
+    </div>
+</div>
+
+
+
+<!-- 新增/编辑模版 -->
+<script id="user-kendo-template" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="window-form pure-body">
+            <div class="pure-control-group p-b-5">
+                <label>用户编号</label>
+                <input id="tenantNo" name="tenantNo" type="text" required/>
+            </div>
+            <div class="pure-control-group p-b-5">
+                <label>用户名称</label>
+                <input id="description" name="description" type="text" required/>
+            </div>
+        </div>
+    </div>
+</script>

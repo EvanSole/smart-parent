@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+       default-lazy-init="true">
+
+    <description>cluster模式集群环境下使用(redis 3.x)</description>
+
+    <!-- redis连接池配置 -->
+    <bean id="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+        <property name="maxTotal" value="${redis.pool.maxTotal}"/>
+        <property name="maxIdle" value="${redis.pool.maxIdle}"/>
+        <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/>
+        <property name="testOnReturn" value="${redis.pool.testOnReturn}"/>
+    </bean>
+
+    <!--初始化 jedisCluster 集群-->
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg index="0">
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg value="${redis.host_0}"/>
+                    <constructor-arg type="int" value="${redis.port_0}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg value="${redis.host_1}"/>
+                    <constructor-arg type="int" value="${redis.port_1}"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg value="${redis.host_2}"/>
+                    <constructor-arg type="int" value="${redis.port_2}"/>
+                </bean>
+            </set>
+        </constructor-arg>
+
+        <constructor-arg index="1"  ref="genericObjectPoolConfig"/>
+    </bean>
+
+    <bean id="redisTemplate" class="com.sin.smart.core.redis.RedisTemplate">
+        <property name="jedisCluster" ref="jedisCluster"></property>
+    </bean>
+
+</beans>
