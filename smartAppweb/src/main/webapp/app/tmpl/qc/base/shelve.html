@@ -1,0 +1,49 @@
+
+
+<div class="content-wrap" ng-controller="qcWhShelveController">
+
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="shelveGrid">
+
+            <div class="panel-group ">
+                <label>货架编号</label>
+                <input type="text" ng-model="query.shelveNo"/>
+            </div>
+
+        </panel_heading_search>
+
+        <div class="panel-body">
+            <div kendo-grid="shelveGrid" options="shelveGridOptions"/>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script id="shelve-editor" type="text/x-kendo-template">
+
+    <div class="edit-form-container">
+        <div class="pure-body p-t-10">
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>货架编号</label>
+                <input ng-if="dataItem.isNew()" type="text" id="shelveNo" name="shelveNo" required/>
+                <input ng-if="!dataItem.isNew()" type="text" id="shelveNo" name="shelveNo" readonly class="inputDisbled"/>
+            </div>
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>楼层</label>
+                <input type="text" id="floor" name="floor" required/>
+            </div>
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>库区</label>
+                <input type="text" id="area" name="area" required/>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+
+
+
+

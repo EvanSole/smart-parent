@@ -1,0 +1,19 @@
+
+<!--navbar-->
+<div class="app-header navbar" ng-include="'tmpl/layout/nav.html'"></div>
+<!--aside-->
+<div class="app-aside hidden-xs" ng-include="'tmpl/layout/aside.html'"></div>
+<!--content-->
+
+
+<div class="app-content">
+  <div class="bread-bar m-b-10">
+    <h2>{{title}}</h2>
+    <div class="bread-list">
+      <ui-breadcrumbs displayname-property="title" template-url="tmpl/layout/uiBreadcrumbs.tpl.html" abstract-proxy-property="ui.sample">
+      </ui-breadcrumbs>
+    </div>
+  </div>
+  <ui-view class="app-content-body fade-in-up">
+  </ui-view>
+</div>

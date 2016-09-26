@@ -1,36 +1,93 @@
-define(['app'], function (app) {
+define(['app', 'scripts/common/sync'], function (app) {
     "use strict";
-    app.directive('rSelect', ['sync',function ($sync) {
-        var urlMap = {
-            storer: "index/storer/1",   //modify by jl 增加path变量 1代表根据权限获取商家 0代表全部
-            warehouse: "index/warehouse",
-            shop: "index/shop",
-            zone: "index/zone/",
-            location: "index/location",
-            outboundStrategy: "strategy/outbound/allOutboundStrategy",
-            allocationStrategy: "strategy/allocation/allAllocationStrategy",
-            carrier: "index/carrier",
-            report: "report/allReports",
-            supplier: "index/supplier",
-            zoneTypeCode: "code/codeDetails/ZoneType",
-            expressReport: "index/report/express",
-            commodityTypeStrategy :"/commodityType/strategy/",
-            printMap :"/printMap/all/",
-            projects :"/index/projects/"
-        };
-        var suffix = "_Scope";
+    var urlMap = {
+        storer: "index/storer/1"
+    };
+    app.directive('lSelect', function () {
+        var suffix = "_code_Scope";
         return {
             restrict: 'EA',
             scope: {},
             controller: function ($scope, $element) {
-                var src = $element[0].attributes.src.value;
+                var type = $element[0].attributes.src.value;
+                var def;
+                if ($element[0].attributes.default) {
+                    def = $element[0].attributes.default.value;
+                }
                 var name = $element[0].attributes.name.value;
-                var id = $element[0].attributes.id.value;
+                $scope[type + suffix] = window.WMS[type];
+                if (def) {
+                    $.each(window.WMS[type], function () {
+                        if (def == this.value) {
+                            $scope["has_selected" + type] = this;
+                            return;
+                        }
+                    });
+                }
+            },
+            replace: true,
+            template: function (tE, tA) {
+                var selectDatas = tA.src + suffix;
+                var name = tA.name;
+                var id = tA.id;
+                var header = tA.header;
+                var noheader = tA.noheader;
+                if (!header) {
+                    header = "-- 请选择 --";
+                }
+                if (noheader !== undefined && noheader !== 'undefined') {
+                    noheader = "";
+                } else {
+                    noheader = "<option value=''>" + header + "</option>";
+                }
+                var ngModel = tA.ngModel;
+                var ngInit = "";
+                var disableFlag = false;
+                if (name && name.indexOf("query.") === 0) {
+                    return "<select id='" + id + "' name='" + name + "' ng-model='$parent." + tA.id + "' ng-options='d.value as d.description for d in " + selectDatas + "' >" + noheader + "</select>";
+                }
+                if (!ngModel) {
+                    ngModel = "ng-model = 'has_selected" + tA.src + "'";
+                    ngInit = "ng-init='has_selected" + tA.src + "=" + selectDatas + "[0]'";
+                } else {
+                    ngModel = "";
+                }
+                if (tA.disabled) {
+                    disableFlag = tA.disabled;
+                }
+                return "<select  disabled＝'" + disableFlag + "' id='" + id + "' " + ngInit + "  name='" + name + "' " + ngModel + " ng-options='d.description for d in " + selectDatas + " track by d.value' >" + noheader + "</select>";
+            }
+        };
+    }).directive('wmsUiSelect', ['sync', function ($sync)  {
+        var suffix = "_Scope";
+        return {
+            restrict: 'EA',
+            scope: false,
+            transclude: true,
+            controller: function ($scope, $element) {
+                var src = $element[0].attributes.src.value;
+                var name = $element[0].attributes.getNamedItem("ui-select-name").value;
+                var id = $element[0].attributes.getNamedItem("ui-select-id").value;
                 var zero = $element[0].attributes.zero;
                 var father = $element[0].attributes.father;
                 var url = urlMap[src];
+                var selectDatas = src + suffix;
+
+                //选择事件
+                $scope.$parent[name + "Change"] = function ($item,$model) {
+                    if($item === undefined)
+                        return;
+                    $scope.dataItem[name] = $item.value;
+                    $scope.dataItem.set("dirty",true);
+                    if (name && name.indexOf("query.") === 0) {
+                    }else{
+                        $scope.$parent[name]=$item.value;
+                    }
+                };
+
+                //暂时保留R-SELECT功能
                 $scope.selectChange = function (curId, toId) {
-                    var fatherId = $("#" + curId).val();
+                    var fatherId = $("#" + curId)[0].attributes.value.value;
                     var toObj = $("#" + toId);
                     if (!toObj || !toObj.attr("option")) {
                         toObj = $("[name='" + toId + "']");
@@ -40,7 +97,7 @@ define(['app'], function (app) {
                     var childSrc = toObj.attr("src");
                     var nextToId = toObj.attr("toid");
                     toObj.val("");
-                    $scope.$$nextSibling[ngModel] = "";
+                    $scope.$parent.$$nextSibling[ngModel] = "";
                     if (fatherId === '') {
                         $scope.$parent[option] = null;
                         if (nextToId) {
@@ -59,6 +116,7 @@ define(['app'], function (app) {
                     }
 //
                 };
+                //检测是否存在
                 var isHas = false;
                 if ($scope.$parent.dataItem && typeof $scope.$parent.dataItem !== "string") {
                     if (name.indexOf(".") > 0) {
@@ -68,11 +126,12 @@ define(['app'], function (app) {
                         isHas = $scope.$parent.dataItem[name];
                     }
                 }
+
                 if (!zero || ($scope.$parent.dataItem && isHas)) {
                     if (father) {
                         url = url + "/" + $scope.$parent.dataItem[father.value];
                     }
-                    $sync(window.BASEPATH + "/" + url, "GET", {wait: false})
+                    $sync(window.BASEPATH    + "/" + url, "GET", {wait: false})
                         .then(function (xhr) {
                             if (_.isEmpty(xhr) || _.isEmpty(xhr.result)) {
                                 return;
@@ -87,12 +146,14 @@ define(['app'], function (app) {
                                 selectDatas += suffix;
                             }
                             $scope.$parent[selectDatas] = xhr.result;
+                            var nullData = { "key":"-- 请选择 --","value" :""};
                             xhr = xhr.result;
-                            if ($scope.$parent.dataItem) {
+                            xhr.unshift(nullData);
+                            if ($scope.dataItem) {
                                 name = name.split(".");
                                 for (var i = 0; i < xhr.length; i++) {
                                     if (name.length > 1) {
-                                        if ($scope.$parent.dataItem[name[0]] && $scope.$parent.dataItem[name[0]][name[1]]) {
+                                        if ($scope.dataItem[name[0]] && $scope.dataItem[name[0]][name[1]]) {
                                             if (xhr[i].value == $scope.$parent.dataItem[name[0]][name[1]]) {
                                                 if (name[0] === 'query') {
                                                     $scope.$parent[name[0]][name[1]] = xhr[i].value;
@@ -103,8 +164,7 @@ define(['app'], function (app) {
                                             }
                                         }
                                     } else {
-//                                        console.log("bbbbbbb"+$scope.$parent.dataItem[name]+"--"+xhr[i].value);
-                                        if (xhr[i].value == $scope.$parent.dataItem[name]) {
+                                        if (xhr[i].value == $scope.dataItem[name]) {
                                             $scope["has_selected_" + src + copyId] = xhr[i];
                                             break;
                                         }
@@ -115,99 +175,62 @@ define(['app'], function (app) {
                         });
                 }
             },
+
             replace: true,
             template: function (tE, tA) {
                 var selectDatas = tA.src;
                 var copyId = "";
-                if (tA.id) {
-                    copyId = (tA.id).replace(".", "_");
+                var id = tA.uiSelectId;
+                if (id) {
+                    copyId = (id).replace(".", "_");
                     selectDatas += copyId + suffix;
                 } else {
                     selectDatas += suffix;
                 }
-                var name = tA.name;
-                var id = tA.id;
+                var name = tA.uiSelectName;
+                var onSelect = tA.onSelect;
+                var ngModel = "";
+                if (onSelect) {
+                    onSelect = "on-select='" + onSelect + "'";
+                } else {
+                    onSelect = "";
+                }
                 var ngChange = tA.ngChange;
                 if (ngChange) {
-                    ngChange = "ng-change='" + ngChange + "'";
+                    ngChange = "ng-change='" + ngChange + "' ";
                 } else if (tA.toid) {
-                    ngChange = "ng-change=selectChange('" + tA.id + "','" + tA.toid + "','" + selectDatas + "')";
+                    ngChange = "ng-change=selectChange('" + id+ "','" + tA.toid + "','" + selectDatas + "') ";
                 } else {
                     ngChange = "";
                 }
-                if (name.indexOf('query.') === 0) {
-                    return "<select " + ngChange + " id='" + id + "' name='" + name + "' option=" + selectDatas + " ng-model='$parent." + id + "' class='ng-valid ng-dirty' ng-options='d.value as d.key for d in $parent." + selectDatas + "' ><option value=''>-- 请选择 --</option></select>";
-                }
-                return "<select " + ngChange + " id='" + id + "' name='" + name + "' option=" + selectDatas + " ng-model='has_selected_" + tA.src + copyId + "' ng-options='d.key for d in $parent." + selectDatas + " track by d.value' ><option value=''>-- 请选择 --</option></select>";
-            }
-        };
-    }]).directive('lSelect', function () {
-        var suffix = "_code_Scope";
-        return {
-            restrict: 'EA',
-            scope: {},
-            controller: function ($scope, $element) {
-                var type = $element[0].attributes.src.value;
-                var def;
-                if ($element[0].attributes.default) {
-                    def = $element[0].attributes.default.value;
-                }
-                var name = $element[0].attributes.name.value;
-                $scope[type + suffix] = window.WMS.CODE_SELECT_DATA[type];
-                $scope["has_selected_" + type] = "Handover";
-                if (def) {
-                    $.each(window.WMS.CODE_SELECT_DATA[type], function () {
-                        if (def == this.value) {
-                            $scope["has_selected" + type] = this;
-                            return;
-                        }
-                    });
-                }
-                try {
-                    if (!$scope.$$phase) {
-                        // $scope.$apply(function () {
-//                            console.log(window.CODE_SELECT_DATA);
-                        // $scope[type + suffix] = window.CODE_SELECT_DATA[type];
-                        // });
-                    }
-                } catch (e) {
-                }
-            },
-            replace: true,
-            template: function (tE, tA) {
-//                console.log(tA);
-                var selectDatas = tA.src + suffix;
-                var name = tA.name;
-                var id = tA.id;
-                var header = tA.header;
-                var noheader = tA.noheader;
-                if (!header) {
-                    header = "-- 请选择 --";
-                }
-                if (noheader !== undefined && noheader !== 'undefined') {
-                    noheader = "";
-                } else {
-                    noheader = "<option value=''>" + header + "</option>";
-                }
-                var ngModel = tA.ngModel;
-                var ngInit = "";
-                var disableFlag = false;
                 if (name && name.indexOf("query.") === 0) {
-                    return "<select id='" + id + "' name='" + name + "' ng-model='$parent." + tA.id + "' ng-options='d.value as d.key for d in " + selectDatas + "' >" + noheader + "</select>";
+                    ngModel = "$parent." + id;
                 }
-                if (!ngModel) {
-                    ngModel = "ng-model = 'has_selected" + tA.src + "'";
-                    ngInit = "ng-init='has_selected" + tA.src + "=" + selectDatas + "[0]'";
-                } else {
-                    ngModel = "";
+                else {
+                    //TODO.....此处DATA-BIND没有实际作用  以后考虑改为KENDO UI的方式来绑定
+                    ngModel = "has_selected_" + tA.src + copyId + "' data-bind='value:" + id  +" ";
                 }
-                if (tA.disabled) {
-                    disableFlag = tA.disabled;
+                var ngDisabled = "";
+                if (tA.ngDisabled && (tA.ngDisabled !== "")) {
+                    ngDisabled = "ng-disabled='" + tA.ngDisabled + "'";
                 }
-                return "<select  disabled＝'" + disableFlag + "' id='" + id + "' " + ngInit + "  name='" + name + "' " + ngModel + " ng-options='d.key for d in " + selectDatas + " track by d.value' >" + noheader + "</select>";
+
+                var header = "<span class='ng-pristine ng-valid' style='float: left'> ";
+                var element = "";
+                var footer = "<ui-select-match allow-clear placeholder='--请选择--' value={{$select.select.value}}>{{$select.selected.key}} " +
+//                    "<input type='hidden' name='"+name + "' id='" + id +"' value='{{ $select.selected.value }}' /> " +
+                    " </ui-select-match> " +
+                    "<ui-select-choices repeat='wh.value as wh in $parent.$parent." + selectDatas + " | filter: $select.search'> " +
+                    "<span ng-bind-html='wh.key | highlight: $select.search'></span> " +
+                    "</ui-select-choices> " +
+                    "</ui-select> " +
+                    "</span>";
+
+                element = "<ui-select value={{$select.selected.value}} " + ngDisabled + ngChange + onSelect+" id = '" + id + "' name='" + name + "' src='" + tA.src +"' ng-model ='"+ngModel +"' theme='select2'  class='ulSelectedW ng-isolate-scope ng-pristine' > ";//ng-options='wh.key for wh in $parent." + selectDatas + " track by wh.value'
+                return header + element + footer;
             }
         };
-    }).directive('a', function () {
+    }]).directive('a', function () {
         return {
             restrict: 'EA',
             link: function (scope, elem, attrs) {
@@ -266,18 +289,29 @@ define(['app'], function (app) {
                     if (parentValue) {
                         changeDataSource(url, parentValue);
                     }
-                    $("#" + attr.parentId).change(function (e) {
-                        var parentValue = $(arguments[0].target).val();
-                        if (parentValue) {
-                            changeDataSource(url, parentValue);
-                        } else {
-                            $element.kendoDropDownList({
-                                dataTextField: dataText,
-                                dataValueField: dataValue,
-                                dataSource: new kendo.data.DataSource()
-                            });
-                        }
-                    });
+                    if ($("#" + attr.parentId)[0].classList.contains("ulSelectedW")) {
+                        $scope.$parent.$watch(function(scope) { return scope[parentId] },
+                            function(parentValue,oldValue) {
+                                if (parentValue) {
+                                    changeDataSource(url, parentValue);
+                                }
+                            }
+                        );
+                    }
+                    else{
+                        $("#" + attr.parentId).change(function (e) {
+                            var parentValue = $(arguments[0].target).val();
+                            if (parentValue) {
+                                changeDataSource(url, parentValue);
+                            } else {
+                                $element.kendoDropDownList({
+                                    dataTextField: dataText,
+                                    dataValueField: dataValue,
+                                    dataSource: new kendo.data.DataSource()
+                                });
+                            }
+                        })
+                    };
 //              $("#"+attr.id).click(function(e){
 //                changeDataSource(url, false);
 //              });
@@ -314,6 +348,13 @@ define(['app'], function (app) {
                     if ($scope.$parent.query !== undefined) {
                         params = $scope.$parent.query;
                     }
+                    var checkSearchClient = true;
+                    if ($scope.$parent.checkSearchClient){
+                        checkSearchClient = $scope.$parent.checkSearchClient($scope.$parent.query);
+                    }
+                    if(!checkSearchClient){
+                        return false;
+                    }
                     if ($(form.find("input,select,checkbox")[0]).scope().query !== undefined) {
                         params = $(form.find("input,select,checkbox")[0]).scope().query;
                     }
@@ -323,6 +364,7 @@ define(['app'], function (app) {
                     params.isNotNull_ = "";
                     grid.dataSource.filter(params);
                     grid.refresh();
+
                 };
             },
             template: function (tE, tA) {
@@ -400,14 +442,18 @@ define(['app'], function (app) {
     }]).directive('wmsLabel', function () {
         return {
             restrict: 'EA',
+            scope: false,
             link: function ($scope, $element, attr) {
                 var source = attr.wmsLabel.split("."),
                     bindName = attr.bindName,
-                    dataSource = window.WMS.CODE_SELECT_DATA[source[0]];
+                    dataSource = window.WMS[source[0]];
                 _.each(dataSource, function (item) {
-                    if (item.value === source[1]) {
-                        $scope.dataItem[bindName] = source[1];
-                        $element.html(item.key);
+                    if (item.code === source[1]) {
+                        if($scope.dataItem){
+                            $scope.dataItem[bindName] = source[1];
+
+                        }
+                        $element.html(item.description);
                         return;
                     }
                 });
@@ -607,7 +653,7 @@ define(['app'], function (app) {
 //                                  $("#storerId").focus();
 //                                }, 500);
 //                              });
-                                return;
+                              return;
                             }
                             if (!dataItem.locationId) {
 //                              $.when(kendo.ui.ExtAlertDialog.showError("请先选择货位")).done(function () {
@@ -615,7 +661,7 @@ define(['app'], function (app) {
 //                                  $("#locationId").focus();
 //                                }, 500);
 //                              });
-                                return;
+                              return;
                             }
                             url += "/storer/" + dataItem.storerId +
                                 "/location/" + dataItem.locationId;
@@ -627,33 +673,33 @@ define(['app'], function (app) {
 
                                     var inventoryList = resp.result.rows,
                                         skuIds = _.map(inventoryList, function(record){
-                                            return record.skuId;
+                                          return record.skuId;
                                         });
                                     sync($url.dataGoodsUrl+"/ids/"+_.uniq(skuIds).join(","), "GET", {wait:false})
-                                        .then(function(resp) {
-                                            var sku = _.find(resp.result.rows, function(sku) {
-                                                return sku.barcode === targetEl.val();
-                                            });
-                                            if (sku === undefined) {
-                                                _.each(fields, function (field, index) {
-                                                    WMS.UTILS.setValueInModel(dataItem, field, "");
-                                                });
-                                                $.when(kendo.ui.ExtAlertDialog.showError(attr.errormsg)).done(function () {
-                                                    setTimeout(function () {
-                                                        targetEl.focus();
-                                                    }, 500);
-                                                });
-                                            } else {
-                                                var record = _.find(inventoryList, function(record){
-                                                    return record.skuId === sku.id;
-                                                });
-                                                record.skuBarcode = sku.barcode;
-                                                record.skuItemName = sku.itemName;
-                                                _.each(fields, function (field, index) {
-                                                    WMS.UTILS.setValueInModel(dataItem, field, record[valueFields[index]]);
-                                                });
-                                            }
+                                      .then(function(resp) {
+                                        var sku = _.find(resp.result.rows, function(sku) {
+                                          return sku.barcode === targetEl.val();
                                         });
+                                        if (sku === undefined) {
+                                          _.each(fields, function (field, index) {
+                                            WMS.UTILS.setValueInModel(dataItem, field, "");
+                                          });
+                                          $.when(kendo.ui.ExtAlertDialog.showError(attr.errormsg)).done(function () {
+                                            setTimeout(function () {
+                                              targetEl.focus();
+                                            }, 500);
+                                          });
+                                        } else {
+                                          var record = _.find(inventoryList, function(record){
+                                            return record.skuId === sku.id;
+                                          });
+                                          record.skuBarcode = sku.barcode;
+                                          record.skuItemName = sku.itemName;
+                                          _.each(fields, function (field, index) {
+                                            WMS.UTILS.setValueInModel(dataItem, field, record[valueFields[index]]);
+                                          });
+                                        }
+                                      });
                                 }
                                 if (!checkResult) {
                                     _.each(fields, function (field, index) {
@@ -668,12 +714,12 @@ define(['app'], function (app) {
                             });
                         } else {
                             if (!dataItem.storerId) {
-                                //                              $.when(kendo.ui.ExtAlertDialog.showError("请先选择货主")).done(function () {
-                                //                                setTimeout(function () {
-                                //                                  $("#storerId").focus();
-                                //                                }, 500);
-                                //                              });
-                                return;
+  //                              $.when(kendo.ui.ExtAlertDialog.showError("请先选择货主")).done(function () {
+  //                                setTimeout(function () {
+  //                                  $("#storerId").focus();
+  //                                }, 500);
+  //                              });
+                              return;
                             }
                             if (attr.type === "sku") {
                                 url += '/storer/'+ dataItem.storerId+'/barcode/'+ targetEl.val();
@@ -730,21 +776,21 @@ define(['app'], function (app) {
 
         };
     }).directive('jsWmsNumber', function () {
-        return {
-            restrict: 'C',
-            link: function (scope, elem, attrs) {
-                elem.on('input', function (e) {
-                    var array = $.trim($(this).val()).split('');
-                    array = _.filter(array, function (item) {
-                        if ($.trim(item) !== '') {
-                            return !isNaN(item);
-                        }
-                    });
-                    $(this).val($.trim(array.join('')));
-                });
-            }
+      return {
+        restrict: 'C',
+        link: function (scope, elem, attrs) {
+            elem.on('input', function (e) {
+              var array = $.trim($(this).val()).split('');
+              array = _.filter(array, function (item) {
+                if ($.trim(item) !== '') {
+                  return !isNaN(item);
+                }
+              });
+              $(this).val($.trim(array.join('')));
+            });
+        }
 
-        };
+      };
     }).directive("enterInput",function(){
         return {
             replace:true,
@@ -790,9 +836,9 @@ define(['app'], function (app) {
                             importWindow.close();
                             kendo.ui.ExtAlertDialog.showError("导入成功");
                         } else {
-                            if (typeof(response.result) == 'object') {
+                            if (typeof(response.data) == 'object') {
                                 $('.js_operationResult').show();
-                                var errLogData = _.map(response.result, function(record) {
+                                var errLogData = _.map(response.data, function(record) {
                                     for (var key in record) {
                                         if (record.hasOwnProperty(key)) {
                                             return {id:key,message:record[key]};
@@ -859,17 +905,17 @@ define(['app'], function (app) {
                     "<form class='clearfix' method='post' enctype='multipart/form-data'>"+
                     " <div class='import-container clearfix'>"+
                     "       <div class='clearfix'>"+
-                    "           <div class='import-rol dl-btn'>"+
-                    "               <a href='/download/template/"+tA.templateName+"' class='btn mb-download'>"+
-                    "                   <i class='fa fa-download faIcon'></i>"+
-                    "               模板下载"+
-                    "               </a>"+
-                    "           </div>"+
+                   // "           <div class='import-rol dl-btn'>"+
+                   // "               <a href='/download/template/"+tA.templateName+"' class='btn mb-download'>"+
+                   // "                   <i class='fa fa-download faIcon'></i>"+
+                   // "               模板下载"+
+                   // "               </a>"+
+                   // "           </div>"+
 
                     "                                <div class='import-rol'>"+
                     "               <span class='upFile'>"+
                     "               选择导入文件"+
-                    "                   <input class='files' type='file' name='file' nv-file-select='' uploader='uploader' accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'/>"+
+                    "                   <input class='files' type='file' name='file' nv-file-select='' uploader='uploader' accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/x-excel'/>"+
                     "               </span>"+
                     "               <p class='import-file-name' ng-bind='fileName'></p>"+
                     "           </div>"+

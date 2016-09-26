@@ -20,13 +20,14 @@
     </bean>
 
     <bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/app/**" location="/app/" />
 
-    <mvc:annotation-driven validator="globalValidator" >
+    <mvc:annotation-driven validator="globalValidator">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">

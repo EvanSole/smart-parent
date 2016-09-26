@@ -1,5 +1,9 @@
 package com.sin.smart.main.mapper.service.impl;
 
+import com.alibaba.dubbo.common.json.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.sin.smart.core.web.PageResponse;
+import com.sin.smart.dto.SmartUserDTO;
 import com.sin.smart.entity.main.SmartUserEntity;
 import com.sin.smart.main.mapper.common.SpringTxTestCase;
 import com.sin.smart.main.service.IUserService;
@@ -18,14 +22,23 @@ public class UserServiceTest extends SpringTxTestCase {
 
     @Test
     public void testGetUserById(){
-      SmartUserEntity smartUserEntity = userService.getUserById(1L);
+      SmartUserEntity smartUserEntity = userService.findUserById(1L);
       Assert.notNull(smartUserEntity);
     }
 
     @Test
     public void testGetUser(){
-        SmartUserEntity smartUserEntity = userService.getUser("admin","admin");
+        SmartUserEntity smartUserEntity = userService.findUser("admin","admin");
         System.out.println(smartUserEntity.getRealName());
+    }
+
+    @Test
+    public void testQueryUserPages(){
+        SmartUserDTO userDTO = new SmartUserDTO();
+        userDTO.setOffset(1);
+        userDTO.setPageSize(15);
+        PageResponse pageResponse = userService.queryUserPages(userDTO);
+        System.out.println(JSON.toJSONString(pageResponse.getData()));
     }
 
 }

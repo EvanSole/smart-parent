@@ -19,14 +19,13 @@ public class BaseController {
 
     @Autowired
     private HttpServletRequest request;
+
     @Autowired
     private HttpServletResponse response;
 
     @Autowired
     protected Messages messages;
 
-    protected final static String SUC_STR = "suc";
-    protected DbShardVO dbSharedVO;
 
     /**
      * 获取session

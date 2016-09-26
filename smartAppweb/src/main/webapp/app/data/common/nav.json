@@ -1,0 +1,200 @@
+[
+	{
+		"path":"qc",
+		"children":[
+			{
+				"path":"qc/order",
+				"children":[
+					{
+						"path":"qc/order/list",
+						"children":[
+
+						],
+						"name":"质检单列表",
+						"id":"2000",
+						"parentId":"200"
+					}
+				],
+				"name":"质检单",
+				"id":"200",
+				"parentId":"20"
+			},
+			{
+				"path":"qc/oper",
+				"children":[
+					{
+						"path":"qc/oper/packInWh",
+						"children":[
+
+						],
+						"name":"包裹入库",
+						"id":"2001",
+						"parentId":"201"
+					},
+					{
+						"path":"qc/oper/qcOperation",
+						"children":[
+
+						],
+						"name":"质检操作",
+						"id":"2002",
+						"parentId":"201"
+					},
+					{
+						"path":"qc/oper/shelve",
+						"children":[
+
+						],
+						"name":"质检上架",
+						"id":"2003",
+						"parentId":"201"
+					},
+                    {
+                        "path":"qc/oper/picUpload",
+                        "children":[
+
+                        ],
+                        "name":"图片上传",
+                        "id":"2004",
+                        "parentId":"201"
+                    }
+				],
+				"name":"质检作业",
+				"id":"201",
+				"parentId":"20"
+			},
+			{
+				"path":"qc/refund",
+				"children":[
+					{
+						"path":"qc/refund/list",
+						"children":[
+
+						],
+						"name":"退货列表",
+						"id":"2004",
+						"parentId":"202"
+					},
+					{
+						"path":"qc/refund/do",
+						"children":[
+
+						],
+						"name":"退货操作",
+						"id":"2005",
+						"parentId":"202"
+					},
+					{
+						"path":"qc/refund/refundAddress",
+						"children":[
+
+						],
+						"name":"退货地址",
+						"id":"2006",
+						"parentId":"202"
+					}
+				],
+				"name":"退货管理",
+				"id":"202",
+				"parentId":"20"
+			},
+            {
+                "path":"qc/report",
+                "children":[
+                    {
+                        "path":"qc/report/summary",
+                        "children":[
+
+                        ],
+                        "name":"抽检汇总",
+                        "id":"2106",
+                        "parentId":"204"
+                    }, {
+                        "path":"qc/report/detail",
+                        "children":[
+
+                        ],
+                        "name":"抽检明细",
+                        "id":"2107",
+                        "parentId":"204"
+                    }
+                ],
+                "name":"报表",
+                "id":"204",
+                "parentId":"20"
+            },
+            {
+                "path":"qc/base",
+                "children":[
+                    {
+                        "path":"qc/base/shelve",
+                        "children":[
+
+                        ],
+                        "name":"货架管理",
+                        "id":"2006",
+                        "parentId":"203"
+                    }
+                ],
+                "name":"基础信息",
+                "id":"203",
+                "parentId":"20"
+            },
+			{
+				"path":"qc/query",
+				"children":[
+					{
+						"path":"qc/query/tradeShop",
+						"children":[
+
+						],
+						"name":"交易订单",
+						"id":"2206",
+						"parentId":"208"
+					}, {
+						"path":"qc/query/tradeUser",
+						"children":[
+
+						],
+						"name":"买家账户",
+						"id":"2207",
+						"parentId":"208"
+					}, {
+						"path":"qc/query/shipment",
+						"children":[
+
+						],
+						"name":"发货统计",
+						"id":"2208",
+						"parentId":"208"
+					},
+					{
+						"path":"qc/query/efficiency",
+						"children":[
+
+						],
+						"name":"作业效率",
+						"id":"2209",
+						"parentId":"208"
+					},
+					{
+						"path":"qc/exceptionLog/exceptionLog",
+						"children":[
+
+						],
+						"name":"问题单",
+						"id":"2210",
+						"parentId":"208"
+					}
+				],
+				"name":"查询中心",
+				"id":"208",
+				"parentId":"20"
+			}
+
+		],
+		"name":"质检管理",
+		"id":"20",
+		"parentId":"1"
+	}
+]

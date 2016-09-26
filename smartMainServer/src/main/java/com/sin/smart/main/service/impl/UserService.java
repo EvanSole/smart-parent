@@ -7,12 +7,12 @@ import com.sin.smart.main.mapper.UserMapper;
 import com.sin.smart.main.service.IUserService;
 import com.sin.smart.core.service.BaseService;
 import com.sin.smart.entity.main.SmartUserEntity;
+import com.sin.smart.main.validate.PreconditionsUserUtil;
 import com.sin.smart.utils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -22,18 +22,54 @@ public class UserService extends BaseService implements IUserService {
     private UserMapper userMapper;
 
     @Override
-    public SmartUserEntity getUserById(Long userId){
-        return userMapper.getUserById(userId);
+    public SmartUserEntity findUserById(Long userId){
+        return userMapper.selectUserById(userId);
     }
 
     @Override
-    public SmartUserEntity getUser(String userName, String password) {
-        return userMapper.getUser(userName,password);
+    public SmartUserEntity findUser(String userName, String password) {
+        return userMapper.selectUser(userName,password);
     }
 
     @Override
     public SmartUserEntity findByUserName(String userName) {
         return userMapper.findByUserName(userName);
+    }
+
+    @Override
+    public Integer removeUser(Long id) {
+         return userMapper.deleteUser(id);
+    }
+
+    @Override
+    public Integer createUser(SmartUserDTO userDTO) {
+        //check Param
+        PreconditionsUserUtil.createUserValidate(userDTO);
+        //DTO转换为VO
+        SmartUserEntity smartUserEntity = BeanUtils.copyBeanPropertyUtils(userDTO, SmartUserEntity.class);
+        return  userMapper.insertUser(smartUserEntity);
+    }
+
+    @Override
+    public Integer modifyUser(SmartUserDTO userDTO) {
+        //DTO转换为VO
+        SmartUserEntity smartUserEntity = BeanUtils.copyBeanPropertyUtils(userDTO, SmartUserEntity.class);
+        return  userMapper.updateUser(smartUserEntity);
+    }
+
+    @Override
+    public PageResponse queryUserPages(SmartUserDTO userDTO) {
+        //DTO转换为VO
+        SmartUserEntity smartUserEntity = BeanUtils.copyBeanPropertyUtils(userDTO, SmartUserEntity.class);
+
+        List<SmartUserEntity> smartUserEntityList = userMapper.queryUserPages(smartUserEntity);
+        Integer totalSize = userMapper.queryUserPageCount(smartUserEntity);
+
+        PageResponse pageResponse = new PageResponse();
+        pageResponse.setTotalSize(totalSize);
+        pageResponse.setData(smartUserEntityList);
+        pageResponse.setCode(ResponseEnum.SUCCESS.getCode());
+        return pageResponse;
     }
 
     @Override
@@ -44,37 +80,5 @@ public class UserService extends BaseService implements IUserService {
     @Override
     public Set<String> findPermissions(String userName) {
         return null;
-    }
-
-    @Override
-    public List getUserLists(Map searchMap) {
-        return null;
-    }
-
-    @Override
-    public PageResponse queryPageUsers(SmartUserDTO userDTO) {
-        SmartUserEntity smartUserEntity = BeanUtils.copyBeanPropertyUtils(userDTO, SmartUserEntity.class);
-        List<SmartUserEntity>  smartUserEntityList = userMapper.queryPageUser(smartUserEntity);
-        Integer totalSize = userMapper.queryPageUserCount(smartUserEntity);
-        PageResponse pageResponse = new PageResponse();
-        pageResponse.setTotalSize(totalSize);
-        pageResponse.setData(smartUserEntityList);
-        pageResponse.setCode(ResponseEnum.SUCCESS.getCode());
-        return pageResponse;
-    }
-
-    @Override
-    public void deleteUser(long id) {
-
-    }
-
-    @Override
-    public void saveUser(SmartUserDTO userDTO) {
-
-    }
-
-    @Override
-    public void updateUser(SmartUserDTO userDTO) {
-
     }
 }

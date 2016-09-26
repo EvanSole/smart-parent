@@ -19,5 +19,7 @@
     <!-- Service interface   Concurrent Control 生产者服务  -->
     <dubbo:service interface="com.sin.smart.main.service.IUserService" ref="userService"/>
 
+    <dubbo:service interface="com.sin.smart.main.service.IRoleService" ref="roleService"/>
+
 
 </beans>

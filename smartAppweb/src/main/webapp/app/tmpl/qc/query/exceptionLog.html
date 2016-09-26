@@ -1,0 +1,72 @@
+<div class="content-wrap" ng-controller="qcExceptionLogController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="exceptionLogGrid">
+            <div class="panel-group">
+                <label>异常单据ID</label>
+                <input ng-model="query.orderNo" type="text"/>
+            </div>
+            <div class="panel-group">
+                <label>开始时间</label>
+                <wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00" date />
+            </div>
+            <div class="panel-group">
+                <label>结束时间</label>
+                <wms-Date-Time-Picker id="endTime"  is-query="true" format="yyyy/MM/dd 23:59:59" />
+            </div>
+            <div class="panel-group">
+                <label>操作类型</label>
+                <div class="panel-select">
+                    <l-select src="BussessLogTypeEnum" id="query.operation" name="query.operation"></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>操作人</label>
+                <input ng-model="query.optUserName" type="text"/>
+            </div>
+
+
+        </panel_heading_search>
+
+        <div class="panel-body">
+            <div kendo-grid="exceptionLogGrid" options="exceptionLogGridOptions"/>
+        </div>
+    </div>
+
+    <script id="exceptionLogEditor" type="text/x-kendo-template">
+        <div class="edit-form-container">
+            <div class="pure-body window-form">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>异常数据表ID</label>
+                    <input type="text" id="orderNo" name="orderNo"  />
+                </div>
+                <div class="pure-control-group p-b-5 ">
+                    <label>数据来源</label>
+                    <label>手工创建</label>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>操作类型</label>
+                    <div class="panel-select">
+                        <l-select src="BussessLogTypeEnum" id="operation" name="operation"></l-select>
+                    </div>
+                </div>
+                <div class="pure-control-group p-b-5 ">
+                    <label>数量</label>
+                    <input type="text" id="qty" name="qty" onlyNumber />
+                </div>
+                <div class="pure-control-group p-b-5 ">
+                    <label>异常信息</label>
+                    <textarea cols="50" rows="5" id="exceptionMessage" name="exceptionMessage" ></textarea>
+                </div>
+                <div class="pure-control-group p-b-5 ">
+                    <label>备注</label>
+                    <textarea cols="50" rows="5" id="memo" name="memo"  ></textarea>
+                </div>
+
+            </div>
+        </div>
+
+    </script>
+
+</div>
+
+

@@ -21,18 +21,24 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseResult searchUsersPage(@RequestBody SmartUserDTO userDTO) throws Exception {
-         return getSucResultData(userService.queryPageUsers(userDTO));
+         return getSucResultData(userService.queryUserPages(userDTO));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseResult addUser(@RequestBody SmartUserDTO userDTO) throws Exception {
-        userService.saveUser(userDTO);
+        userService.createUser(userDTO);
+        return getSucMessage();
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseResult updateUser(@RequestBody SmartUserDTO userDTO) throws Exception {
+        userService.modifyUser(userDTO);
         return getSucMessage();
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public ResponseResult deleteUser(@PathVariable long id) throws Exception {
-        userService.deleteUser(id);
+    public ResponseResult deleteUser(@PathVariable Long id) throws Exception {
+        userService.removeUser(id);
         return getSucMessage();
     }
 

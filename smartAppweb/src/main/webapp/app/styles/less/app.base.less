@@ -1,0 +1,201 @@
+// Variables
+// --------------------------------------------------
+
+// Typography
+@fontSans: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+@fontSerif: "SimSun", "Times New Roman", Georgia, Times, serif;
+@fontCode: Menlo, Monaco, Consolas, "Courier New", monospace;
+@fontBase: @fontSans;
+@fontSize: 12px;
+
+// Colors
+@white: #FFF;
+@black: #000;
+@gray: #999;
+@lightGray: #CCC;
+@darkGray: #666;
+@red: #F69;
+@pink: #FFDCE7;
+@borderColor:#dcdcdc;
+// Tables
+
+// Code
+@codeColor: #C7254E;
+@codeBg: #F9F2F4;
+@preBg: #F5F5F5;
+@preColor: @darkGray;
+@preBorderColor: #CCC;
+
+
+// Font style
+.fs(@var){
+  font-size: @var;
+}
+.fw-b(){
+  font-weight: bold;
+}
+.fw-n(){
+  font-weight: normal;
+}
+.lh(@var){
+  line-height: @var;
+}
+
+// Text align
+.t-c(){
+  text-align: center;
+}
+.t-l(){
+  text-align: left;
+}
+.t-r(){
+  text-align: right;
+}
+
+// Word break
+.break-word(){
+  word-wrap: break-word;
+}
+.break-all(){
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.nowrap(){
+  white-space: nowrap;
+}
+
+//background
+.bg(@color){
+  background: @color;
+}
+
+
+// Size
+
+.s(@width; @height) {
+  width: @width;
+  height: @height;
+}
+.w(@width){
+  width:@width;
+}
+.h(@height){
+  height:@height;
+}
+
+
+// Display
+.o-h(){
+  overflow: hidden;
+}
+.v-h(){
+  visibility:hidden;
+}
+.dp-n(){
+  display: none;
+}
+.dp-i(){
+  display: inline;
+}
+.dp-b(){
+  display: block;
+}
+.dp-ib(){
+  display: inline-block;
+}
+
+// Position for 'positon', 'float', and 'clearfix'
+.left(){
+  float: left;
+}
+.right(){
+  float: right;
+}
+.p-a(){
+  position: absolute;
+}
+.p-r(){
+  position: relative;
+}
+.p-f(){
+  position: fixed;
+}
+
+//margin
+.mg(@var){
+  margin: @var;
+}
+.mt(@var){
+  margin-top: @var;
+}
+.mb(@var){
+  margin-bottom: @var;
+}
+.ml(@var){
+  margin-left: @var;
+}
+.mr(@var){
+  margin-right: @var;
+}
+
+//padding
+.pd(@var){
+  padding: @var;
+}
+.pl(@var){
+  padding-left: @var;
+}
+.pr(@var){
+  padding-right: @var;
+}
+.pt(@var){
+  padding-top: @var;
+}
+.pb(@var){
+  padding-bottom: @var;
+}
+
+//border
+.bt(@var){
+  border-top: @var;
+}
+.bl(@var){
+  border-left: @var;
+}
+.br(@var){
+  border-right: @var;
+}
+.bb(@var){
+  border-bottom: @var;
+}
+
+
+
+// Clearfix
+
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// Cursor
+.cursor(){
+  cursor: pointer;
+}
+
+// Opacity
+.opacity(@opacity) {
+  opacity: @opacity;
+  // IE8 filter
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
+}
+.disabled{
+  background:@preBg;
+}

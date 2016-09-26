@@ -1,87 +1,120 @@
-requirejs.config({
-  baseUrl: './',
-  waitSeconds: 60,
-  paths: {
-    //定义基础路径，其他的path等路径是基于基础路径进行引入的。如果不配置，默认为引入requireJS页面所在的位置
-    'jquery': 'bower_components/jquery/dist/jquery.min',
-    'angular': 'bower_components/angular/angular.min',
-    'angular-resource': 'bower_components/angular-resource/angular-resource.min',
-    'angular-cookies': 'bower_components/angular-cookies/angular-cookies.min',
-    'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize.min',
-    'angular-async-loader':'bower_components/angular-async-loader/dist/angular-async-loader.min',
-    'ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
-    'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
-    'bootstrap-hover-dropdown':'scripts/assets/bootstrap-hover-dropdown.min',
-    'ui-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap.min',
-    'ui-bootstrap-tpls': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
-    'ng-breadcrumbs':'bower_components/ng-breadcrumbs/ng-breadcrumbs.min',
-    'require':'bower_components/requirejs/require',
-    'blockui':'scripts/assets/jquery.blockui.min',
-    'global-app':'scripts/assets/global.app.min',
-    'layout':'scripts/assets/layout.min',
-    'quick-sidebar':'scripts/assets/quick-sidebar.min',
-    'kendo': 'bower_components/kendo/js/kendo.all.min',
-    'kendo-directives': 'bower_components/kendo/js/kendo.directives',
-    'underscore':'bower_components/underscore/underscore-min',
-    'app':'scripts/app',
-    'sync':'scripts/common/sync'
-  },
-  shim: {
-  	/*** shim 用来处理一些没有遵守requirejs规范的js库,可在里面对它们进行一些依赖声明、初始化操作等*/
-    'angular' : { exports :'angular',deps: ['jquery']},
-    'angular-resource': {deps: ['angular']},
-    'ui-router': {deps: ['angular'], exports: 'angular-route'},
-    'angular-cookies': {deps: ['angular']},
-    'ng-breadcrumbs': {deps: ['angular']},
-    'bootstrap': {deps: ['jquery']},
-    'ui-bootstrap': {deps: ['angular']},
-    'bootstrap-hover-dropdown' :{deps: ['jquery']},
-    'layout' :{deps: ['jquery','global-app']},
-    'quick-sidebar' :{deps: ['jquery','global-app']},
-    'kendo' : { exports :'kendo' ,deps: ['angular','jquery']},
-    'kendo-directives': {deps: ['kendo','angular','jquery']},
-    'sync': { exports :'sync' , deps: ['underscore','jquery']}
+require.config({
+    baseUrl: './',
+    waitSeconds: 60,
+    urlArgs: 'V2.1.01.21.1',
+    paths: {
+        'jquery': 'bower_components/jquery/jquery-latest.min',
+        'angular': 'bower_components/angular/angular',
+        'angular-locale': 'bower_components/angular/angular-locale_zh-cn',
+        'angular-route': 'bower_components/angular-route/angular-route.min',
+        'angular-resource': 'bower_components/angular-resource/angular-resource.min',
+        'angular-sanitize': 'bower_components/angular-sanitize/angular-sanitize.min',
+        'angular-cookies': 'bower_components/angular-cookies/angular-cookies.min',
+        'angular-mocks': 'bower_components/angular-mocks/angular-mocks',
+        'angular-animate': 'bower_components/angular-animate/angular-animate.min',
 
-  },
-  deps:['bootstrap'],
-  urlArgs: "bust=" + (new Date()).getTime()  //防止读取缓存，调试用
+        'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
+//      'ui-bootstrap-tpls': 'scripts/directives/ui-bootstrap-tpl.min',
+        'ui-bootstrap-tpls': 'scripts/common/ui-bootstrap-tpls',
+
+        'ui-utils': 'bower_components/angular-ui-utils/ui-utils.min',
+
+        'ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
+        'ui-select': 'bower_components/angular-ui-select/dist/select.min',
+        'ui-breadcrumbs': 'bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs',
+        'angular-file-upload': 'bower_components/angular-file-upload/angular-file-upload',
+        'underscore': 'bower_components/underscore/underscore-min',
+        'kendo': 'bower_components/kendo/kendo.all.min',
+        'kendo-directives': 'bower_components/kendo/kendo.directives',
+        'requirejs-domReady': 'bower_components/requirejs-domReady/domReady',
+
+        'ui-utils-ieshiv': 'bower_components/angular-ui-utils/ui-utils-ieshiv.min',
+        'utils': 'scripts/common/utils',
+        'app': 'scripts/app'
+
+    },
+    shim: {
+        'angular': {
+            exports: 'angular',
+            deps: ['jquery']
+        },
+        'angular-resource': {
+            deps: ['angular']
+        },
+        'angular-locale': {
+            deps: ['angular']
+        },
+        'angular-route': {
+            deps: ['angular']
+        },
+        'angular-cookies': {
+            deps: ['angular']
+        },
+        'angular-sanitize': {
+            deps: ['angular']
+        },
+        'ui-router': {
+            deps: ['angular']
+        },
+        'ui-breadcrumbs': {
+            deps: ['angular']
+        },
+        'ui-select': {
+            deps: ['angular']
+        },
+        'angular-file-upload': {
+            deps: ['angular']
+        },
+        'kendo': {
+            deps: ['jquery'],
+            exports: 'kendo'
+        },
+        'ui-utils': {
+            deps: ['angular', 'ui-utils-ieshiv']
+        },
+        'ui-bootstrap-tpls': {
+            deps: ['angular']
+        },
+        'utils': {
+            deps: ['jquery', 'kendo', 'underscore'],
+            exports: 'WMS'
+        },
+        'bootstrap': {
+            deps: ['jquery']
+        },
+        'ui-bootstrap': {
+            deps: ['angular']
+        },
+        'kendo-directives': {
+            deps: ['kendo','angular','jquery']
+        }
+    }
 });
-
-
-require([
-    'jquery',
+define([
+    'require',
     'angular',
+    'scripts/common/config',
     'app',
-    'bootstrap',
-    'ui-router',
-    'ui-bootstrap',
-    'underscore',
-    'scripts/config',
-    'ng-breadcrumbs',
-    'bower_components/kendo/js/custom/kendo.web.ext',
-    'bower_components/kendo/js/custom/kendo.validator',
-    'bower_components/kendo/js/custom/kendo.messages.zh-CN',
-    'bootstrap-hover-dropdown',
-    'blockui',
-    'quick-sidebar',
-    'global-app',
-    'layout',
-    'kendo',
-    'sync',
-    'scripts/common/constants',
-    'scripts/common/codeData',
-    'scripts/common/utils',
-    'scripts/common/router',
-    'scripts/common/commDataSource',
+    'scripts/common/kendo.web.ext',
+    'scripts/common/kendo.validator',
+    'scripts/common/config.base',
+    'scripts/common/const',
     'scripts/common/directive',
-    'scripts/common/filters'
-
-], function (require,angular) {
+    'scripts/common/naviDirective',
+    'scripts/common/filters',
+    'scripts/common/stateRoutes',
+    'scripts/common/sync',
+    'scripts/common/baseDataEnum',
+    'scripts/common/wmsPrint',
+    'scripts/common/wmsReportPrint',
+    'scripts/common/wmsDataSource',
+    'scripts/common/kendo.messages.zh-CN',
+    'scripts/main',
+    'scripts/common/wmsLog'
+], function (require, angular) {
     'use strict';
-    $(document).ready(function () {
-        App.init();   //初始化
-        Layout.init();
-        //启动angularjs
+    angular.element(document).ready(function () {
         angular.bootstrap(document, ['app']);
     });
 });
+

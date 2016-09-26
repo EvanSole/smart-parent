@@ -1,0 +1,72 @@
+<!-- navbar header -->
+<div class="navbar-header oms-logo-bg">
+  <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target=".navbar-collapse">
+    <i class="glyphicon glyphicon-cog"></i>
+  </button>
+  <button class="pull-right visible-xs" ui-toggle-class="off-screen" data-target=".app-aside" ui-scroll-to="app">
+    <i class="glyphicon glyphicon-align-justify"></i>
+  </button>
+  <!-- brand -->
+  <a href="#/" class="navbar-brand text-lt">
+    {{ app.name }}
+  </a>
+
+</div>
+
+<!-- navbar collapse -->
+<div class="collapse pos-rlt navbar-collapse box-shadow bg-white-only h-left-bg">
+  <!-- buttons -->
+  <div class="nav navbar-nav hidden-xs">
+    <a href="" class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded">
+      <i  class="fa fa-fw fa-dedent fa-menu"></i>
+    </a>
+  </div>
+  <!-- / buttons -->
+  <!-- link and dropdown -->
+  <ul class="nav navbar-nav h-nav">
+    <li ng-repeat="menuItem in menu" class="dropdown">
+      <a href="" ui-sref="{{menuItem.code}}" ui-sref-active="active">{{menuItem.name}}</a>
+      <div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>
+    </li>
+
+  </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" dropdown="">
+
+            <a href="" class="dropdown-toggle clear" dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+                <span class="hidden-sm hidden-md">{{ user.userName }}</span> <b class="caret"></b>
+            </a>
+            <!-- dropdown -->
+
+            <ul class="dropdown-menu animated fadeInRight user-s-info">
+                <div class="trs-up"></div>
+                <div class="user-content">
+                    <div class="user-tip">
+                        <img class="img-full" ng-src="{{ app.user.head }}">
+                    </div>
+                    <ol>
+                        <li>
+                            <span>姓名</span>{{ user.userName }}
+                        </li>
+                    </ol>
+                </div>
+                <div class="user-self">
+                <a ng-click="updatePwd()"><i class="fa fa-pencil"></i>修改密码</a>
+                </div>
+
+            </ul>
+            <!-- / dropdown -->
+        </li>
+
+        <li>
+            <div class="fun-icon">
+                <a href="/index/logout"><i class="fa fa-sign-out signOut"></i></a>
+            </div>
+        </li>
+    </ul>
+<!-- / navbar right -->
+
+</div>
+<!-- / navbar collapse -->
+
+

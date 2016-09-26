@@ -1,0 +1,319 @@
+<style>
+    #showImage{
+        border:1px solid #73a9fd;
+        min-height: 30px;
+        padding: 10px 0 0 10px;
+        clear: both;
+    }
+    #showOptions{
+        border:1px solid #73a9fd;
+        min-height: 30px;
+    }
+    .k-edit-content{
+        overflow-y: scroll;
+        height: 500px;
+    }
+    .img-item{
+        float: left;
+        position: relative;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .clearfix{height:1%;}
+    .img-item .close{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .btn-link {
+        white-space: nowrap;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        line-height: normal;
+        vertical-align: inherit;
+        border: none;
+        color: #73a9fd;
+    }
+    .btn-link:focus, .btn-link:hover {
+        color: #73a9fd;
+    }
+    .col-w-300{
+        width: 300px;
+    }
+    .col-w-600{
+        width: 300px;
+    }
+    .content-wrap{
+        padding: 20px;
+        font-size: 12px;
+    }
+
+    .container-fluid{
+        margin-top: 20px;
+    }
+    .container-fluid label{
+        vertical-align: top;
+        width: 60px;
+    }
+    .container-fluid .row{
+        margin-bottom: 10px;
+    }
+    .container-fluid .item-row{
+        margin-bottom: 10px;
+    }
+    .panel-img{
+        text-align: left;
+        width: 320px;
+        float: left;
+    }
+    .panel-info{
+        float: right;
+        width: 100%;
+        margin-left: -320px;
+        padding-left: 340px;
+    }
+    .panel-img img{
+        min-width: 300px;
+        max-width: 300px;
+    }
+    .level-span label{
+        width: 80px;
+    }
+    input[type=file] {
+        display: inline;
+    }
+
+</style>
+<div class="content-wrap" ng-controller="picUploadController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="picUploadGrid">
+            <div class="panel-group">
+                <label>质检单类型</label>
+                <div class="panel-select">
+                    <l-select src="QcOrderTypeEnum" id="query.type" name="query.type"></l-select>
+                </div>
+            </div>
+            <div class="panel-group ">
+                <label>质检单号</label>
+                <input type="text" ng-model="query.qcOrderId"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>商家名称</label>
+                <input type="text" ng-model="query.sellerUserName"/>
+            </div>
+            <div class="panel-group ">
+                <label>交易单号</label>
+                <input type="text" ng-model="query.shopOrderId"/>
+            </div>
+            <div class="panel-group ">
+                <label>商品编号</label>
+                <input type="text" ng-model="query.goodsCode"/>
+            </div>
+            <div class="panel-group ">
+                <label>商品名称</label>
+                <input type="text" ng-model="query.goodsName"/>
+            </div>
+            <div class="panel-group ">
+                <label>物流单号</label>
+                <input type="text" ng-model="query.expressId"/>
+            </div>
+            <div class="panel-group ">
+                <label>下单单号</label>
+                <input type="text" ng-model="query.buyerUserId"/>
+            </div>
+            <div class="panel-group" >
+                <label>是否已上传</label>
+                <div class="panel-select">
+                    <select name="query.isUploaded" id="query.isUploaded" ng-model="query.isUploaded">
+                        <option value="" selected="selected">--未选择--</option>
+                        <option value="done">已上传</option>
+                        <option value="none">未上传</option>
+                    </select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>质检起始日期:</label>
+                <wms-Date-Time-Picker id="optBeginTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group">
+                <label>截止日期:</label>
+                <wms-Date-Time-Picker id="optEndTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group ">
+                <label>质检操作人</label>
+                <input type="text" ng-model="query.optUserName"/>
+            </div>
+        </panel_heading_search>
+
+        <div class="panel-body">
+            <div kendo-grid="picUploadGrid" options="picUploadGridOptions"/>
+        </div>
+    </div>
+
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="showPicUploadPopup" k-title="'质检图片上传'"
+         k-resizable="false" k-modal="false" k-visible="false" style="width: 900px; height:600px;">
+        <div class="k-edit-form-container">
+            <div class="k-edit-content">
+                <div class="pure-body window-form">
+                    <input type="file" name="prefiles" id="prefiles" nv-file-select class="ng-uploader list" uploader="uploader" accept="image/*" multiple>
+                    <div id="container" style="clear: both;">
+
+                    </div>
+                </div>
+                <div class="pure-body window-form">
+                    <h4>质检结果选项</h4>
+                    <div id="showOptions">
+
+                    </div>
+                </div>
+                <div class="pure-body window-form">
+                    <h4>已上传图片</h4>
+                    <div id="showImage" class="clearfix">
+
+                    </div>
+                </div>
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="picUploadSave(this)"><span
+                        class="k-icon k-cancel"></span>上传</a>
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="cancelClose(showPicUploadPopup)"><span
+                        class="k-icon k-cancel"></span>关闭</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="updateQcPopup" k-title="'质检结果修改'"
+         k-resizable="false" k-modal="false" k-visible="false" style="min-width: 1200px;">
+        <div class="k-edit-form-container">
+            <div class="pure-body window-form">
+                <div class="clearfix">
+
+                        <div class="row">
+                            <div class="panel-img">
+                                <img ng-src='{{qcOperation_img}}' style="width: 90%;height: 90%;"/>
+                            </div>
+                            <div class="panel-info">
+                                <div class="item-row">
+                                    <label>质检单号:</label>
+                                    <span>{{qcOperation_qcOrderId}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>检验类型:</label>
+                                    <span>{{qcOperation_type | statesFormat:'QcOrderTypeEnum'}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>商品名称:</label>
+                                    <span>{{qcOperation_goodsName}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>商品描述:</label>
+                                    <span>{{qcOperation_goodsDesc}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>快递编码:</label>
+                                    <span>{{qcOperation_expressId}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>商品编码:</label>
+                                    <span>{{qcOperation_goodsCode}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>商品价格:</label>
+                                    <span>{{qcOperation_goodsPrice}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>商品渠道:</label>
+                                    <span>{{qcOperation_shopName}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>商家类型:</label>
+                                    <span style="color: red;">{{qcOperation_qcType | statesFormat:'QcTypeEnum'}}</span>
+                                </div>
+                                <div class="item-row">
+                                    <label>备注:</label>
+                                    <span>{{qcOperation_inspectionRemark}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="item-row">
+                                <label>商品详情:</label>
+                                <span><a class="btn-link" ng-href="{{qcOperation_goodsDetailUrl}}" target="_blank">点击查看</a></span>
+                            </div>
+                            <div class="item-row"  id="qcLevelDiv" style="display: none;" >
+                                <label>商品等级:</label>
+                                <span class="level-span">
+                                    <label><input type="radio" ng-model="qcOperation_goodsLevel" name="qcOperation_goodsLevel" value="2"/> 普通</label>
+                                    <label><input type="radio" ng-model="qcOperation_goodsLevel" name="qcOperation_goodsLevel" value="3"/> 良好</label>
+                                    <label><input type="radio" ng-model="qcOperation_goodsLevel" name="qcOperation_goodsLevel" value="4"/> 优秀</label>
+                                    <label><input type="radio" ng-model="qcOperation_goodsLevel" name="qcOperation_goodsLevel" value="5"/> 超优</label>
+                                </span>
+                            </div>
+                            <div class="item-row"  id="qcLevelRemarkDiv" style="display: none;" >
+                                <label>质检备注:</label>
+                                <span>
+                                    <textarea id="qcRemark" name="qcRemark" ng-model="qcOperation_qcRemark" style="width: 500px; height: 100px"/>
+                                </span>
+                            </div>
+                            <div class="item-row">
+                                <label>质检结果</label>
+                                <span class="level-span">
+                                    <label><input type="radio" ng-model="qcOperation_qcResult" name="qcOperation_qcResult" value="2" ng-change="changeQcResult(2)"/> 合格</label>
+                                    <label><input type="radio" ng-model="qcOperation_qcResult" name="qcOperation_qcResult" value="3" ng-change="changeQcResult(3)"/> 不合格</label>
+                                    <label><input type="radio" ng-model="qcOperation_qcResult" name="qcOperation_qcResult" value="4" ng-change="changeQcResult(4)"/> 无法确定</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="item-row">
+                                <!--<label>质检结果</label>-->
+                                <span class="level-span">
+                                    <label><input type="radio" ng-model="qcOperation_optionType" name="qcOperation.optionType" value="1" ng-change="changeOptionType(1)"/> 纺织品</label>
+                                    <label><input type="radio" ng-model="qcOperation_optionType" name="qcOperation.optionType" value="2" ng-change="changeOptionType(2)"/> 鞋类</label>
+                                    <label><input type="radio" ng-model="qcOperation_optionType" name="qcOperation.optionType" value="3" ng-change="changeOptionType(3)"/> 箱包</label>
+                                </span>
+                            </div>
+                            <kendo-tabstrip id="tabStrip">
+                                <ul>
+                                    <!--{{item.name}}-->
+                                    <li ng-repeat="item in qcOperation_operations" id="{{item.optionId}}_tabStrip" ng-click="clickTab(this)" class="k-state-active">{{item.name}}</li>
+                                    <!--<li>aaa</li>-->
+                                </ul>
+                                <div ng-repeat="item in qcOperation_operations" style="width: 95%;  min-height: 90px; overflow: auto;">
+                                    <div ng-repeat="subItem in item.qualickCheckOptionList">
+                                        <!--<label>{{subItem.name}}</label>-->
+                                        <div id="{{subItem.optionId}}_subOption" style="background: #DBDBDB; float:left; float: left; margin: 5px 0 5px 20px; padding: 0 5px; color:#666; border:solid 1px; border-radius:5px;" value='1' ng-click="changeColor(this)">{{subItem.name}}</div>
+                                    </div>
+                                </div>
+
+                            </kendo-tabstrip>
+                        </div>
+
+                        <div class="row">
+                            <div class="item-row">
+                                <label>其他:</label>
+                    <span>
+                        <textarea id="qcOperation_otherRemark" ng-model="qcOperation_otherRemark" style="width: 500px; height: 100px"/>
+                    </span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="qcResultUpdate(this)"><span
+                        class="k-icon k-cancel"></span>保存</a>
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="cancelCloseUpdate()"><span
+                        class="k-icon k-cancel"></span>关闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

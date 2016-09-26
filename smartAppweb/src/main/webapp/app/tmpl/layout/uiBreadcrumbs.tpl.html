@@ -1,0 +1,7 @@
+<ul class="fa">
+  <li ng-repeat="crumb in breadcrumbs"
+      ng-class="{ 'angle-right': !$last }">
+    <a ng-if="!$last">{{ crumb.displayName }}</a>
+    <a ui-sref="{{ crumb.route }}" ng-show="$last">{{ crumb.displayName }}</a>
+  </li>
+</ul>

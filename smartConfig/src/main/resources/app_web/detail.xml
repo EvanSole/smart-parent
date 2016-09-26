@@ -19,6 +19,8 @@
     </context:component-scan>
 
     <import resource="../redis/spring-redis.xml"/>
+    <import resource="spring-shiro.xml"/>
+    <import resource="spring-needLog.xml"/>
     <import resource="../config.xml"/>
 
 </beans>

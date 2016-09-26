@@ -19,9 +19,46 @@
         <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
     </resultMap>
+
     <sql id="Base_Column_List" >
         `id`,`tenant_id`,`user_name`,`real_name`, `password`,`email`,`telephone`,`mobile`,`is_admin`,
         `is_active`,`is_del`,`create_user`,`create_time`,`update_user`,`update_time`
+    </sql>
+
+    <!-- query where 子句 -->
+    <sql id="queryWhereClause">
+        <where>
+            <if test="id != 0">
+                AND id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userName != null">
+                AND user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="telephone != null" >
+                AND telephone = #{telephone,jdbcType=VARCHAR}
+            </if>
+            <if test="telephone != null" >
+                AND password = #{password,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <!-- order by 子句 -->
+    <sql id="queryOrderByClause">
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="orderBy == null">
+            ORDER BY create_time desc
+        </if>
+
+    </sql>
+
+    <!-- query limit 子句 -->
+    <sql id="queryLimitClause">
+        <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
+            LIMIT #{offset}, #{pageSize}
+        </if>
     </sql>
 
     <select id="findByUserName" resultMap="smartUserEntityResult">
@@ -32,8 +69,7 @@
         limit 1
     </select>
 
-
-    <select id="getUserById" resultMap="smartUserEntityResult" parameterType="java.lang.Long">
+    <select id="selectUserById" resultMap="smartUserEntityResult" parameterType="java.lang.Long">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_smart_user
@@ -41,7 +77,7 @@
         limit 1
     </select>
 
-    <select id="getUser" resultMap="smartUserEntityResult">
+    <select id="selectUser" resultMap="smartUserEntityResult">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_smart_user
@@ -49,5 +85,19 @@
         limit 1
     </select>
 
+    <select id="queryUserPages" resultMap="smartUserEntityResult" parameterType="com.sin.smart.entity.main.SmartUserEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_smart_user
+        <include refid="queryWhereClause"/>
+        <include refid="queryOrderByClause"/>
+        <include refid="queryLimitClause" />
+    </select>
+
+    <select id="queryUserPageCount"  resultType="java.lang.Integer" parameterType="com.sin.smart.entity.main.SmartUserEntity">
+        SELECT count(1) FROM t_smart_user
+        <include refid="queryWhereClause"/>
+        LIMIT 1
+    </select>
 
 </mapper>

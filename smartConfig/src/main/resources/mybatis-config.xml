@@ -34,9 +34,4 @@
 		<plugin interceptor="com.sin.smart.core.interceptor.SplitTableInterceptor"></plugin>
 	</plugins>
 
-	<!--别名设置供Mapper文件使用-->
-	<!--<typeAliases>
-		<typeAlias type="com.sin.smart.entity.main.SmartUserEntity" alias="SmartUserEntity"/>
-	</typeAliases>-->
-
 </configuration>

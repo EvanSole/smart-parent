@@ -1,0 +1,13 @@
+
+{
+    "description" : "versionNo:版本号,releasedTime:发布日期,content 【加速】【新鲜】【极致】【美观】+ 更新内容",
+    "smartVersion" : [
+        {
+            "versionNo":"V1.0.06.10.01",
+            "releasedTime":"2016-10-01",
+            "content":[
+                "待发布..."
+            ]
+        }
+    ]
+}

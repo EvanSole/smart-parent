@@ -8,5 +8,7 @@
         ">
    
     <dubbo:reference id="userService" interface="com.sin.smart.main.service.IUserService" />
+
+    <dubbo:reference id="roleService" interface="com.sin.smart.main.service.IRoleService" />
     
 </beans>

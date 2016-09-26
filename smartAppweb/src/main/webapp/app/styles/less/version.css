@@ -1,0 +1,169 @@
+
+.wrap {
+    margin: 0 auto;
+    overflow: hidden;
+    margin-left:-5px;
+}
+
+.timeline .detail em, .timeline h2 em {
+    background: url(../../images/sp1.png) no-repeat;
+}
+
+.footer {
+    width: 940px;
+    margin: -1px auto 0;
+    border-top: 1px dotted #bfbfbf;
+    text-align: center;
+    font-size: 12px;
+    padding: 20px 0;
+    color: #bbb;
+    position: relative;
+    z-index: 1;
+}
+
+    .footer div a {
+        border-right: 1px solid #d5d5d5;
+        color: #70abd2;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        padding: 0 9px;
+        line-height: 1.2;
+    }
+
+        .footer div a.last {
+            border: 0;
+        }
+
+
+
+    .current-version img {
+        float: left;
+        margin-right: 10px;
+    }
+
+.changelogs {
+    background: #fff;
+    overflow: hidden;
+    *zoom: 1;
+}
+
+    .changelogs h2 {
+        height: 43px;
+        line-height: 43px;
+        padding-left: 1em;
+        background: #ff6599;
+
+        color: #fff;
+        font-size: 20px;
+        position: relative;
+    }
+
+        .changelogs h2 span {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            font-size: 14px;
+        }
+
+    .changelogs ol {
+        border: 1px solid #ecebeb;
+        border-top: 0;
+        height: 219px;
+        padding: .5em 0 0 .5em;
+    }
+
+    .changelogs li {
+        padding: 2px 1px;
+        color: #7f7f7f;
+    }
+
+.timeline {
+    padding: 25px 0;
+}
+
+    .timeline h2 em, .timeline .detail em {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        position: absolute;
+    }
+
+    .timeline ol {
+        background: url('../../images/timeline.png') repeat-y 266px 0;
+        padding-top:10px;
+    }
+
+        .timeline ol li {
+            overflow: hidden;
+            *zoom: 1;
+            padding: 10px 0 10px 285px;
+            position: relative;
+            font-size: 14px;
+            color: #555454;
+            list-style-type:decimal;
+        }
+
+        .timeline ol ul li {
+            padding: 2px 0;
+        }
+
+    .timeline h2 {
+        position: absolute;
+        left: 0;
+        top: -12px;
+        text-align: right;
+        width: 180px;
+        font-size: 24px;
+        margin-right: 105px;
+        height: 62px;line-height: 62px;
+    }
+
+        .timeline h2 span {
+            display: block;
+            font-size: 16px;
+            color: #7f7f7f;
+        }
+
+        .timeline h2 em {
+            width: 70px;
+            height: 70px;
+            background-position: 0 0;
+
+            right: -83px;
+            top: 0;
+        }
+
+    .timeline .detail {
+        width: 660px;
+        position: relative;
+        background: #f2f2f2;
+        padding: 20px 40px 30px 40px;
+        color: #7f7f7f;
+    }
+
+        .timeline .detail em {
+            width: 22px;
+            height: 25px;
+            background-position: -77px 0;
+            left: -22px;
+            top: 0px;
+        }
+        .verion_bottom{position: absolute;bottom: 20px;left:0;text-align:center;}
+        .version_up_btn{font-size: 12px;display: block;height: 30px;line-height:30px;position: relative;background:#fff;border-radius: 3px;border:1px solid #e0e0e0;width:90px;padding-left:20px;margin:0 auto;text-align: center}
+        .version_up_btn em{background: url("../../images/ver_b_img.png") no-repeat;display: inline-block;width: 16px;height: 16px;position: absolute;left: 10px;top:7px;}
+
+
+        .detail ul{padding:0}
+    .detail .detail_Div{height: 30px;line-height: 30px;}
+    .detail .detail_Div .detail_span1{float: left;font-size: 18px;font-weight: bold;color:#000;}
+    .detail .detail_Div .detail_span2{float: right;font-size: 16px;color: #4a85e2}
+    .timeVersionLi{padding:0 0 0 135px;height: 100px;position: relative;margin-bottom:10px;}
+    p.detail_bt{height: 5px;border-top:1px solid #dddddd;border-bottom: 1px solid #dddddd;}
+    .timeVersionLi .ver_logo{background: url("../../images/ver-logo.png") no-repeat;width:223px;height: 96px;display: inline-block}
+    .timeVersionLi .ver_tit{font-size: 24px;color: #4a85e2;line-height: 30px;display: inline-block;position: absolute;left: 355px;bottom:20px;}
+
+
+
+
+

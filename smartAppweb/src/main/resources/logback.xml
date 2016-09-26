@@ -1,10 +1,11 @@
 <configuration debug="false" scan="true" scanPeriod="10 seconds">
-	<conversionRule conversionWord="ip" converterClass="com.mogujie.service.xiaodian.trade.base.utils.IpConvert" />
+	<conversionRule conversionWord="ip" converterClass="com.sin.smart.convert.IpConvert" />
+	<property name="CATALINA_APPLOG" value="../outSmartLog"/>
 	<property name="FILE_PATTERN" value="%d [%ip] [%t] %5p %c %F:%L - %m%n" />
-	<property name="LOG_FILE_NAME" value="trade-web-warehouse" />
-	<property name="STDOUT_LOG_FILE_NAME" value="warehouse_web_stdout" />
-	<property name="ERROR_LOG_FILE_NAME" value="warehouse_web_error" />
-	<property name="INFO_LOG_FILE_NAME" value="warehouse_web_info" />
+	<property name="LOG_FILE_NAME" value="smart" />
+	<property name="STDOUT_LOG_FILE_NAME" value="smart_webapp_stdout" />
+	<property name="ERROR_LOG_FILE_NAME" value="smart_webapp_error" />
+	<property name="INFO_LOG_FILE_NAME" value="smart_webapp_info" />
 
 	<appender name="FILE"
 			  class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -17,10 +18,6 @@
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 	</appender>
-
-	<logger name="com.mogujie.session.HttpSessionFilter" level="WARN">
-		<appender-ref ref="STDOUT"/>
-	</logger>
 
 	<appender name ="ASYNC_FILE" class= "ch.qos.logback.classic.AsyncAppender">
 		<discardingThreshold >80</discardingThreshold>
@@ -90,44 +87,20 @@
 		<appender-ref ref ="STDOUT"/>
 	</appender>
 
-	<logger name="com.mogujie.tesla" level="INFO" />
+	<logger name="com.sin.smart" level="INFO" />
 
-	<appender name="LURKERFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${CATALINA_APPLOG}/tesla_trace.log</File>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${CATALINA_APPLOG}/tesla_trace.%d{yyyy-MM-dd}.gz</FileNamePattern>
-			<maxHistory>7</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>%msg%n</pattern>
-		</encoder>
-	</appender>
-
-	<appender name ="ASYNCLURKERFILE" class= "ch.qos.logback.classic.AsyncAppender">
-		<discardingThreshold >80</discardingThreshold>
-		<queueSize>8192</queueSize>
-		<appender-ref ref ="LURKERFILE"/>
-	</appender>
-
-	<logger name="com.mogujie.trace.lurker.LurkerAgent" level="DEBUG" additivity="true">
-		<appender-ref ref="ASYNCLURKERFILE" />
-	</logger>
-
-
-	<logger name="com.mogujie.trade.warehouse" level="INFO" addtivity="false">
+	<logger name="com.sin.smart.app" level="INFO" addtivity="false">
 		<appender-ref ref="ERROR_FILE" />
 		<appender-ref ref="ASYNC_INFO_FILE" />
 	</logger>
 
+	<logger name="druid.sql" level="DEBUG" additivity="true">
+		<appender-ref ref="STDOUT" />
+	</logger>
 
-    <logger name="druid.sql" level="DEBUG" additivity="true">
-       <appender-ref ref="STDOUT" />
-    </logger>
-
-    <logger name="com.alibaba.druid" level="WARN" additivity="true">
-       <appender-ref ref="STDOUT" />
-    </logger>
-
+	<logger name="com.alibaba.druid" level="WARN" additivity="true">
+		<appender-ref ref="STDOUT" />
+	</logger>
 
 	<root level="INFO">
 		<appender-ref ref="ASYNC_STDOUT" />

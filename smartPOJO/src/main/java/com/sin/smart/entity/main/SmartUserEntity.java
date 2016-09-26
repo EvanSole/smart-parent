@@ -4,6 +4,7 @@ import com.sin.smart.entity.po.BasePO;
 
 public class SmartUserEntity extends BasePO {
 
+    private long id;
     private Long tenantId;
     private String userName;
     private String password;
@@ -14,6 +15,18 @@ public class SmartUserEntity extends BasePO {
     private Byte isAdmin;
     private Byte isActive;
     private Byte isDel;
+    private String createUser;
+    private Long createTime;
+    private String updateUser;
+    private Long updateTime;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Long getTenantId() {
         return tenantId;
@@ -38,7 +51,6 @@ public class SmartUserEntity extends BasePO {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public String getRealName() {
         return realName;
@@ -96,4 +108,35 @@ public class SmartUserEntity extends BasePO {
         this.isDel = isDel;
     }
 
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+    }
 }

@@ -16,7 +16,7 @@ bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs.js
 bower_components/angular-file-upload/angular-file-upload.min.js
 bower_components/underscore/underscore-min.js
 bower_components/requirejs-domReady/domReady.js
-bower_components/kendo/js/kendo.all.min.js
+bower_components/kendo/kendo.all.min.js
 bower_components/angular-ui-utils/ui-utils-ieshiv.min.js
 
 NETWORK:

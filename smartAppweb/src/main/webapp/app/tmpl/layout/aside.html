@@ -1,0 +1,32 @@
+<div ui-nav class="aside-wrap">
+  <div class="navi-wrap">
+    <div class="navi clearfix">
+      <!--ul.nav>li.padder.m-t.m.m-b-sm.text-muted.text-xs-->
+      <ul class="nav nav-parent">
+        <li ng-repeat="nav in navList" ng-class="{'active': $state.includes('{{nav.code}}')}">
+          <a ui-sref="{{ nav.code }}" class="auto">
+            <span class="pull-right text-muted">
+              <i class="fa fa-fw fa-angle-right text"></i>
+              <i class="fa fa-fw fa-angle-down text-active"></i>
+            </span>
+            <i class="fa fa-file-text-o"></i>
+            <span>{{ nav.name }}</span>
+          </a>
+          <ul class="nav nav-sub dk">
+
+            <li ui-sref-active="active" ng-repeat="item in nav.children">
+              <a ui-sref="{{ item.code }}">
+                <span>{{ item.name }}</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="verion_bottom" ng-show="app.settings.asideFolded == false">
+      <label ng-bind="versionNo"></label><br>
+      <a class="version_up_btn" href="#system/version"><em></em>更新历史</a>
+    </div>
+  </div>
+</div>

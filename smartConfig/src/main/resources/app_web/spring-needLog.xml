@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+       default-lazy-init="true">
+
+    <description>SpringAop配置</description>
+
+
+    <!--需要打印日志的类-->
+    <bean id="myRealmServiceLog" class="com.sin.smart.aspectj.handle.log.NeedLogConfig">
+        <property name="logClassName" value="com.sin.smart.app.authorization.shiro.MyRealm"/>
+        <property name="response" value="false"/>
+    </bean>
+
+    <!---日志处理类-->
+    <bean id="logHandler" class="com.sin.smart.aspectj.handle.log.LogHandler">
+        <property name="needLogConfigList">
+            <list>
+                <ref bean="myRealmServiceLog"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -4,14 +4,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 凭证匹配器 -->
-    <bean id="customCredentialsMatcher" class="com.mls.wms.uc.web.shiro.CustomCredentialsMatcher">
+    <bean id="customCredentialsMatcher" class="com.sin.smart.app.authorization.shiro.CustomCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"></property>
         <property name="hashIterations" value="12"></property>
         <property name="storedCredentialsHexEncoded" value="true"></property>
     </bean>
 
     <!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroDbRealm.java -->
-    <bean id="myRealm" class="com.mls.wms.uc.web.shiro.MyRealm">
+    <bean id="myRealm" class="com.sin.smart.app.authorization.shiro.MyRealm">
         <property name="credentialsMatcher" ref="customCredentialsMatcher"></property>
     </bean>
 
@@ -27,7 +27,7 @@
     </bean>
 
     <!-- 身份验证过滤器 -->
-    <bean id="cusAuthc" class="com.iscm.uc.authorization.CustomAuthenticationFilter"/>
+    <bean id="cusAuthc" class="com.sin.smart.app.authorization.shiro.CustomAuthenticationFilter"/>
 
     <!-- Shiro主过滤器本身功能十分强大,其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行 -->
     <!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->
@@ -47,6 +47,7 @@
                 /**/*.jpg = anon
                 /**/*.png = anon
                 /**/*.gif = anon
+                /system/version = anon
                 /app/bower_components/** = anon
                 /app/views/**/*.html =cusAuthc
                 /** = cusAuthc

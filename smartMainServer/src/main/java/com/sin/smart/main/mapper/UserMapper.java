@@ -7,13 +7,19 @@ import java.util.List;
 
 public interface UserMapper {
 
-    SmartUserEntity getUserById(@Param("userId") Long userId);
+    SmartUserEntity selectUserById(@Param("userId") Long userId);
 
-    SmartUserEntity getUser(@Param("userName") String userName,@Param("password") String password);
+    SmartUserEntity selectUser(@Param("userName") String userName,@Param("password") String password);
 
     SmartUserEntity findByUserName(@Param("userName") String userName);
 
-    List<SmartUserEntity> queryPageUser(@Param("smartUserEntity") SmartUserEntity smartUserEntity);
+    List<SmartUserEntity> queryUserPages(SmartUserEntity smartUserEntity);
 
-    Integer queryPageUserCount(@Param("smartUserEntity") SmartUserEntity smartUserEntity);
+    Integer queryUserPageCount(SmartUserEntity smartUserEntity);
+
+    Integer insertUser(SmartUserEntity smartUserEntity);
+
+    Integer updateUser(SmartUserEntity  smartUserEntity);
+
+    Integer deleteUser(@Param("userId") Long id);
 }

@@ -1,0 +1,267 @@
+<div class="content-wrap" ng-controller="qcOrderListController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="qcOrderGrid">
+            <div class="panel-group">
+                <label>质检单类型</label>
+                <div class="panel-select">
+                    <l-select src="QcOrderTypeEnum" id="query.type" name="query.type"></l-select>
+                </div>
+            </div>
+            <div class="panel-group ">
+                <label>物流单号</label>
+                <input type="text" id="expressId" name="expressId" ng-model="query.expressId"/>
+            </div>
+            <div class="panel-group ">
+                <label>质检单号</label>
+                <input type="text" id="qcOrderId" name="qcOrderId" ng-model="query.qcOrderId"/>
+            </div>
+            <div class="panel-group">
+                <label>单据状态</label>
+                <div class="panel-select">
+                    <l-select src="QcOrderProcessStatusEnum" id="query.processStatus" name="query.processStatus"></l-select>
+                </div>
+            </div>
+            <div class="panel-group ">
+                <label>店铺名称</label>
+                <input type="text" id="shopName" name="shopName" ng-model="query.shopName"/>
+            </div>
+            <div class="panel-group ">
+                <label>交易单号</label>
+                <input type="text" id="shopOrderId" name="shopOrderId" ng-model="query.shopOrderId"/>
+            </div>
+            <div class="panel-group ">
+                <label>商品id</label>
+                <input type="text" id="goodsId" name="goodsId" ng-model="query.goodsId"/>
+            </div>
+            <div class="panel-group ">
+                <label>商品名称</label>
+                <input type="text" id="goodsName" name="goodsName" ng-model="query.goodsName"/>
+            </div>
+            <div class="panel-group">
+                <label>质检状态</label>
+                <div class="panel-select">
+                    <l-select src="QcOrderQualityResultEnum" id="query.qcResult" name="query.qcResult" ></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>起始日期:</label>
+                <wms-Date-Time-Picker id="beginTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group">
+                <label>截止日期:</label>
+                <wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>寄回快递单号</label>
+                <input type="text" id="refundExpressId" name="refundExpressId" ng-model="query.refundExpressId"/>
+            </div>
+            <div class="panel-group ">
+                <label>下单账号</label>
+                <input type="text" id="buyerUserName" name="buyerUserName" ng-model="query.buyerUserName"/>
+            </div>
+            <div class="panel-group">
+                <label>平台状态</label>
+                <div class="panel-select">
+                    <l-select src="QcOrderPlatformStatusEnum" name="query.platformStatus" id="query.platformStatus"></l-select>
+                </div>
+            </div>
+        </panel_heading_search>
+
+        <div class="panel-body">
+            <div kendo-grid="qcOrderGrid" options="qcOrderGridOptions" >
+                <div k-detail-template>
+                    <kendo-tabstrip>
+                        <ul>
+                            <li class="k-state-active">操作日志</li>
+                            <li>退货地址</li>
+                        </ul>
+                        <!-- 操作日志信息 -->
+                        <div>
+                            <div kendo-grid k-options="logOptions(dataItem.id,'QC')"></div>
+                        </div>
+                        <!-- 退货地址 -->
+                        <div>
+                             <div kendo-grid k-options="refundAddressOptions(dataItem.id)"></div>
+                         </div>
+                    </kendo-tabstrip>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script id="qcOrderEditor" type="text/x-kendo-template">
+        <div class="edit-form-container">
+            <div class="pure-body window-form ">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>质检单类型</label>
+                     <div class="panel-select" >
+                        <l-select src="QcOrderTypeEnum" name="type"></l-select>
+                    </div>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>商家编号</label>
+                    <input id="sellerUserId" name="sellerUserId" type="text" required onlyNumber/>
+                </div>
+                <div class="pure-control-group p-b-5 " >
+                    <label>商家名称</label>
+                    <input id="sellerUserName" name="sellerUserName" type="text" required/>
+                </div>
+                <div class="pure-control-group p-b-5 " >
+                    <label>渠道名称</label>
+                    <input id="channel" name="channel" type="text" required/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>验货描述</label>
+                    <input id="inspectionRemark" name="inspectionRemark" type="text" required/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>质检商品Id</label>
+                    <input id="goodsId" name="goodsId" type="text" required onlyNumber/>
+                </div>
+                <div class="pure-control-group p-b-5 " >
+                    <label>质检申请人</label>
+                    <input id="applicant" name="applicant" type="text" required/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>商品编码</label>
+                    <input id="goodsCode" name="goodsCode" type="text" required/>
+                </div>
+                <div class="pure-control-group p-b-5 " >
+                    <label>商品名称</label>
+                    <input id="goodsName" name="goodsName" type="text" required/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>商品类目名称</label>
+                    <input id="goodsCategoryName" name="goodsCategoryName" type="text" required/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>店铺id</label>
+                    <div class="panel-select">
+                        <input id="shopId" name="shopId" type="text" required/>
+                    </div>
+                </div>
+
+                <div class="pure-control-group p-b-5 " >
+                    <label>商品图片</label>
+                    <input id="goodsImage" name="goodsImage" type="text" required/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5" >
+                    <label>商品价格</label>
+                    <input id="goodsPrice" name="goodsPrice" type="text" required onlyNumber/>
+                </div>
+                <div class="pure-control-group p-b-5 " >
+                    <label>商品链接</label>
+                    <input id="goodsLink" name="goodsLink" type="text" required/>
+                </div>
+            </div>
+        </div>
+    </script>
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="confirmQcOrderPopup" k-title="'质检单确认'"
+         k-resizable="false" k-modal="false" k-visible="false">
+        <div class="k-edit-form-container">
+            <div class="window-form clearfix">
+                <div class="pure-control-group p-b-5">
+                    <label>质检单类型</label>
+                    <div class="panel-select">
+                        <l-select src="QcOrderTypeEnum" id="type" name="qcOrderModel.type" ng-model="qcOrderModel.type"></l-select>
+                    </div>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>质检单号</label>
+                    <span></span>
+                    <input type="text" name="qcOrderId" id="qcOrderId" ng-model="qcOrderModel.qcOrderId" disabled/>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>下单账号</label>
+                    <input type="text" name="buyerUserName" id="buyerUserName" ng-model="qcOrderModel.buyerUserName" required onlyNumber/>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>交易单号</label>
+                    <input type="text" name="shopOrderId" id="shopOrderId" ng-model="qcOrderModel.shopOrderId" required onlyNumber/>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>物流公司</label>
+                    <input type="text" name="expressCode" id="expressCode" ng-model="qcOrderModel.expressCode" required/>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>物流单号</label>
+                    <input type="text" name="expressId" id="expressId" ng-model="qcOrderModel.expressId" required/>
+                </div>
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-primary k-grid-update" href="#" ng-click="qcOrderConfirm($event)"><span class="k-icon k-update"></span>保存</a>
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="qcOrderPopupClose()"><span class="k-icon k-cancel"></span>取消</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 质检报告推送信息 -->
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="qcReportPushPopup" k-title="'质检报告'"
+         k-resizable="false" k-modal="false" k-visible="false" k-width="620">
+        <div class="k-edit-form-container">
+            <div style="width: 620px" class="window-form clearfix pure-g">
+                <div>
+                    <div class="pure-control-group p-b-5 pure-5">
+                        <label>是否已推送短信:</label>
+                        <input type="text" name="qcReportPushModel.isPushSMS" id="qcReportPushModel.isPushSMS" ng-model="qcReportPushModel.isPushSMS" disabled/>
+                    </div>
+                    <div class="pure-control-group p-b-5 pure-5">
+                        <label>推送时间:</label>
+                        <input type="text" name="qcReportPushModel.pushSMSDate" id="qcReportPushModel.pushSMSDate" ng-model="qcReportPushModel.pushSMSDate" disabled/>
+                    </div>
+                </div>
+
+                <div class="pure-control-group p-b-5">
+                    <label>短信内容:</label>
+                    <!--<input type="text" name="qcReportPushModel.contentSMS" id="qcReportPushModel.contentSMS" ng-model="qcReportPushModel.contentSMS" disabled/>-->
+                    <textarea style="width:425px;height:60px;" disabled name="qcReportPushModel.contentSMS" id="qcReportPushModel.contentSMS" ng-model="qcReportPushModel.contentSMS"></textarea>
+                </div>
+                <div>
+                    <div class="pure-control-group p-b-5 pure-5">
+                        <label>是否已推送多多:</label>
+                        <input type="text" name="qcReportPushModel.isPushDD" id="qcReportPushModel.isPushDD" ng-model="qcReportPushModel.isPushDD" disabled/>
+                    </div>
+                    <div class="pure-control-group p-b-5 pure-5">
+                        <label>推送时间:</label>
+                        <input type="text" name="qcReportPushModel.pushDDDate" id="qcReportPushModel.pushDDDate" ng-model="qcReportPushModel.pushDDDate" disabled/>
+                    </div>
+                </div>
+
+                <div class="pure-control-group p-b-5">
+                    <label>多多内容:</label>
+                    <textarea style="width:425px;height:60px;" disabled name="qcReportPushModel.contentDD" id="qcReportPushModel.contentDD" ng-model="qcReportPushModel.contentDD" disabled ></textarea>
+                </div>
+
+                <div class="pure-g">
+                    <div class="pure-control-group p-b-5 pure-5">
+                        <label>是否已推送处罚:</label>
+                        <input type="text" name="qcReportPushModel.isPushPunish" id="qcReportPushModel.isPushPunish" ng-model="qcReportPushModel.isPushPunish" disabled/>
+                    </div>
+                    <div class="pure-control-group p-b-5 pure-5">
+                        <label>推送时间:</label>
+                        <input type="text" ng-bind="qcReportPushModel.pushPunishDate|dateFilter|date:'yyyy/MM/dd'|dataIgnore" name="qcReportPushModel.pushPunishDate" id="qcReportPushModel.pushPunishDate" ng-model="qcReportPushModel.pushPunishDate" disabled/>
+                    </div>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>质检报告单内容:</label>
+                </div>
+                <div class="pure-control-group p-b-5" style="text-align: center;">
+                    <img style="width:500px;height:600px;" src="{{qcReportPushModel.pngUrl}}" />
+                </div>
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-primary k-grid-update" href="#"
+                   ng-click="logisticsConfirm($event)"><span class="k-icon k-update"></span>确定</a>
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeQcReport()"><span
+                        class="k-icon k-cancel"></span>关闭</a>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

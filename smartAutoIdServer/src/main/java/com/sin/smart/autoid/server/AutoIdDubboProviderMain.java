@@ -14,9 +14,9 @@ public class AutoIdDubboProviderMain {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:autoId/spring-core.xml");
 		context.start();
 		System.out.println(context.getBean("autoIdClient"));
-		System.out.println("AutoIdServer start, smartConfig profile active :" + System.getProperty("spring.profiles.active"));
+		System.out.println("AutoIdServer start success. spring profile active ------ " + System.getProperty("spring.profiles.active"));
 		_logger.info(""+context.getBean("autoIdClient"));
-		_logger.info("AutoIdServer start, smartConfig profile active {}",System.getProperty("spring.profiles.active"));
+		_logger.info("AutoIdServer start success. spring profile active ------ {}",System.getProperty("spring.profiles.active"));
 		new CountDownLatch(1).await();
 	}
 }

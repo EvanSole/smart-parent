@@ -1,0 +1,61 @@
+<div class="content-wrap" ng-controller="qcShipmentReportController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="shipmentReportGrid">
+            <div class="panel-group">
+                <label>开始时间:</label>
+                <wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00" date required/>
+            </div>
+            <div class="panel-group">
+                <label>结束时间:</label>
+                <wms-Date-Time-Picker id="endTime"  is-query="true" format="yyyy/MM/dd 00:00:00" required/>
+            </div>
+            <div class="panel-group">
+                <label><input id="today" ng-click="setTime('today');" name="timeSlot" type="radio" value="0" checked="checked"/>今天 </label>
+                <label><input id="week" ng-click="setTime('week');" name="timeSlot" type="radio" value="1"/>最近一周 </label>
+                <label><input id="month" ng-click="setTime('month');" name="timeSlot" type="radio" value="2"/>最近一月 </label>
+            </div>
+            <div class="panel-group ">
+                <label>物流单号</label>
+                <input type="text" ng-model="query.expressId"/>
+            </div>
+            <div class="panel-group ">
+                <label>退货单号</label>
+                <input type="text" ng-model="query.refundId"/>
+            </div>
+            <div class="panel-group ">
+                <label>质检单号</label>
+                <input type="text" ng-model="query.qcOrderId"/>
+            </div>
+            <div class="panel-group ">
+                <label>交易单号</label>
+                <input type="text" ng-model="query.shopOrderId"/>
+            </div>
+            <div class="panel-group ">
+                <label>买家Id</label>
+                <input type="text" ng-model="query.buyerUserId"/>
+            </div>
+            <div class="panel-group ">
+                <label>物流公司</label>
+                <input type="text" ng-model="query.expressCode"/>
+            </div>
+            <div class="panel-group ">
+                <label>收货人</label>
+                <input type="text" ng-model="query.receiveName"/>
+            </div>
+            <div class="panel-group ">
+                <label>收货人电话</label>
+                <input type="text" ng-model="query.receivePhone"/>
+            </div>
+        </panel_heading_search>
+
+        <div class="panel-body">
+            <div kendo-grid="shipmentReportGrid" options="shipmentReportGridOptions"/>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+

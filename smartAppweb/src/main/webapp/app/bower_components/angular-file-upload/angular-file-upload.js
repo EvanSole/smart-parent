@@ -1088,7 +1088,7 @@ module
              * @returns {Boolean}
              */
             FileSelect.prototype.isEmptyAfterSelection = function() {
-                return !!this.element.attr('multiple');
+//                return !!this.element.attr('multiple');
             };
             /**
              * Event handler
