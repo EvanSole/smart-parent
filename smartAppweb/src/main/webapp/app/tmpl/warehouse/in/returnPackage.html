@@ -1,0 +1,121 @@
+<div class="content-wrap" ng-controller="warehouseInReturnPackageController">
+    <div class="panel panel-default">
+        <!--查询条件-->
+        <panel_heading_search bind-ui="warehouseGrid">
+            <div class="panel-group ">
+                <label>物流单号:</label>
+                <input type="text" ng-model="query.carrierReferNo"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>联系人:</label>
+                <input type="text" ng-model="query.contacts"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>联系人手机:</label>
+                <input type="text" ng-model="query.contactsTel"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>退货区:</label>
+                <input type="text" ng-model="query.returnZone"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>承运商:</label>
+                <input type="text" ng-model="query.carrierNo"/>
+            </div>
+        </panel_heading_search>
+    </div>
+
+    <div class="panel-body">
+        <!--主表-->
+        <div kendo-grid="warehouseGrid" options="mainGridOptions">
+
+                </kendo-tabstrip>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script id="returnPackageEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body p-t-10">
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>单据状态 </label>
+                <span class="inputDisbled" wms-label="TicketStatus.Initial" bind-name="statusCode"></span>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>承运商 </label>
+                <input type="text" name="carrierNo" id="carrierNo" ng-model="carrierNo" required/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>物流单号 </label>
+                <input type="text" name="carrierReferNo" id="carrierReferNo"
+                       ng-model="carrierReferNo" required/>
+            </div>
+
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>省区</label>
+                <input type="text" id="province" name="province" ng-model="province"
+                       keepDefaultStyle="true"
+                       codeName="province" required/>
+            </div>
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>城市</label>
+                <input id="city" ng-model="order.cityName" name="city" type="text" required/>
+            </div>
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>区/县</label>
+                <input id="area" name="area" ng-model="area" type="text"
+                       required/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>街道</label>
+                <input id="area" name="street" ng-model="street" type="text"/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>退货区</label>
+                <input id="address" name="returnZone" ng-model="returnZone" type="text"/>
+            </div>
+
+            <div class="pure-control-group p-b-5 ">
+                <label>详细地址</label>
+                <input id="address" name="address" ng-model="address" type="text" style="width:424px;"
+                       required/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>联系人</label>
+                <input id="contacts" name="contacts" ng-model="contacts" type="text"
+                       required/>
+            </div>
+
+            <div class="pure-control-group p-b-5">
+                <label>联系人手机</label>
+                <input id="contactsTel" name="contactsTel" ng-model="contactsTel" type="text" mobilephone
+                       required/>
+            </div>
+
+
+
+            <div class="pure-control-group p-b-5 pure-10">
+                <label>备注</label>
+                <textarea class="tear-text" id="memo" name="memo"></textarea>
+                <!--<input id="address" name="memo" ng-model="memo" type="text" required/>-->
+            </div>
+
+        </div>
+
+    </div>
+</script>
+
+

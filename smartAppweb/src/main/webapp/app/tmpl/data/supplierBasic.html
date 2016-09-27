@@ -1,0 +1,62 @@
+<div>
+    <div kendo-div>
+        <table>
+            <tr>
+                <td width="80px;">供应商编号</td>
+                <td width="80px;"><span ng-bind="dataItem.supplierNo"/></td>
+                <td width="80px;">供应商类型</td>
+                <td width="80px;"><span ng-bind="dataItem.typeCode|codeFormat:'SupplierType'"/></td>
+                <td width="80px;">公司简称</td>
+                <td width="80px;"><span ng-bind="dataItem.shortName"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">公司全称</td>
+                <td width="80px;"><span ng-bind="dataItem.longName"/></td>
+                <td width="80px;">付款方式</td>
+                <td width="80px;"><span ng-bind="dataItem.paymentTerm"/></td>
+                <td width="80px;">开户人</td>
+                <td width="80px;"><span ng-bind="dataItem.accountName"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">银行账号</td>
+                <td width="80px;"><span ng-bind="dataItem.accountNo"/></td>
+                <td width="80px;">开户银行</td>
+                <td width="80px;"><span ng-bind="dataItem.accountBank"/></td>
+                <td width="80px;">国家</td>
+                <td width="80px;"><span ng-bind="dataItem.country"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">省区</td>
+                <td width="80px;"><span ng-bind="dataItem.state"/></td>
+                <td width="80px;">城市</td>
+                <td width="80px;"><span ng-bind="dataItem.city"/></td>
+                <td width="80px;">地区</td>
+                <td width="80px;"><span ng-bind="dataItem.district"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">邮政编码</td>
+                <td width="80px;"><span ng-bind="dataItem.zip"/></td>
+                <td width="80px;">联系人</td>
+                <td width="80px;"><span ng-bind="dataItem.contact"/></td>
+                <td width="80px;">联系电话</td>
+                <td width="80px;"><span ng-bind="dataItem.telephone"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">传真</td>
+                <td width="80px;"><span ng-bind="dataItem.fax"/></td>
+                <td width="80px;">电子邮箱</td>
+                <td width="80px;"><span ng-bind="dataItem.email"/></td>
+                <td width="80px;">需要质检</td>
+                <td width="80px;"><span ng-bind="dataItem.isNeedQc|yesOrNoFormat"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">地址</td>
+                <td width="80px;" colspan="5"><span ng-bind="dataItem.address"/></td>
+            </tr>
+            <tr>
+                <td width="80px;">备注</td>
+                <td width="80px;" colspan="5"><span ng-bind="dataItem.description"/></td>
+            </tr>
+        </table>
+    </div>
+</div>

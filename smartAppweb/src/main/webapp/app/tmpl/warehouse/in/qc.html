@@ -1,0 +1,277 @@
+<div  ng-controller="warehouseInQcController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="qcHeaderGrid">
+            <div class="panel-group ">
+                <label>质检单号:</label>
+                <input type="text" ng-model="query.id" />
+            </div>
+            <div class="panel-group ">
+                <label>ERP单号:</label>
+                <input type="text" ng-model="query.fromErpNo" />
+            </div>
+            <div class="panel-group ">
+                <label>通知单号:</label>
+                <input type="text" ng-model="query.asnId" />
+            </div>
+
+            <div class="panel-group">
+                <label>创建日期起</label>
+                <wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00" date/>
+            </div>
+            <div class="panel-group">
+                <label>止</label>
+                <wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>质检进度:</label>
+                <div class="panel-select">
+                    <l-select src="OrderOperationStatus" name="query.statusCode" id="query.statusCode"/>
+                </div>
+            </div>
+            <div class="panel-group ">
+                <label>供应商:</label>
+                <div class="panel-select">
+                    <r-select src="supplier" name="query.vendorId" id="query.vendorId"/>
+                </div>
+            </div>
+        </panel_heading_search>
+        <div kendo-grid="qcHeaderGrid" options="mainGridOptions" >
+
+            <div k-detail-template>
+                <kendo-tabstrip>
+                    <ul>
+                        <li class="k-state-active">明细信息</li>
+                        <li>检查记录</li>
+                        <li>操作日志</li>
+                    </ul>
+
+                    <!-- 明细信息 -->
+                    <div>
+                        <div kendo-grid="qcDetailGrid" k-options="qcDetailOptions(dataItem)"></div>
+                    </div>
+                    <!-- 检查记录 -->
+                    <div>
+                        <div kendo-grid="qcCheckGrid" k-options="qcCheckOptions(dataItem)"></div>
+                    </div>
+                    <!-- 操作日志 -->
+                    <div>
+                        <div kendo-grid k-options="logOptions(dataItem.id,'Qc')"></div>
+                    </div>
+                </kendo-tabstrip>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 质检页面 modified by zw 2015-11-04用新的质检页面 -->
+    <!--<div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="checkPopup" k-title="'质检'" k-modal="true"  k-visible="false" k-resizable="false">
+        <div class="k-edit-form-container">
+            <div class="edit-form-container">
+                <div style="width: 310px;" class="pure-body p-t-10">
+                    <div class="pure-control-group p-b-5">
+                        <label>商品条码:</label>
+                        <input type="text" id="barcode" name="barcode" required ng-model="checkModel.barcode"/>
+                    </div>
+                    <div class="pure-control-group p-b-5">
+                        <label>商品状态:</label>
+                        <div class="select-wrapper">
+                            <div class="select-border"></div>
+                            <l-select id="isQualified" name="isQualified" required src="GoodsStatus" ng-model="checkModel.isQualified" ng-change="change()"></l-select>
+                        </div>
+                    </div>
+                    <div class="pure-control-group p-b-5">
+                        <label>不合格原因:</label>
+                        <div class="select-wrapper">
+                            <div class="select-border"></div>
+                            <l-select id="unQualifiedReason" name="unQualifiedReason" disabled="true" src="UnqualifiedReason" class="inputDisbled" ng-model="checkModel.unQualifiedReason"/>
+                        </div>
+                    </div>
+                    <div class="pure-control-group p-b-5">
+                        <label>数量:</label>
+                        <input id="qcQty" name="qcQty" required type="number" onlyPositiveNumberWide ng-model="checkModel.qcQty"/>
+                    </div>
+                    <div class="pure-control-group p-b-5">
+                        <label class="panel-label-left">备注</label>
+                        <textarea role="20" cols="20" id="description" name="description" ng-model="checkModel.description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-primary k-grid-update"  href="#" ng-click="checkConfirm($event)"><span class="k-icon k-update"></span>确定</a>
+                <a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="checkClose()"><span class="k-icon k-cancel"></span>关闭</a>
+            </div>
+        </div>
+    </div>-->
+
+
+    <!-- 新质检页面弹出窗口 -->
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="checkPopup" k-title="'质检'" k-modal="true"  k-visible="false" k-resizable="false">
+        <div class="k-edit-form-container qcFormBox">
+            <div class="qua-te clearfix">
+                <div class="qt-1">
+                    <div class="goods-pic">
+                        <img src="{{checkModel.imageUrl}}" style="width:350px;"><!-- 主图 -->
+                        <img ng-repeat="url in checkModel.imageUrlDetail track by $index" src="{{url}}" style="width:350px;">
+                    </div>
+                </div>
+                <div class="qt-2">
+
+                    <div class="pure-control-group p-b-5 ">
+                        <label>容器号</label>
+                        <input id="location" type="text" name="location" ng-model="checkModel.goodLocationNo"/>
+                    </div>
+                    <!--modified by zw 改为根据详细信息带出商品信息 2015-11-06<div class="pure-control-group p-b-5 ">
+                        <label>商品条码</label>
+                        <input id="barcode" type="text" name="barcode" ng-model="checkModel.barcode"/>
+                        <input id="btn" type="button" ng-click="prepareCheckData()" value="点我"/>
+                    </div>-->
+                    <div class="pure-control-group p-b-5 ">
+                        <label>生产日期</label>
+                        <wms-Date-Time-Picker id="productionTime" name="productionTime" format="yyyy/MM/dd" date/>
+                    </div>
+                    <div class="pure-control-group p-b-5 ">
+                        <label>商品条码</label>
+                        <input id="barcode" name="barcode" ng-model="checkModel.barcode"  readonly="readonly" class="inputDisbled"/>
+                    </div>
+                    <div class="pure-control-group p-b-5 ">
+                        <label>商品名称</label>
+                        <input id="itemName" name="itemName" ng-model="checkModel.itemName"  readonly="readonly" class="inputDisbled"/>
+                    </div>
+                    <div class="pure-control-group p-b-5 ">
+                        <label>颜色</label>
+                        <input id="colorCode" name="colorCode" ng-model="checkModel.colorCode" readonly="readonly" class="inputDisbled" />
+                    </div>
+                    <div class="pure-control-group p-b-5 ">
+                        <label>尺码</label>
+                        <input id="sizeCode" name="sizeCode" ng-model="checkModel.sizeCode" readonly="readonly" class="inputDisbled" />
+                    </div>
+                    <div class="pure-control-group p-b-5 ">
+                        <label>商品类别</label>
+                        <input id="categoryid" name="categoryid" ng-model="checkModel.categoryid" readonly="readonly" class="inputDisbled" />
+                    </div>
+                    <div class="pure-control-group p-b-5 " style="color:red">
+                        <label>重要尺寸</label>
+                        <input id="importantSize" name="importantSize" ng-model="checkModel.importantSize" readonly="readonly" class="inputDisbled"  />
+                    </div>
+
+                    <div class="pure-control-group p-b-5 ">
+                        <label>应质检数量</label>
+                        <input id="qcQty" name="qcQty" ng-model="checkModel.qcQty" readonly="readonly" class="inputDisbled" />
+                    </div>
+
+                    <div class="pure-control-group p-b-5 ">
+                        <label>已质检数量</label>
+                        <input id="checkedQty" name="checkedQty" ng-model="checkModel.checkedQty" readonly="readonly" class="inputDisbled" />
+                    </div>
+                    <br/><br/>
+                    <div class="pure-control-group p-b-5 " style="text-align: center;position: absolute;bottom:10px;width: 100%;">
+                        <a class="k-button k-grid-print" ng-click="checkConfirmAndPrint()"href="#" >确定并打印</a>&nbsp;&nbsp;
+                        <a class="k-button k-button-icontext k-primary k-grid-update"  href="#" ng-click="checkConfirm($event)"><span class="k-icon k-update"></span>确定</a>
+                        <a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="checkClose()"><span class="k-icon k-cancel"></span>关闭</a>
+                    </div>
+
+                </div>
+                <div class="qt-3">
+                    <form id="qcItems">
+                        <div ng-repeat="item in checkModel.items" class="pure-control-group" id="itemDiv{{item.myIndex+1}}" style="padding-bottom:0px">
+                            <div class="qt3-list">
+                                <div class="clearfix qt3-title">
+                                    <h2><input  type="checkbox" id="parent_{{item.myIndex+1}}" ng-click="allOk($event)"/> &nbsp;{{item.name}}</h2>
+
+                                </div>
+                                <p ng-repeat="qcItem in item.subList">
+                                    <!-- 注意，下方高能，这三个input，不要换位置 added by zw -->
+                                    <input id="itemId_{{item.myIndex+1}}_{{$index+1}}" name="itemId_{{item.myIndex+1}}_{{$index+1}}" type="hidden" value="{{qcItem.id}}" />
+                                    <input id="itemName_{{item.myIndex+1}}_{{$index+1}}" name="itemName_{{item.myIndex+1}}_{{$index+1}}" type="hidden" value="{{qcItem.name}}" readonly="readonly" class="inputDisbled" />
+                                    <input id="itemResultN_{{item.myIndex+1}}_{{$index+1}}" name="itemResult_{{item.myIndex+1}}_{{$index+1}}" type="checkbox" value="0" parentId="parent_{{item.myIndex+1}}" ng-click="oneNotOk($event)"/>
+                                    <!-- 注意，上方高能，这三个input，不要换位置 added by zw -->
+                                    &nbsp;{{qcItem.name}}
+                                </p>
+                            </div>
+                        </div>
+                        <input id="itemId_doNotDeleteMe" name="itemId_doNotDeleteMe" type="hidden" /><!-- 别删，为了js取数据用的 -->
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!--<div class="k-edit-buttons k-state-default">-->
+                <!--<a class="k-button k-grid-print" ng-click="checkConfirmAndPrint()"href="#" >打印条码</a>&nbsp;&nbsp;-->
+                <!--<a class="k-button k-button-icontext k-primary k-grid-update"  href="#" ng-click="checkConfirm($event)"><span class="k-icon k-update"></span>确定</a>-->
+                <!--<a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="checkClose()"><span class="k-icon k-cancel"></span>关闭</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+
+
+
+    <!-- 残品货位输入框 -->
+    <div kendo-window="badLocationPopup" k-width="300"  k-title="'请扫描残品容器'" k-modal="true" k-resizable="false" k-visible="false">
+        <div class="k-edit-form-container">
+            <div class="pure-body p-t-10 warehouse_inqc">
+                <div class="pure-control-group p-b-5 ">
+                    <label>残品容器号</label>
+                    <input id="badLocationNo" name="badLocationNo" ng-model="checkModel.badLocationNo" />
+                </div>
+            </div>
+
+            <div class="k-edit-buttons k-state-default k-wareIn-btn">
+                <a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="badConfirm()"><span class="k-icon k-cancel"></span>确定</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 质检项弹出框 -->
+    <div kendo-window="checkDetailPopup" k-width="300"  k-title="'查看质检项'" k-modal="true" k-resizable="false" k-visible="false">
+        <div class="k-edit-form-container">
+            <div class="pure-body p-t-10 warehouse_inqc">
+                    <div ng-repeat="item in qcItems" class="pure-control-group">
+                        <!--modified by zw 2015-11-17 15:15:27 仓库要求，只显示不合格的，特此修改，不做变更。
+                        <label ng-bind="item.qcItemName"></label>
+                        <label ng-if="item.qcResult == 1">合格</label>
+                        <label ng-if="item.qcResult == 0" style="color:red">不合格</label>
+                        -->
+                        <label ng-if="item.qcResult == 0" ng-bind="item.qcItemName"></label>
+                        <label ng-if="item.qcResult == 0" style="color:red">不合格</label>
+                    </div>
+            </div>
+
+            <div class="k-edit-buttons k-state-default k-wareIn-btn">
+                <a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="checkQcCheckDetail()"><span class="k-icon k-cancel"></span>关闭</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 提权弹出框 -->
+    <div kendo-window="overReceiptPopup" k-width="300"  k-title="'超收授权'" k-modal="true" k-resizable="false" k-visible="false">
+        <div class="k-edit-form-container">
+            <div class="pure-body p-t-10 warehouse_inqc">
+                <div class="pure-control-group p-b-5 ">
+                    <label>超收授权密码</label>
+                    <input id="overReceiptValue" name="overReceiptValue" type="password" ng-model="overReceipt.sysValue"/>
+                </div>
+            </div>
+
+            <div class="k-edit-buttons k-state-default k-wareIn-btn">
+                <a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="validateOverReceipt()"><span class="k-icon k-cancel"></span>确定</a>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+

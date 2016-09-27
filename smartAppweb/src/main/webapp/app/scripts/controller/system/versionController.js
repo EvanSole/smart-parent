@@ -4,8 +4,8 @@
 define(['scripts/controller/controller',''], function(controller) {
     "use strict";
     controller.controller('versionController',
-        ['$scope', '$rootScope',
-            function($scope, $rootScope) {
+        ['$scope', '$rootScope', 'sync', 'url',
+            function($scope, $rootScope, $sync, $url ) {
 
                     var versionDes = $rootScope.versionDes;
 

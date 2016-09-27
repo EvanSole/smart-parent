@@ -1,0 +1,9 @@
+<div class="content-wrap" ng-controller="popupUserController">
+    <div class="k-edit-buttons k-state-default">
+        <a class="k-button k-button-icontext k-primary k-grid-update" href="#" ng-click="selectUser()">
+            <span class="k-icon k-update"></span>更新</a>
+        <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeUserWindow()">
+            <span class="k-icon k-cancel"></span>取消</a>
+    </div>
+    <div kendo-grid="userPopupGrid" options="mainGridOptions"></div>
+</div>

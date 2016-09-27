@@ -1,0 +1,29 @@
+<div class="content-wrap" ng-controller="systemTenantController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="tenantHeaderGrid">
+            <div class="panel-group">
+                <label>租户编号</label><input type="text" ng-model="query.tenantNo" /></div>
+            <div class="panel-group">
+                <label>租户名称</label><input type="text" ng-model="query.description" /></div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="tenantHeaderGrid" options="mainGridOptions"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增/编辑模版 -->
+<script id="tenant-kendo-template" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="window-form pure-body">
+            <div class="pure-control-group p-b-5">
+                <label>租户编号</label>
+                <input id="tenantNo" name="tenantNo" type="text" required/>
+            </div>
+            <div class="pure-control-group p-b-5">
+                <label>租户名称</label>
+                <input id="description" name="description" type="text" required/>
+            </div>
+        </div>
+    </div>
+</script>

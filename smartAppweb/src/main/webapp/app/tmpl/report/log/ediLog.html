@@ -1,0 +1,79 @@
+<div class="content-wrap" ng-controller="reportEdiLogController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="ediLogGrid">
+            <div class="panel-group">
+                <label>开始时间:</label>
+                <wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group">
+                <label>结束时间:</label>
+                <wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>接口名称:</label>
+
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <l-select src="InterfaceName" name="query.interfaceName" id="query.interfaceName"></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>订单ID:</label>
+                <input type="text" ng-model="query.orderId" class="js_wms_number" />
+            </div>
+            <div class="panel-group">
+                <label>业务主键:</label>
+                <input type="text" ng-model="query.bizKey"/>
+            </div>
+            <div class="panel-group">
+                <label>输入数据:</label>
+                <input type="text" ng-model="query.inMessage"/>
+            </div>
+            <div class="panel-group">
+                <label>处理结果:</label>
+                <input type="text" ng-model="query.dealMessage"/>
+            </div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="ediLogGrid" options="mainGridOptions"></div>
+        </div>
+    </div>
+
+    <!-- 显示明细数据 -->
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="showDetailPopup" k-title="'接口日志明细'"
+         k-resizable="false" k-modal="false" k-visible="false" style="width: 595px;">
+        <div class="k-edit-form-container">
+            <div class="pure-body window-form">
+                <div class="clearfix">
+                    <div class="pure-control-group">
+                        <label>输入数据:</label>
+                        <textarea class="tear-text" ng-model="ediLogDetailModel.inMessage" cols="52"
+                                  rows="3"></textarea>
+                    </div>
+                    <div class="pure-control-group">
+                        <label>处理结果:</label>
+                        <textarea class="tear-text" ng-model="ediLogDetailModel.dealMessage" cols="52"
+                                  rows="3"></textarea>
+                    </div>
+                    <div class="pure-control-group">
+                        <label>消息ID:</label>
+                        <textarea class="tear-text" ng-model="ediLogDetailModel.messageId" cols="52"
+                                  rows="3"></textarea>
+                    </div>
+                    <div class="pure-control-group">
+                        <label>消息属性:</label>
+                        <textarea class="tear-text" ng-model="ediLogDetailModel.messageProperty" cols="52"
+                                  rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="ediLogDetailClose()"><span
+                        class="k-icon k-cancel"></span>关闭</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

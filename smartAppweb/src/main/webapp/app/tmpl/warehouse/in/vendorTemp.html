@@ -1,0 +1,29 @@
+<div>
+    <div kendo-div>
+        <table>
+            <tr>
+                <td width="80px;">供应商</td>
+                <td width="80px;"><span ng-bind="dataItem.vendorId|vendorFormat"/></td>
+                <td width="80px;">联系电话</td>
+                <td width="80px;">
+                    <span ng-bind="dataItem.vendorTelephone"/>
+                </td >
+                <td width="80px;">联系人</td>
+                <td width="80px;">
+                    <span ng-bind="dataItem.vendorContact"/>
+                </td>
+
+            </tr>
+            <tr>
+                <td width="80px;">供应商编码</td>
+                <td width="80px;">
+                    <span ng-bind="dataItem.vendorReferNo"/>
+                </td>
+                <td width="80px;">地址</td>
+                <td width="80px;">
+                    <span ng-bind="dataItem.vendorAddress"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

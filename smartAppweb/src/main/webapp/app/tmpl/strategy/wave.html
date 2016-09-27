@@ -1,0 +1,71 @@
+<div class="content-wrap" ng-controller="strategyWaveController">
+    <kendo-grid id="waveStrategyGrid" options="waveStrategyGridOptions">
+
+    </kendo-grid>
+</div>
+
+
+<script id="waveEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form">
+            <div class="clearfix">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>策略名称：</label>
+                    <input id="strategyName" name="strategyName" type="text" required/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>一单一品订单数：</label>
+                    <input id="singleSize" name="singleSize" type="number"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>一单多品订单数：</label>
+                    <input id="multiSize" name="multiSize" type="number"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>活动订单数：</label>
+                    <input id="promotionSize" name="promotionSize" type="number"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>余单生成波次：</label>
+                    <input id="isAllowLess" name="isAllowLess" type="number"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>最大订单品数：</label>
+                    <input id="maxLine" name="maxLine" type="number"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>分拣架行数：</label>
+                    <input id="rackRow" name="rackRow" type="number"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>默认策略：</label>
+                    <input id="isDefault" name="isDefault" type="checkbox" ng-model="dataItem.isDefault" ng-change="change(this)"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>是否可用：</label>
+                    <input id="isActive" name="isActive" type="checkbox"  ng-checked = "dataItem.isDefault" ng-disabled="dataItem.isDefault" />
+                </div>
+
+
+            </div>
+
+            <div class="pure-control-group p-b-5 ">
+                <label>描述：</label>
+                <textarea  id="description" name="description" cols="40" rows="5"></textarea>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</script>

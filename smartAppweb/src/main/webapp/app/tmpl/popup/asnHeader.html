@@ -1,0 +1,30 @@
+<div class="content-wrap" ng-controller="popupAsnController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="asnPopupGrid">
+            <div class="panel-group">
+                <label>通知单号</label>
+                <input type="text" ng-model="query.asnId"/>
+            </div>
+            <div class="panel-group">
+                <label>ERP单号</label>
+                <input type="text" ng-model="query.fromErpNo"/>
+            </div>
+            <div class="panel-group">
+                <label>来源单号</label>
+                <input type="text" ng-model="query.fromOrderNo"/>
+            </div>
+        </panel_heading_search>
+
+    </div>
+    <div kendo-grid="asnPopupGrid" options="asnGridOptions"></div>
+    <br>
+
+    <div class="k-edit-buttons k-state-default">
+        <div class="pull-right">
+            <a class="k-button k-button-icontext k-primary k-grid-update" href="#" ng-click="selectVendor()">
+                <span class="k-icon k-update"></span>确定</a>
+            <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeVendorWindow()">
+                <span class="k-icon k-cancel"></span>取消</a>
+        </div>
+    </div>
+</div>

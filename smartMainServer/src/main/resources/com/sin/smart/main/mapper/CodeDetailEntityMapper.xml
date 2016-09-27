@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sin.smart.main.mapper.CodeDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.sin.smart.entity.main.SmartCodeDetailEntity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code_id" property="codeId" jdbcType="BIGINT" />
+    <result column="code_value" property="codeValue" jdbcType="VARCHAR" />
+    <result column="code_name" property="codeName" jdbcType="VARCHAR" />
+    <result column="is_default" property="isDefault" jdbcType="BIT" />
+    <result column="is_active" property="isActive" jdbcType="BIT" />
+    <result column="is_system" property="isSystem" jdbcType="BIT" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+
+
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code_id, code_value, code_name, is_default, is_active, is_system, sequence, create_user, 
+    create_time, update_user, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_smart_code_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_smart_code_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.sin.smart.entity.main.SmartCodeDetailEntity" >
+    insert into t_smart_code_detail (id, code_id, code_value, 
+      code_name, is_default, is_active, 
+      is_system, sequence, create_user, 
+      create_time, update_user, update_time, 
+      description)
+    values (#{id,jdbcType=BIGINT}, #{codeId,jdbcType=BIGINT}, #{codeValue,jdbcType=VARCHAR}, 
+      #{codeName,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}, #{isActive,jdbcType=BIT}, 
+      #{isSystem,jdbcType=BIT}, #{sequence,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=BIGINT}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sin.smart.entity.main.SmartCodeDetailEntity" >
+    insert into t_smart_code_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="codeId != null" >
+        code_id,
+      </if>
+      <if test="codeValue != null" >
+        code_value,
+      </if>
+      <if test="codeName != null" >
+        code_name,
+      </if>
+      <if test="isDefault != null" >
+        is_default,
+      </if>
+      <if test="isActive != null" >
+        is_active,
+      </if>
+      <if test="isSystem != null" >
+        is_system,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="codeId != null" >
+        #{codeId,jdbcType=BIGINT},
+      </if>
+      <if test="codeValue != null" >
+        #{codeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null" >
+        #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null" >
+        #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="isActive != null" >
+        #{isActive,jdbcType=BIT},
+      </if>
+      <if test="isSystem != null" >
+        #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.sin.smart.entity.main.SmartCodeDetailEntity" >
+    update t_smart_code_detail
+    <set >
+      <if test="codeId != null" >
+        code_id = #{codeId,jdbcType=BIGINT},
+      </if>
+      <if test="codeValue != null" >
+        code_value = #{codeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null" >
+        code_name = #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null" >
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="isActive != null" >
+        is_active = #{isActive,jdbcType=BIT},
+      </if>
+      <if test="isSystem != null" >
+        is_system = #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartCodeDetailEntity" >
+    update t_smart_code_detail
+    set code_id = #{codeId,jdbcType=BIGINT},
+      code_value = #{codeValue,jdbcType=VARCHAR},
+      code_name = #{codeName,jdbcType=VARCHAR},
+      is_default = #{isDefault,jdbcType=BIT},
+      is_active = #{isActive,jdbcType=BIT},
+      is_system = #{isSystem,jdbcType=BIT},
+      sequence = #{sequence,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

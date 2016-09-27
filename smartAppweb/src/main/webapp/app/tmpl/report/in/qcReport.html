@@ -1,0 +1,53 @@
+<div class="content-wrap" ng-controller="reportQcReportController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="qcHeaderGrid">
+            <div class="panel-group">
+                <label>收货日期起:</label><wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00" date/>
+            </div>
+            <div class="panel-group">
+                <label>止:</label><wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <!--<div class="panel-group">-->
+                <!--<label>商品条码:</label><input type="text" ng-model="query.barcode"/>-->
+            <!--</div>-->
+            <!--<div class="panel-group">-->
+                <!--<label>商家ID:</label><input type="text" ng-model="query.storer"/>-->
+            <!--</div>-->
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>ERP单号:</label>
+                <input type="text" ng-model="query.fromErpNo"/>
+            </div>
+            <div class="panel-group">
+                <label>质检单号:</label>
+                <input type="text" ng-model="query.id"/>
+            </div>
+            <!--<div class="panel-group">-->
+                <!--<label>商品名称</label>-->
+                <!--<input type="text" ng-model="query.itemName"/>-->
+            <!--</div>-->
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="qcHeaderGrid" options="mainGridOptions">
+                <div k-detail-template>
+                    <kendo-tabstrip>
+                        <ul>
+                            <li class="k-state-active">明细信息</li>
+                        </ul>
+                        <!-- 明细信息 -->
+                        <div>
+                            <div kendo-grid="qcDetailGrid" k-options="qcDetailOptions(dataItem)"></div>
+                        </div>
+                    </kendo-tabstrip>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

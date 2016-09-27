@@ -1,0 +1,54 @@
+<div class="bas-info border-none child-table-main">
+    <div>
+        <form class="wrapper-md">
+            <div class="clearfix">
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">商家名称</label><span class="child-span"  ng-bind="dataItem.storerId|storerFormat"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">仓库名称</label><span class="child-span"  ng-bind="dataItem.warehouseId|whFormat"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">系统通知单号</label><span class="child-span"  ng-bind="dataItem.id"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">单据类型</label><span class="child-span"  value="出库单">出库单</span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">通知单状态</label>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Submitted'">已提交</span>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Cancelled'">已取消</span>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Closed'">已关闭</span>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Confirmed'">已确认</span>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Initial'">未提交</span>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Passed'">已通过</span>
+                    <span class="child-span"  ng-if="dataItem.statusCode=='Rejected'">已驳回</span>
+                </div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">数据来源</label>
+                    <span class="child-span" ng-if="dataItem.datasourceCode=='System'">系统</span>
+                    <span class="child-span" ng-if="dataItem.datasourceCode=='Manual'">手工创建</span>
+                </div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">优先级</label><span class="child-span"  ng-bind="dataItem.deliveryStatuscode"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">交易单号</label><span class="child-span"  ng-bind="dataItem.tradeNos"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">参考单号</label><span class="child-span"  ng-bind="dataItem.referNo"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">订单审核人</label><span class="child-span"  ng-bind="dataItem.auditUser"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">订单审核时间</label>
+                    <span class="child-span" ng-bind="dataItem.auditTime|date:'yyyy-MM-dd HH:mm:ss'"/>
+
+                </div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">期望发货时间</label>
+                    <span class="child-span" ng-bind="dataItem.order.expectedDate|date:'yyyy-MM-dd'"/>
+                </div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">是否开票</label>
+                     <span class="child-span">
+                          <input type="checkbox" ng-model="dataItem.order.isNeedInvoice" disabled="true"/>
+                    </span>
+                </div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">发票抬头</label><span class="child-span"  ng-bind="dataItem.invoice.invoiceTitle"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">是否货到付款</label>
+                    <span class="child-span">
+                          <input type="checkbox" ng-model="dataItem.order.isCod" disabled="true"/>
+                    </span>
+                </div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">运费</label><span class="child-span"  ng-bind="dataItem.order.postfee"></span></div>
+                <div class="panel-group p-r-30 m-b-10"><label class="child-lab">邮费付款方式</label><span class="child-span"  ng-bind="dataItem.order.postPayTypecode"></span></div>
+            </div>
+            <!--<div class="remark">-->
+                <!--<div class="panel-bas-group"><label class="child-lab">备注</label><span class="child-textarea">{{countInfo.note}}</span></div>-->
+            <!--</div>-->
+        </form>
+    </div>
+</div>
+
+

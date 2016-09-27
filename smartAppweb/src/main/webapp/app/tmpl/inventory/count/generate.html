@@ -1,0 +1,308 @@
+<div class="content-wrap inventory-generate-count-wrap" ng-controller="inventoryGenerateCountController">
+    <div class="panel panel-default">
+        <div class=" m-b-5">
+            <form class="pure-form pure-form-land" bind-ui="inventoryGenerateCountGrid">
+                <div class="panel-box-main">
+                    <div class="panel-box-left">
+                        <div class="panel-group" >
+                            <label>盘点类型</label>
+                            <div class="panel-select">
+                                <select name="query.typeCode" id="count.typeCode" ng-model="query.typeCode" ng-change="changeTypeCode(query.typeCode)">
+                                    <option value="assign" selected="selected">指定盘点</option>
+                                    <option value="random">随机盘点</option>
+                                    <option value="move">动碰盘点</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="panel-group">
+                            <label>盘点方式</label>
+                            <div class="panel-select">
+                                <select name="query.modeCode" id="query.modeCode" ng-model="query.modeCode">
+                                    <option value="scan" selected="selected">逐件扫描</option>
+                                    <option value="counting">清点总数</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="panel-group" id="percentDiv" ng-hide="percentDivChecked">
+                            <label>盘点比例</label>
+                            <input type="text" name="query.percent" id="query.percent" ng-model="query.percent" class="js_wms_number"  />
+                        </div>
+                        <div class="panel-group" id="operatorDiv" ng-hide="moveChecked">
+                            <label>操作人员</label>
+                            <div class="panel-select">
+                                <!--<select name="query.operator" id="query.operator" ng-model="query.operator">-->
+                                    <!--<option value="one" selected="selected">one</option>-->
+                                    <!--<option value="two">two</option>-->
+                                <!--</select>-->
+                                <input  type="text" name="query.operator" id="query.operator" ng-model="query.operator" ng-click="operatorWindowOpen()"/>
+                                <i ng-click="clearOperator()" class="fa fa-times-circle fa-clear"></i>
+                            </div>
+                        </div>
+                        <div class="panel-group" id="countBeginTimeDiv" ng-hide="moveChecked">
+                            <label>开始时间</label>
+                            <wms-Date-Time-Picker id="countBeginTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+                        </div>
+                        <div class="panel-group" id="countEndTime" ng-hide="moveChecked">
+                            <label>结束时间</label>
+                            <wms-Date-Time-Picker id="countEndTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+                        </div>
+
+                    </div>
+                    <div class="panel-box-right">
+                        <button ng-click='generateCount()' class='btn order-btn'>生成盘点单</button>
+                        <wms-reset-button></wms-reset-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <kendo-tabstrip class="equal-height-grid-tab" id="tabStrip" ng-show="moveChecked">
+                <ul>
+                    <li id="skuTab" ng-click="clickSkuTab()" class="k-state-active">SKU</li>
+                    <li id="zoneTab" ng-click="clickZoneTab()">货区&巷道</li>
+                    <li id="locationTab" ng-click="clickLocationTab()">货位</li>
+                    <li id="storerTab" ng-click="clickStorerTab()">商家</li>
+                </ul>
+
+                <div>
+                    <div kendo-grid="skuGrid" k-options="skuOptions"></div>
+                </div>
+                <div>
+                    <div  kendo-grid="zoneGrid" k-options="zoneOptions"></div>
+                </div>
+                <div>
+                    <div kendo-grid="locationGrid" k-options="locationOptions"></div>
+                </div>
+                <div>
+                    <div kendo-grid="storerGrid" k-options="storerOptions"></div>
+                </div>
+
+            </kendo-tabstrip>
+        </div>
+    </div>
+
+    <div id="importWindow" kendo-window="importWindow" k-visible="false" k-resizable="false"></div>
+
+    <script type="text/x-kendo-template" id="J_fileFormLocation">
+        <form class="clearfix" method="post" enctype="multipart/form-data">
+            <div class="import-container clearfix">
+                <div class="clearfix">
+                    <div class="import-rol dl-btn">
+                        <a href="/download/template/货位导入模板2" class="btn mb-download">
+                            <i class="fa fa-download faIcon">模板下载</i>
+                        </a>
+                    </div>
+                    <div class="import-rol">
+                        <span class="upFile">
+                            选择导入文件<input class="files" type="file" name="file" nv-file-select="" uploader="uploader"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                        </span>
+                        <p class="import-file-name" ng-bind="fileName"></p>
+                    </div>
+                    <div class="import-rol m-l-15">
+                        <button class="btn import-btn" type="button" value="上传文件" ng-click="uploadLocationFile()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <i class="fa fa-upload faIcon"></i>导入
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="import-error upFilesTest js_operationResult" style="display: none">
+            <div class="ie-header"><i class="fa fa-exclamation-circle faIcon"></i>异常结果</div>
+            <div kendo-grid="importListLocationGrid" id="importListLocationGrid" options="importLocationGridOptions">
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-kendo-template" id="J_fileFormSku">
+        <form class="clearfix" method="post" enctype="multipart/form-data">
+            <div class="import-container clearfix">
+                <div class="clearfix">
+                    <div class="import-rol dl-btn">
+                        <a href="/download/template/商品导入模板" class="btn mb-download">
+                            <i class="fa fa-download faIcon">模板下载</i>
+                        </a>
+                    </div>
+                    <div class="import-rol">
+                        <span class="upFile">
+                            选择导入文件<input class="files" type="file" name="file" nv-file-select="" uploader="uploader"
+                                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                        </span>
+                        <p class="import-file-name" ng-bind="fileName"></p>
+                    </div>
+                    <div class="import-rol m-l-15">
+                        <button class="btn import-btn" type="button" value="上传文件" ng-click="uploadSkuFile()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <i class="fa fa-upload faIcon"></i>导入
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="import-error upFilesTest js_operationResult" style="display: none">
+            <div class="ie-header"><i class="fa fa-exclamation-circle faIcon"></i>异常结果</div>
+            <div kendo-grid="importListSkuGrid" id="importListSkuGrid" options="importSkuGridOptions">
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-kendo-template" id="J_fileFormZone">
+        <form class="clearfix" method="post" enctype="multipart/form-data">
+            <div class="import-container clearfix">
+                <div class="clearfix">
+                    <div class="import-rol dl-btn">
+                        <a href="/download/template/货区&巷道导入模板" class="btn mb-download">
+                            <i class="fa fa-download faIcon">模板下载</i>
+                        </a>
+                    </div>
+                    <div class="import-rol">
+                        <span class="upFile">
+                            选择导入文件<input class="files" type="file" name="file" nv-file-select="" uploader="uploader"
+                                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                        </span>
+                        <p class="import-file-name" ng-bind="fileName"></p>
+                    </div>
+                    <div class="import-rol m-l-15">
+                        <button class="btn import-btn" type="button" value="上传文件" ng-click="uploadZoneFile()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <i class="fa fa-upload faIcon"></i>导入
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="import-error upFilesTest js_operationResult" style="display: none">
+            <div class="ie-header"><i class="fa fa-exclamation-circle faIcon"></i>异常结果</div>
+            <div kendo-grid="importListZoneGrid" id="importListZoneGrid" options="importZoneGridOptions">
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-kendo-template" id="J_fileFormStorer">
+        <form class="clearfix" method="post" enctype="multipart/form-data">
+            <div class="import-container clearfix">
+                <div class="clearfix">
+                    <div class="import-rol dl-btn">
+                        <a href="/download/template/商家导入模板" class="btn mb-download">
+                            <i class="fa fa-download faIcon">模板下载</i>
+                        </a>
+                    </div>
+                    <div class="import-rol">
+                        <span class="upFile">
+                            选择导入文件<input class="files" type="file" name="file" nv-file-select="" uploader="uploader"
+                                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                        </span>
+                        <p class="import-file-name" ng-bind="fileName"></p>
+                    </div>
+                    <div class="import-rol m-l-15">
+                        <button class="btn import-btn" type="button" value="上传文件" ng-click="uploadStorerFile()" ng-disabled="!uploader.getNotUploadedItems().length">
+                            <i class="fa fa-upload faIcon"></i>导入
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="import-error upFilesTest js_operationResult" style="display: none">
+            <div class="ie-header"><i class="fa fa-exclamation-circle faIcon"></i>异常结果</div>
+            <div kendo-grid="importListStorerGrid" id="importListStorerGrid" options="importStorerGridOptions">
+            </div>
+        </div>
+    </script>
+
+    <script id="sku-form-edit" type="text/x-kendo-template">
+        <div class="edit-form-container">
+            <div class="window-form clearfix">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>货号</label>
+                    <input type="text" id="skuId" name="skuId" disabled="disabled"/>
+                </div>
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>商品条码</label>-->
+                    <!--<input type="text" id="skuBarcode" name="skuBarcode" ng-blur="checkSkuBarcode(dataItem)" />-->
+                <!--</div>-->
+                <wms-popup-input data-type="sku" data-item="dataItem" data-label="商品条码"
+                                 data-errorMsg="请输入合法的商品条码!" data-popup="$parent.skuPopup" validate-value-fn="checkSkuBarcode(dataItem)"></wms-popup-input>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商品名称</label>
+                    <input type="text" id="skuItemName" name="skuItemName" disabled="disabled"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>尺码</label>
+                    <input type="text" id="skuSizeCode" name="skuSizeCode" disabled="disabled"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>颜色</label>
+                    <input type="text" id="skuColorCode" name="skuColorCode" disabled="disabled"/>
+                </div>
+            </div>
+
+        </div>
+    </script>
+
+    <script id="zone-form-edit" type="text/x-kendo-template">
+        <div class="edit-form-container">
+            <div class="window-form clearfix">
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>货区</label>-->
+                    <!--<input type="text" id="zoneNo" name="zoneNo" ng-blur="checkZoneNo(dataItem)" />-->
+                <!--</div>-->
+                <div class="panel-group">
+                    <label>货区:</label>
+                    <div class="panel-select">
+                        <r-select src="zone" name="zoneId" id="zoneId" ng-change="checkZoneInfos(dataItem)"></r-select>
+                    </div>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>巷道</label>
+                    <input type="text" id="roadway" name="roadway"  />
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="location-form-edit" type="text/x-kendo-template">
+        <div class="edit-form-container">
+            <div class="window-form clearfix">
+                <div class="pure-control-group p-b-5 pure-5" align="center">
+                    <wms-popup-input data-type="location" data-item="dataItem" data-label="货位" data-errorMsg="请输入合法的货位号!" data-popup="$parent.locationPopup"
+                                     validate-value-fn="checkLocationNos(dataItem)"></wms-popup-input>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="storer-form-edit" type="text/x-kendo-template">
+        <div class="edit-form-container">
+            <div class="window-form clearfix">
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>商家编号</label>-->
+                    <!--<input type="text" id="storerNo" name="storerNo" ng-blur="checkStorerNo(dataItem)" />-->
+                <!--</div>-->
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商家:</label>
+                    <div class="select-wrapper">
+                        <div class="select-border"></div>
+                        <wms-ui-select ui-select-name="storerId" ui-select-id="storerId" src="storer" on-select="checkStorerNo(dataItem)" ></wms-ui-select>
+                    </div>
+                </div>
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>商家名称</label>-->
+                    <!--<input type="text" id="storerName" name="storerName" disabled="disabled" />-->
+                <!--</div>-->
+            </div>
+        </div>
+    </script>
+
+</div>
+
+<div kendo-window="skuPopup" k-title="'SKU选择'" k-modal="true"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/sku.html'}"></div>
+
+<div kendo-window="locationPopup" k-title="'货位'" k-modal="true"
+     k-resizable="false"
+     k-width="630" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/location.html' }"></div>
+
+<div kendo-window="userWhPopup" k-title="'用户选择'" k-modal="true"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/userWh.html'}"></div>

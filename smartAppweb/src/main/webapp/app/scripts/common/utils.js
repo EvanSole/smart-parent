@@ -1,9 +1,11 @@
 define(['jquery', 'underscore', 'kendo'], function ($, _) {
-
+    /**
+     * Created by MLS on 15/3/5.
+     */
     "use strict";
-    var HMT = HMT === undefined ? {} : HMT;
-    HMT.WMS = HMT.WMS === undefined ? {} : HMT.WMS;
-    HMT.WMS.UTILS = (function () {
+    var MLS = MLS === undefined ? {} : MLS;
+    MLS.WMS = MLS.WMS === undefined ? {} : MLS.WMS;
+    MLS.WMS.UTILS = (function () {
         var columnEditor = {
             hidden: function (container, options) {
                 container.prev().hide();
@@ -26,10 +28,18 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
                 headerTemplate: '<label><input titleCheck ng-click="selectAllRow($event)" type="checkbox" id="checkAll"/></label>'
             },
             defaultColumns: [
-                { editor: columnEditor.hidden, filterable: false, title: '创建时间', field: 'created', align: 'left', width: "150px", template: timestampFormat("created")} ,
-                { editor: columnEditor.hidden, filterable: false, title: '修改时间', field: 'updated', align: 'left', width: "150px", template: timestampFormat("updated")}
+                { editor: columnEditor.hidden, filterable: false, title: '创建人', field: 'createUser', align: 'left', width: "100px"} ,
+                { editor: columnEditor.hidden, filterable: false, title: '创建时间', field: 'createTime', align: 'left', width: "150px", template: timestampFormat("createTime")} ,
+                { editor: columnEditor.hidden, filterable: false, title: '修改人', field: 'updateUser', align: 'left', width: "100px"} ,
+                { editor: columnEditor.hidden, filterable: false, title: '修改时间', field: 'updateTime', align: 'left', width: "150px", template: timestampFormat("updateTime")}
             ]
         };
+
+        function setValueInModel(model, key, value) {
+            $("#" + key).val(value);
+            $("#" + key).trigger("mls:setValue");
+            model.set(key, value);
+        }
 
         function tooLongContentFormat(dataItem, value) {
             if (dataItem[value] === undefined || dataItem[value] === null) {
@@ -46,12 +56,8 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
             return "<span ng-bind=\"dataItem." + tempstamp + "|dateFilter|date:'" + format + "'|dataIgnore\"></span>";
         }
 
-        function statesFormat(field, codeType) {
-            return"<span ng-bind=dataItem." + field + "|statesFormat:'" + codeType + "'></span>";
-        }
-
-        function orderUserFormat(field) {
-            return"<span ng-bind=dataItem." + field + "|orderUserFormat></span>";
+        function codeFormat(field, codeType) {
+            return"<span ng-bind=dataItem." + field + "|codeFormat:'" + codeType + "'></span>";
         }
 
         function whFormat(field) {
@@ -272,7 +278,7 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
 
                 function resetPbm() {
                     var oPanelBmHeight = hasHeader === false ? parseInt($('.app-content').css('padding-top')) :
-                    $('.panel-box-main').outerHeight() + parseInt($('.panel-heading').css('margin-bottom')) + parseInt($('.app-content').css('padding-top'));
+                        $('.panel-box-main').outerHeight() + parseInt($('.panel-heading').css('margin-bottom')) + parseInt($('.app-content').css('padding-top'));
                     oPanelBodyHeight = parseInt($(window).height() - (oNavBar + oPanelBmHeight + oBreadTitle));
                     $('.panel-body').css('height', oPanelBodyHeight);
                 }
@@ -304,9 +310,23 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
             processTreeData: processTreeData,
             tooLongContentFormat: tooLongContentFormat,
             timestampFormat: timestampFormat,
-            statesFormat: statesFormat,
-            orderUserFormat : orderUserFormat,
+            codeFormat: codeFormat,
+            whFormat: whFormat,
+            storerFormat: storerFormat,
+            qcStrategyFormat:qcStrategyFormat,
+            receiptStrategyFormat:receiptStrategyFormat,
+            commodityTypeFormat:commodityTypeFormat,
+            vendorFormat: vendorFormat,
+            locationFormat: locationFormat,
+            zoneTypeFormat: zoneTypeFormat,
+            zoneNoFormat: zoneNoFormat,
             yesOrNoFormat: yesOrNoFormat,
+            checkboxTmp: checkboxTmp,
+            checkboxDisabledTmp: checkboxDisabledTmp,
+            checkboxAuthTmp: checkboxAuthTmp,
+            shopFormat: shopFormat,
+            carrierFormat: carrierFormat,
+            setValueInModel: setValueInModel,
             columnEditor: columnEditor,
             CommonColumns: CommonColumns
         };
@@ -332,12 +352,10 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
 
     function removeBtn(userInfo, pagePath, element) {
         var buttonIds = getButtonIds(userInfo, pagePath);
-        console.log(buttonIds)
         if (_.isArray(buttonIds)) {
             element.find(".k-button").each(function () {
-                var $el = $(this);console.log("-----"+$el.attr("class"));
+                var $el = $(this);
                 if (_.intersection(buttonIds, $el.attr("class").split(" ")).length === 0) {
-
                     $el.remove();
                 }
             });
@@ -410,10 +428,10 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
                 scope = grid.$angular_scope,
                 userInfo = scope.user,
                 path = scope.location.path().substring(1);
-            // removeBtn(userInfo, path, grid.element);
+//      removeBtn(userInfo, path, grid.element);
         }
     };
-    HMT.WMS.GRIDUTILS = (function () {
+    MLS.WMS.GRIDUTILS = (function () {
         /**
          * 获得grid中行记录
          * @param grid
@@ -534,7 +552,6 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
                 }
                 options.editable.window.resizable = false;
             }
-
             if (scope !== undefined) {
                 var btnIds = getButtonIds(scope.user, scope.location.path().substring(1));
                 if (_.isArray(btnIds)) {
@@ -565,7 +582,6 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
                     }
                 }
             }
-
             return options;
         };
 
@@ -592,21 +608,21 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
         };
         var deleteButton = new customButton("Delete", "<span class='k-icon k-delete'></span><span ng-hide='dataItem.deleteHide'>删除</span></a>", function (grid, data) {
             $.when(kendo.ui.ExtOkCancelDialog.show({
-                title: "确认",
-                message: "是否确定删除数据",
-                icon: 'k-ext-question'})
+                    title: "确认",
+                    message: "是否确定删除数据",
+                    icon: 'k-ext-question'})
             ).done(function (resp) {
-                if (resp.button === "OK") {
-                    if (_.isFunction(grid.dataSource.transport.preDestroy)) {
-                        grid.dataSource.transport.preDestroy(data, grid);
-                    } else {
-                        if (_.isFunction(grid.options.customerRemove)) {
-                            grid.options.customerRemove.apply(grid, [data]);
+                    if (resp.button === "OK") {
+                        if (_.isFunction(grid.dataSource.transport.preDestroy)) {
+                            grid.dataSource.transport.preDestroy(data, grid);
+                        } else {
+                            if (_.isFunction(grid.options.customerRemove)) {
+                                grid.options.customerRemove.apply(grid, [data]);
+                            }
+                            grid.dataSource.remove(data);
                         }
-                        grid.dataSource.remove(data);
                     }
-                }
-            });
+                });
         });
 
 
@@ -665,5 +681,5 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
     }());
 
 
-    window.WMS = HMT.WMS;
+    window.WMS = MLS.WMS;
 });

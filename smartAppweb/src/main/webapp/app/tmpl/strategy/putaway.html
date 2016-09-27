@@ -1,0 +1,55 @@
+<div class="content-wrap" ng-controller="strategyPutawayController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="putawayGrid">
+            <div class="panel-group">
+                <label>策略名称</label><input type="text" ng-model="query.strategyName" />
+            </div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="putawayGrid" options="putawayGridOptions"></div>
+        </div>
+    </div>
+</div>
+
+<script id="putawayEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form">
+            <div class="clearfix">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>策略名称：</label>
+                    <input id="strategyName" name="strategyName" type="text" required/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>是否默认：</label>
+                    <input id="isDefault" name="isDefault" type="checkbox" ng-model="isDefault" ng-change="change(this)" />
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>空货位优先：</label>
+                    <input id="isRoomFirst" name="isRoomFirst" type="checkbox"  />
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>同品集中存放：</label>
+                    <input id="isGroupbySku" name="isGroupbySku" type="checkbox"  />
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>是否可用：</label>
+                    <input id="isActive" name="isActive" type="checkbox" ng-model="isActive" ng-checked = "isDefault" ng-disabled="isDefault"/>
+                </div>
+            </div>
+
+            <div class="pure-control-group p-b-5 ">
+                <label>描述：</label>
+                <textarea class="tear-text" id="description" name="description"></textarea>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+</script>

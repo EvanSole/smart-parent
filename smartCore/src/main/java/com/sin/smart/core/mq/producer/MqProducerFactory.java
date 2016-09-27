@@ -7,9 +7,6 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 
-/**
- * Created by MLS on 15/3/13.
- */
 public class MqProducerFactory implements FactoryBean<DefaultMQProducer>,DisposableBean,InitializingBean {
 
     private DefaultMQProducer producer;

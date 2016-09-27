@@ -1,0 +1,176 @@
+<div class="content-wrap" ng-controller="dataSupplierController">
+
+    <div class="panel panel-default">
+        <!--查询条件-->
+        <panel_heading_search bind-ui="supplierHeaderGrid">
+            <div class="panel-group ">
+                <label>供应商编号:</label>
+                <input type="text" ng-model="query.supplierNo"/>
+            </div>
+            <div class="panel-group ">
+                <label>供应商简称:</label>
+                <input type="text" ng-model="query.shortName"/>
+            </div>
+            <div class="panel-group ">
+                <label>供应商全称:</label>
+                <input type="text" ng-model="query.longName"/>
+            </div>
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+        </panel_heading_search>
+
+        <div class="panel-body">
+            <!--主表-->
+            <div kendo-grid="supplierHeaderGrid" options="mainGridOptions">
+                <div k-detail-template>
+                    <kendo-tabstrip>
+                        <ul>
+                            <li class="k-state-active">基本信息</li>
+                        </ul>
+                        <!-- 基本信息 -->
+                        <div>
+                            <div ng-include="'/app/tmpl/data/supplierBasic.html'"></div>
+                        </div>
+                    </kendo-tabstrip>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script id="supplierEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form">
+            <div class="clearfix">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商家：</label>
+
+                    <div class="select-wrapper">
+                        <div class="select-border"></div>
+                        <wms-ui-select ui-select-name="storerId" ui-select-id="storerId" src="storer" on-select=$parent.storerIdChange($item,$models)></wms-ui-select>
+                    </div>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>供应商编号：</label>
+                    <input type="text" name="supplierNo" id="supplierNo" required/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>供应商类型：</label>
+
+                    <div class="select-wrapper">
+                        <div class="select-border"></div>
+                        <l-select src="SupplierType" name="typeCode" id="typeCode" required/>
+                    </div>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>供应商简称：</label>
+                    <input type="text" name="shortName" id="shortName"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>供应商全称：</label>
+                    <input id="longName" name="longName" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>付款方式：</label>
+                    <input id="paymentTerm" name="paymentTerm" type="text"/>
+                </div>
+
+                <!--<div class="pure-control-group p-b-5 pure-5">
+                    <label>需要质检：</label>
+                    <input id="isNeedQc" name="isNeedQc" type="checkbox"/>
+                </div>-->
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>是否可用：</label>
+                    <input id="isActive" name="isActive" type="checkbox"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>开户人：</label>
+                    <input id="accountName" name="accountName" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>开户银行：</label>
+                    <input id="accountBank" name="accountBank" type="text"/>
+                </div>
+
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>银行账户：</label>
+                    <input id="accountNo" name="accountNo" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>国家：</label>
+                    <input id="country" name="country" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>省份：</label>
+                    <input id="state" name="state" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>城市：</label>
+                    <input id="city" name="city" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>地区：</label>
+                    <input id="district" name="district" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>邮政编码：</label>
+                    <input id="zip" name="zip" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>联系人：</label>
+                    <input id="contact" name="contact" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>联系电话：</label>
+                    <input id="telephone" name="telephone" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>传真：</label>
+                    <input id="fax" name="fax" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>电子邮箱：</label>
+                    <input id="email" name="email" type="text"/>
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>地址：</label>
+                    <input id="address" name="address" type="text"/>
+                </div>
+            </div>
+
+            <div class="pure-control-group">
+                <label>备注：</label>
+                <textarea class="tear-text" name="description" id="description"></textarea>
+            </div>
+
+        </div>
+
+    </div>
+
+</script>

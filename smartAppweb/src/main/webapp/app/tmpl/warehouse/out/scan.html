@@ -1,0 +1,86 @@
+<!--商品选择-->
+<div kendo-window="scanPopup" k-title="'扫描核实'" k-modal="true" k-resizable="false" k-visible="false"></div>
+<script id="scanEditor" type="text/x-kendo-template">
+    <div class="content-wrap" ng-controller="warehouseOutScanController">
+        <div class="scan-header">
+            <div class="panel-group">
+                <label>容器/单号</label>
+                <input id="referNo" ng-model="model.referNo" name="referNo" enter-input="referNoEnter" type="text"
+                       placeholder="请输入容器/单号">
+            </div>
+            <div class="panel-group">
+                <label>商品条码</label>
+                <input id="barCode" name="barCode" ng-model="model.barCode" enter-input="barCodeEnter" type="text">
+            </div>
+            <div class="panel-group">
+                <label>箱型选择</label>
+                <input id="cartongroupCode" name="cartongroupCode" enter-input="cartongroupCodeEnter"
+                       ng-model="model.cartongroupCode" type="text">
+            </div>
+            <div class="panel-group">
+                <label>称重[F9]</label>
+                <input id="weight" name="weight" ng-model="model.weight" enter-input="weightEnter" type="text">
+            </div>
+            <div class="panel-group">
+                <label>打印机</label>
+
+                <div class="panel-select">
+                    <select ng-model="printer" ng-options=" d.key for d in allPrinter  track by d.value">
+                        <option value="">--请选择打印机--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pro-btn">
+                <button class="btn order-info m-r-5 scan-btn" ng-click="addProblem()">记录问题单</button>
+                <button class="btn order-info m-r-5 scan-btn" ng-click="addProblem(1)">关闭</button>
+            </div>
+        </div>
+        <div class="scan-container">
+            <div class="scan-left">
+                <div id="skuDiv" class="scan-table m-b-10">
+                    <div class="table-t-bar"></div>
+                </div>
+                <div id="shipmentDiv" class="scan-table"></div>
+            </div>
+            <div class="scan-right">
+                <h2 id="shopName"></h2>
+
+                <div class="scan-box m-b-10">
+                    <div class="table-t-bar"></div>
+                    <div class="scan-content">
+                        <h2>发货单备注</h2>
+
+                        <p id="remark"></p>
+                    </div>
+                </div>
+                <div class="scan-box">
+                    <div class="scan-content">
+                        <h2>商品图片</h2>
+                        <img id="skuImg" src="/app/images/saomiao.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dialog">
+            <div class="k-edit-form-container">
+                <div style="width: 360px" class="window-form clearfix">
+                    <div class="pure-control-group p-b-5">
+                        <label>出库单号:</label>
+                        <span></span>
+                        <input type="text" name="shipmentId" id="shipmentId" disabled="disabled"/>
+                    </div>
+                    <div class="pure-control-group p-b-5">
+                        <label>物流公司:</label>
+                        <span></span>
+                        <input type="text" name="carrierNo" id="carrierNo" disabled="disabled"/>
+                    </div>
+                    <div class="pure-control-group p-b-5">
+                        <label>物流单号:</label>
+                        <span></span>
+                        <input type="text" name="logisticsNo" enter-input="logisticsNoEnter" id="logisticsNo"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

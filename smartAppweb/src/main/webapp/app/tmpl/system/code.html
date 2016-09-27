@@ -1,0 +1,85 @@
+<div class="content-wrap" ng-controller="systemCodeController">
+    <div class="panel panel-default">
+      <panel_heading_search bind-ui="codeHeaderGrid">
+        <div class="panel-group">
+          <label>列表名称</label>
+          <input type="text" ng-model="query.listName" />
+        </div>
+        <div class="panel-group">
+          <label>列表说明</label>
+          <input type="text" ng-model="query.description"/>
+        </div>
+      </panel_heading_search>
+      <div class="panel-body">
+        <div kendo-grid="codeHeaderGrid" options="mainGridOptions">
+          <div k-detail-template>
+            <div>
+              <div kendo-grid="codeDetailGrid" k-options="codeDetailOptions(dataItem)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+<script id="codeHeaderEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form ">
+            <div class="pure-control-group p-b-5">
+                <label>列表名称</label>
+                <input id="listName" name="listName" type="text" />
+            </div>
+            <div class="pure-control-group p-b-5" >
+                <label>列表说明</label>
+                <input id="description" name="description" type="text"/>
+            </div>
+            <div class="pure-control-group p-b-5" >
+                <label>只读</label>
+                <input id="isReadOnly" name="isReadOnly" type="checkbox" value="1"/>
+            </div>
+            <div class="pure-control-group p-b-5" >
+                <label>系统</label>
+                <input id="isSystem" name="isSystem" type="checkbox" value="1"/>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+<script id="codeDetailEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form ">
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>选项实际值</label>
+                <input type="text" id="codeValue" name="codeValue"/>
+            </div>
+            <div class="pure-control-group p-b-5 pure-5" >
+                <label>选项显示值</label>
+                <input type="text" name="codeName" id="codeName" />
+            </div>
+            <div class="pure-control-group p-b-5 pure-5" >
+                <label>排列顺序</label>
+                <input id="sequence" name="sequence" type="number" />
+            </div>
+            <div class="pure-control-group p-b-5 pure-5" >
+                <label>是否默认值</label>
+                <input id="isDefault" name="isDefault" type="checkbox" value="1" />
+            </div>
+            <div class="pure-control-group p-b-5 pure-5" >
+                <label>是否可用</label>
+                <input id="isActive" name="isActive" type="checkbox" value="1" />
+            </div>
+            <div class="pure-control-group p-b-5 pure-5" >
+                <label>系统选项</label>
+                <input id="isSystem" name="isSystem" type="checkbox" value="1" />
+            </div>
+            <div class="pure-control-group p-b-5">
+                <label>选项说明</label>
+                <textarea class="tear-text" cols="30" name="description" id="description"></textarea>
+            </div>
+        </div>
+    </div>
+</script>

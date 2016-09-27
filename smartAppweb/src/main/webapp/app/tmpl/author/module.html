@@ -1,0 +1,275 @@
+<style>
+    .region-tree {
+        height:500px;
+        overflow-y: auto;
+        padding:15px;
+        border:2px dashed #e5e5e5;
+    }
+    .region-tree ul li {
+        list-style: none;
+    }
+    .fa {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .region-tree a.fa {
+        height: 1em;
+        width: 1em;
+    }
+    .region-tree .fa-caret-down:before {
+        content: "\f0d7";!important;
+    }
+    .region-tree .region-options {
+        opacity: 0.3;
+        color:#555;
+    }
+    .region-tree .region-options:hover {
+        opacity: 0.6;
+    }
+    .region-tree-list li span:hover {
+        cursor:pointer;
+        color:#333;
+    }
+    .region-tree-list .selected {
+        background-color: #e5e5e5;
+        color:#000;
+    }
+</style>
+
+<!--<div class="mod-content " ng-controller="authorModuleController">-->
+    <!--<div class="region-tree">-->
+        <!--<div class="mod-header">-->
+            <!--<i class="fa fa-map-marker"></i>模块树信息-->
+        <!--</div>-->
+
+        <!--<script type="text/ng-template"  id="tree_item_renderer.html">-->
+            <!--<a href="javascript:;" ng-if="nodes.length > 0" ng-click="toggleView($event,data)"  class="fa fa-caret-right" ng-class="{'fa-caret-down': data.nodes.length>0 }"></a>-->
+            <!--<span ng-click="selected($event,data)">{{data.name}}</span>-->
+            <!--<a ng-click="add(data)" href="javascript:;" class="region-options"><i class="fa fa-plus"></i></a>-->
+            <!--<a ng-click="delete($event, data, parent, $index)" href="javascript:;" class="region-options" ng-show="nodes.length <= 0"><i class="fa fa-minus"></i></a>-->
+            <!--<ul ng-show="data.show">-->
+                <!--<li ng-repeat="data in nodes track by data.id" ng-init="parent = nodes; nodes = data.items" ng-include="'tree_item_renderer.html'"></li>-->
+            <!--</ul>-->
+        <!--</script>-->
+
+        <!--<ul class="region-tree-list">-->
+            <!--<li ng-repeat="data in tree track by data.id" ng-init="parent = tree; nodes = data.items" ng-include="'tree_item_renderer.html'" ></li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+    <!--<div class="mod-set">-->
+        <!--<div class="mod-header">-->
+            <!--<i class="fa fa-cog"></i>列表设置-->
+        <!--</div>-->
+        <!--<div class="mod-set-info">-->
+
+            <!--<div kendo-splitter="authorModuleRightSplitter"-->
+                 <!--k-panes="[-->
+                        <!--{ size: '50%' },-->
+                        <!--{ size: '50%' }-->
+                        <!--]"-->
+                 <!--k-orientation="'vertical'"-->
+                 <!--k-rebind="'vertical'">-->
+                <!--<div>-->
+                    <!--<h3>模块信息编辑</h3>-->
+                    <!--<div class="k-edit-label">-->
+                        <!--<label for="FirstName" style="color: red;">模块名称:</label>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-field">-->
+                        <!--&lt;!&ndash;<input type="hidden" id="moduleId"  ng-model="module.id"/>&ndash;&gt;-->
+                        <!--<input id="FirstName" ng-model="module.moduleName" ng-change="changeModuleName()"  name="moduleName"/>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-label">-->
+                        <!--<label for="LastName" style="color: red;">模块路径:</label>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-field">-->
+                        <!--<input id="LastName" kendo-text ng-model="module.modulePath" name="modulePath"/>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-label">-->
+                        <!--<label for="position">显示顺序:</label>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-field">-->
+                        <!--<input id="position" kendo-text ng-model="module.position" name="position"/>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-label">-->
+                        <!--<label for="moduleType">类型:</label>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-field">-->
+                        <!--&lt;!&ndash;<l-select src="ModuleType" ng-model="module.moduleType" name="moduleType" id="moduleType" required></l-select>&ndash;&gt;-->
+                        <!--<select name="moduleType" id="moduleType" ng-model="module.moduleType"-->
+                                <!--ng-options="opt.value as opt.label for opt in typeOptions">-->
+                        <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-label">-->
+                        <!--<label for="description">模块说明:</label>-->
+                    <!--</div>-->
+                    <!--<div class="k-edit-field">-->
+                        <!--<textarea cols="30" rows="5" id="description" ng-model="module.description" name="description"/>-->
+                    <!--</div>-->
+
+                    <!--<div class="k-edit-buttons k-state-default" style="clear:both; width: 400px;margin-left: auto;margin-right: auto;">-->
+                        <!--<a class="k-button k-button-icontext k-primary k-grid-update" ng-click="saveModule()">-->
+                            <!--<span class="k-icon k-update"></span>保存-->
+                        <!--</a>-->
+                        <!--&lt;!&ndash;<a class="k-button k-button-icontext k-primary k-grid-update" ng-click="addSameNode()">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span class="k-icon k-update"></span>新增同级&ndash;&gt;-->
+                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a class="k-button k-button-icontext k-primary k-grid-update" ng-click="addChildNode()">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span class="k-icon k-update"></span>新增下级&ndash;&gt;-->
+                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<h3>操作列表</h3>-->
+                    <!--<div kendo-grid="authorModuleGrid" options="mainGridOptions"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="btn-box p-t-10">-->
+            <!--<button type="submit" class="btn btn-info order-btn m-r-8" ng-disabled="regionForm.$invalid"><i class="fa fa-plus-circle faIcon"></i>保存</button>-->
+            <!--<button class="btn order-btn btn-cancel m-r-8" type="reset"><i class="fa fa-repeat faIcon"></i>重置</button>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
+
+<div class="demo-section k-content" ng-controller="authorModuleController" style="width: 100%;height:700px;">
+    <div class="box-col" style="width: 100%;height:100%">
+        <div kendo-splitter="authorModuleSplitter"
+             k-panes="[
+                        {size: '30%'},
+                        {size: '70%'}
+                        ]"
+             k-orientation="'horizontal'"
+             k-rebind="'horizontal'" style="width: 100%;height:100%">
+            <div>
+                <h3>模块树信息</h3>
+                <!--<p><span ng-click="expandAll()">全部展开</span>&nbsp;&nbsp;<span ng-click="collapseAll()">全部收缩</span></p>-->
+                <script type="text/ng-template"  id="tree_item_renderer.html">
+                    <a href="javascript:;" ng-if="nodes.length > 0" ng-click="toggleView($event,data)"  class="fa fa-caret-right" ng-class="{'fa-caret-down': data.nodes.length>0 }"></a>
+                    <span ng-click="selected($event,data)">{{data.name}}</span>
+                    <a ng-click="add(data)" href="javascript:;" class="region-options"><i class="fa fa-plus"></i></a>
+                    <a ng-click="delete($event, data, parent, $index)" href="javascript:;" class="region-options" ng-show="nodes.length <= 0"><i class="fa fa-minus"></i></a>
+                    <ul ng-show="data.show">
+                        <li ng-repeat="data in nodes track by data.id" ng-init="parent = nodes; nodes = data.items" ng-include="'tree_item_renderer.html'"></li>
+                    </ul>
+                </script>
+
+                <ul class="region-tree-list">
+                    <li ng-repeat="data in tree track by data.id" ng-init="parent = tree; nodes = data.items" ng-include="'tree_item_renderer.html'" ></li>
+                </ul>
+            </div>
+            <div kendo-splitter="authorModuleRightSplitter"
+                 k-panes="[
+                        { size: '50%' },
+                        { size: '50%' }
+                        ]"
+                 k-orientation="'vertical'"
+                 k-rebind="'vertical'">
+                <div>
+                    <h3>模块信息编辑</h3>
+                    <div class="k-edit-label">
+                        <label for="FirstName" style="color: red;">模块名称:</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <!--<input type="hidden" id="moduleId"  ng-model="module.id"/>-->
+                        <input id="FirstName" ng-model="module.moduleName" ng-change="changeModuleName()"  name="moduleName"/>
+                    </div>
+                    <div class="k-edit-label">
+                        <label for="LastName" style="color: red;">模块路径:</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <input id="LastName" kendo-text ng-model="module.modulePath" name="modulePath"/>
+                    </div>
+                    <div class="k-edit-label">
+                        <label for="position">显示顺序:</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <input id="position" kendo-text ng-model="module.position" name="position"/>
+                    </div>
+                    <div class="k-edit-label">
+                        <label for="moduleType">类型:</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <!--<l-select src="ModuleType" ng-model="module.moduleType" name="moduleType" id="moduleType" required></l-select>-->
+                        <select name="moduleType" id="moduleType" ng-model="module.moduleType"
+                                ng-options="opt.value as opt.label for opt in typeOptions">
+                        </select>
+                    </div>
+                    <div class="k-edit-label">
+                        <label for="isVisible">是否可见:</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <!--<l-select src="ModuleType" ng-model="module.moduleType" name="moduleType" id="moduleType" required></l-select>-->
+                        <input type="checkbox" name="isVisible" id="isVisible" ng-checked="module.isVisible" ng-model="module.isVisible" checked="checked" value="1">
+                    </div>
+                    <div class="k-edit-label">
+                        <label for="description">模块说明:</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <textarea cols="30" rows="5" id="description" ng-model="module.description" name="description"/>
+                    </div>
+
+                    <div class="k-edit-buttons k-state-default" style="clear:both; width: 400px;margin-left: auto;margin-right: auto;">
+                        <a class="k-button k-button-icontext k-primary k-grid-update" ng-click="saveModule()">
+                            <span class="k-icon k-update"></span>保存
+                        </a>
+                        <!--<a class="k-button k-button-icontext k-primary k-grid-update" ng-click="addSameNode()">-->
+                        <!--<span class="k-icon k-update"></span>新增同级-->
+                        <!--</a>-->
+                        <!--<a class="k-button k-button-icontext k-primary k-grid-update" ng-click="addChildNode()">-->
+                        <!--<span class="k-icon k-update"></span>新增下级-->
+                        <!--</a>-->
+                    </div>
+                </div>
+                <div>
+                    <h3>操作列表</h3>
+                    <div kendo-grid="authorModuleGrid" options="mainGridOptions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 弹出页面-->
+<script id="editPop-template" type="text/kendo-ui-template">
+    <div class="pure-body p-l-r-20">
+        <div class="pure-control-group p-b-10">
+            <label>操作名称</label>
+            <input id="actionName"  name="actionName" required/>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>操作标识</label>
+            <input id="actionCode"  name="actionCode" required/>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>url</label>
+            <input id="url" name="url" required/>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>http方法</label>
+            <div class="panel-select">
+                <!--<input id="httpMethod" name="httpMethod" required/>-->
+                <l-select src="HttpMethod" ng-bind="httpMethod" name="httpMethod" id="httpMethod" required></l-select>
+            </div>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>相关url</label>
+            <input id="relationUrl" name="relationUrl"/>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>是否可用</label>
+            <input type="checkbox" id="isActive"  value="1" name="isActive"/>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>是否默认权限</label>
+            <input type="checkbox" id="isModuleDefault"  value="1" name="isModuleDefault"/>
+        </div>
+        <div class="pure-control-group p-b-10">
+            <label>描述</label>
+            <input id="description" name="description"/>
+        </div>
+    </div>
+
+</script>

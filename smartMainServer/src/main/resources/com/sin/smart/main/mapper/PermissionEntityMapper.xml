@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sin.smart.main.mapper.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.sin.smart.entity.main.SmartPermissionEntity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="module_id" property="moduleId" jdbcType="BIGINT" />
+    <result column="action_name" property="actionName" jdbcType="VARCHAR" />
+    <result column="action_code" property="actionCode" jdbcType="VARCHAR" />
+    <result column="is_active" property="isActive" jdbcType="BIT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="http_method" property="httpMethod" jdbcType="VARCHAR" />
+    <result column="relation_url" property="relationUrl" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_module_default" property="isModuleDefault" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    id, module_id, action_name, action_code, is_active, url, http_method, relation_url, 
+    description, create_user, create_time, update_user, update_time, is_module_default
+  </sql>
+
+  <select id="selectPermissionMapperByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select module_id,action_code,action_name from `t_smart_permission` where id in (
+        select action_Id from `t_smart_role_permission` where  relationType='a' AND role_id in (
+           select role_id from `t_smart_user_role` where user_id = #{userId,jdbcType=BIGINT}
+        )
+    )
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_smart_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_smart_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.sin.smart.entity.main.SmartPermissionEntity" >
+    insert into t_smart_permission (id, module_id, action_name, 
+      action_code, is_active, url, 
+      http_method, relation_url, description, 
+      create_user, create_time, update_user, 
+      update_time, is_module_default)
+    values (#{id,jdbcType=BIGINT}, #{moduleId,jdbcType=BIGINT}, #{actionName,jdbcType=VARCHAR}, 
+      #{actionCode,jdbcType=VARCHAR}, #{isActive,jdbcType=BIT}, #{url,jdbcType=VARCHAR}, 
+      #{httpMethod,jdbcType=VARCHAR}, #{relationUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=BIGINT}, #{isModuleDefault,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sin.smart.entity.main.SmartPermissionEntity" >
+    insert into t_smart_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="moduleId != null" >
+        module_id,
+      </if>
+      <if test="actionName != null" >
+        action_name,
+      </if>
+      <if test="actionCode != null" >
+        action_code,
+      </if>
+      <if test="isActive != null" >
+        is_active,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="httpMethod != null" >
+        http_method,
+      </if>
+      <if test="relationUrl != null" >
+        relation_url,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isModuleDefault != null" >
+        is_module_default,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="moduleId != null" >
+        #{moduleId,jdbcType=BIGINT},
+      </if>
+      <if test="actionName != null" >
+        #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="actionCode != null" >
+        #{actionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null" >
+        #{isActive,jdbcType=BIT},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null" >
+        #{httpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="relationUrl != null" >
+        #{relationUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isModuleDefault != null" >
+        #{isModuleDefault,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByExample" parameterType="map" >
+    update t_smart_permission
+    set id = #{record.id,jdbcType=BIGINT},
+      module_id = #{record.moduleId,jdbcType=BIGINT},
+      action_name = #{record.actionName,jdbcType=VARCHAR},
+      action_code = #{record.actionCode,jdbcType=VARCHAR},
+      is_active = #{record.isActive,jdbcType=BIT},
+      url = #{record.url,jdbcType=VARCHAR},
+      http_method = #{record.httpMethod,jdbcType=VARCHAR},
+      relation_url = #{record.relationUrl,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      is_module_default = #{record.isModuleDefault,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sin.smart.entity.main.SmartPermissionEntity" >
+    update t_smart_permission
+    <set >
+      <if test="moduleId != null" >
+        module_id = #{moduleId,jdbcType=BIGINT},
+      </if>
+      <if test="actionName != null" >
+        action_name = #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="actionCode != null" >
+        action_code = #{actionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isActive != null" >
+        is_active = #{isActive,jdbcType=BIT},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="httpMethod != null" >
+        http_method = #{httpMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="relationUrl != null" >
+        relation_url = #{relationUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isModuleDefault != null" >
+        is_module_default = #{isModuleDefault,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartPermissionEntity" >
+    update t_smart_permission
+    set module_id = #{moduleId,jdbcType=BIGINT},
+      action_name = #{actionName,jdbcType=VARCHAR},
+      action_code = #{actionCode,jdbcType=VARCHAR},
+      is_active = #{isActive,jdbcType=BIT},
+      url = #{url,jdbcType=VARCHAR},
+      http_method = #{httpMethod,jdbcType=VARCHAR},
+      relation_url = #{relationUrl,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      is_module_default = #{isModuleDefault,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,169 @@
+<div class="content-wrap" ng-controller="inventoryCountController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="inventoryCountGrid">
+            <div class="panel-group ">
+                <label>创建时间</label>
+                <wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group ">
+                <label>至</label>
+                <wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>盘点单号</label>
+                <input type="text" name="query.id" id="query.id" ng-model="query.id" class="js_wms_number"  />
+            </div>
+            <div class="panel-group" >
+                <label>盘点类型</label>
+                <div class="panel-select">
+                    <l-select src="CountTypeCode" name="query.typeCode" id="query.typeCode" ></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>创建人</label>
+                <input type="text" name="query.createUser" id="query.createUser" ng-model="query.createUser"  />
+            </div>
+            <div class="panel-group">
+                <label>盘点方式</label>
+                <div class="panel-select">
+                    <l-select src="CountModeCode" name="query.modeCode" id="query.modeCode" ></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>盘点比例</label>
+                <input type="text" name="query.percent" id="query.percent" ng-model="query.percent" class="js_wms_number"  />
+            </div>
+            <div class="panel-group" >
+                <label>空库位</label>
+                <div class="panel-select">
+                    <select name="query.isNullLoc" id="query.isNullLoc" ng-model="query.isNullLoc">
+                        <option value="">-- 请选择 --</option>
+                        <option value="0">不参与盘点</option>
+                        <option value="1">参与盘点</option>
+                    </select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>盘点状态</label>
+                <div class="panel-select">
+                    <l-select src="CountStatus" name="query.statusCode" id="query.statusCode" ></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>货位</label>
+                <input type="text" name="query.locationNo" id="query.locationNo" ng-model="query.locationNo"  />
+            </div>
+            <div class="panel-group">
+                <label>商品条码</label>
+                <input type="text" name="query.barcode" id="query.barcode" ng-model="query.barcode"  />
+            </div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="inventoryCountGrid" options="mainGridOptions" >
+                <div k-detail-template>
+                    <kendo-tabstrip>
+                        <ul>
+                            <li class="k-state-active">盘点任务</li>
+                            <li>盘点明细</li>
+                            <li>盘点差异</li>
+                        </ul>
+
+                        <div>
+                            <div kendo-grid="countTaskGrid" k-options="countTaskOptions(dataItem)"></div>
+                        </div>
+                        <div>
+                            <div kendo-grid="countDetailGrid" k-options="countDetailOptions(dataItem)"></div>
+                        </div>
+                        <div>
+                            <div kendo-grid="countDiffGrid" k-options="countDiffOptions(dataItem)"></div>
+                        </div>
+                    </kendo-tabstrip>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="taskAllocatePopup" k-title="'盘点任务指派'"
+         k-resizable="false" k-model="false" k-visible="false">
+        <div class="k-edit-form-container">
+            <div style="width: 360px;" class="window-form clearfix">
+                <!--<div id="taskAllocatePopupGrid"></div>-->
+                <div class="pure-control-group p-b-5 pure-5 pos-r">
+                    <label>分配人员:</label>
+                    <!--<select name="countModel.allocateUser" ng-model="countModel.allocateUser" id="countModel.allocateUser"-->
+                            <!--ng-options="item.name for item in allocateUsers">-->
+                        <!--<option value="1">10002 人员1</option>-->
+                    <!--</select>-->
+                    <input type="text" name="countModel.assignUser" id="countModel.assignUser" ng-model="countModel.assignUser" ng-click="assignUserWindowOpen()"/>
+                    <!--<i class="fa fa-bars fa-click"></i><i class="fa fa-times-circle fa-clear"></i>-->
+                    <input type="hidden" name="countModel.id" ng-model="countModel.id" id="countModel.id">
+                </div>
+
+            </div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-primary k-grid-update" href="#"
+                   ng-click="confirmAllocate($event)"><span class="k-icon k-update"></span>确定</a>
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeAllocate()">
+                    <span class="k-icon k-cancel"></span>关闭</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div kendo-window="userWhPopup" k-title="'用户选择'" k-modal="true"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/userWh.html'}"></div>
+
+
+<script id="form-edit" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="window-form clearfix">
+            <!--<div class="pure-control-group p-b-5 pure-5">-->
+                <!--<label>盘点类型</label>-->
+                <!--<div class="panel-select">-->
+                    <!--<l-select src="CountTypeCode" name="typeCode" id="typeCode"></l-select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>盘点方式</label>
+                <div class="panel-select">
+                    <l-select src="CountModeCode" name="modeCode" id="modeCode"></l-select>
+                </div>
+            </div>
+            <!--<div class="pure-control-group p-b-5 pure-5">-->
+                <!--<label>盘点比例</label>-->
+                <!--<input id="percent" name="percent" type="text"/>-->
+            <!--</div>-->
+
+            <div class="pure-control-group p-b-5 pure-5 ">
+                <label>开始时间</label>
+                <wms-Date-Time-Picker id="countBeginTime"  />
+            </div>
+            <div class="pure-control-group p-b-5 pure-5 ">
+                <label>结束时间</label>
+                <wms-Date-Time-Picker id="countEndTime" />
+            </div>
+            <!--<div class="pure-control-group p-b-5 pure-5">-->
+                <!--<label>空库位</label>-->
+                <!--<div class="panel-select">-->
+                    <!--<select name="isNullLoc" id="isNullLoc" >-->
+                        <!--<option value="0">不参与盘点</option>-->
+                        <!--<option value="1">参与盘点</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</script>
+
+<script id="form-edit-task" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="window-form clearfix">
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>实盘数量</label>
+                <input id="countQty" name="countQty" type="text" class="js_wms_number" />
+            </div>
+        </div>
+    </div>
+</script>

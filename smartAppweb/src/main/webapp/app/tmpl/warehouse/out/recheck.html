@@ -1,0 +1,40 @@
+<div class="content-wrap" ng-controller="warehouseOutRecheckController">
+    <div class="box2" panelTitle="按单复核" id="searchPanel">
+        <form id="queryForm">
+            <table>
+                <tr>
+                    <td>包裹单号：</td>
+                    <td><input id="carrierReferNo" ng-model="shipment.carrierReferNo" name="carrierReferNo" type="text"/></td>
+                    <td>出库单号：</td>
+                    <td><select ng-model="defaultShipment" ng-options="sselect.key for sselect in shipmentselects track by sselect.value" >
+                    </select></td>
+                    <td>订单备注：</td>
+                    <td rowspan="2" colspan="2"><textarea  id="memo" ng-model="shipment.memo" name="memo" type="text" disabled="disabled"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="ali03">商品条码：</td>
+                    <td><input id="barCode" name="barCode" ng-model="shipment.barCode" type="text"/></td>
+                    <td class="ali03">收货人：</td>
+                    <td><input id="receiverName" ng-model="shipment.receiverName" name="receiverName" type="text" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">提示信息：</td>
+                    <td colspan="6" id="remind" ></td>
+
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+    <div width="100%">
+        <div  width="80%" panelTitle="商品信息">
+            <div id="skuDiv"></div>
+        </div>
+        <div width="10%" panelTitle="操作日志">
+            <div id="logsDiv" class="layout_content">
+            </div>
+        </div>
+    </div>
+</div>
+

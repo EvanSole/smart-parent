@@ -1,0 +1,53 @@
+<div class="content-wrap" ng-controller="reportIntegrationLocationAnalysisController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="reportLocationAnalysisGrid">
+            <div class="panel-group">
+                <label>开始时间:</label>
+                <wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group">
+                <label>结束时间:</label>
+                <wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>货区:</label>
+                <div class="panel-select">
+                    <r-select src="zone" name="query.zoneId" id="query.zoneId"></r-select>
+                </div>
+            </div>
+        </panel_heading_search>
+    </div>
+    <div class="panel-body">
+        <div kendo-grid="reportLocationAnalysisGrid" options="mainGridOptions">
+            <div k-detail-template>
+                <kendo-tabstrip>
+                    <ul>
+                        <li class="k-state-active">货位区域分析</li>
+                    </ul>
+
+                    <div>
+                        <div kendo-grid="locationAreaGrid" k-options="locationAreaOptions(dataItem)"></div>
+                    </div>
+                </kendo-tabstrip>
+            </div>
+        </div>
+    </div>
+
+    <!-- 货位分析报表-通道 -->
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="locationChannelPopup" k-title="'货位巷道分析'"
+         k-resizable="false" k-modal="false" k-visible="false">
+        <div class="k-edit-form-container">
+            <div style="width: 1050px" class="window-form clearfix">
+                <div id="locationChannelPopupGrid"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

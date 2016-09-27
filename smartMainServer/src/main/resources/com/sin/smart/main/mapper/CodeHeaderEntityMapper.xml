@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sin.smart.main.mapper.CodeHeaderMapper" >
+  <resultMap id="BaseResultMap" type="com.sin.smart.entity.main.SmartCodeHeaderEntity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="list_name" property="listName" jdbcType="VARCHAR" />
+    <result column="is_system" property="isSystem" jdbcType="BIT" />
+    <result column="is_read_only" property="isReadOnly" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    id, list_name, is_system, is_read_only, description, create_user, create_time, update_user, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_smart_code_header
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_smart_code_header
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.sin.smart.entity.main.SmartCodeHeaderEntity" >
+    insert into t_smart_code_header (id, list_name, is_system, 
+      is_read_only, description, create_user, 
+      create_time, update_user, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{listName,jdbcType=VARCHAR}, #{isSystem,jdbcType=BIT}, 
+      #{isReadOnly,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sin.smart.entity.main.SmartCodeHeaderEntity" >
+    insert into t_smart_code_header
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="listName != null" >
+        list_name,
+      </if>
+      <if test="isSystem != null" >
+        is_system,
+      </if>
+      <if test="isReadOnly != null" >
+        is_read_only,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="listName != null" >
+        #{listName,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null" >
+        #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="isReadOnly != null" >
+        #{isReadOnly,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByExample" parameterType="map" >
+    update t_smart_code_header
+    set id = #{record.id,jdbcType=BIGINT},
+      list_name = #{record.listName,jdbcType=VARCHAR},
+      is_system = #{record.isSystem,jdbcType=BIT},
+      is_read_only = #{record.isReadOnly,jdbcType=BIT},
+      description = #{record.description,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sin.smart.entity.main.SmartCodeHeaderEntity" >
+    update t_smart_code_header
+    <set >
+      <if test="listName != null" >
+        list_name = #{listName,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null" >
+        is_system = #{isSystem,jdbcType=BIT},
+      </if>
+      <if test="isReadOnly != null" >
+        is_read_only = #{isReadOnly,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartCodeHeaderEntity" >
+    update t_smart_code_header
+    set list_name = #{listName,jdbcType=VARCHAR},
+      is_system = #{isSystem,jdbcType=BIT},
+      is_read_only = #{isReadOnly,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,212 @@
+<div class="content-wrap" ng-controller="warehouseOutConsumableController">
+<div class="panel panel-default">
+<panel_heading_search bind-ui="shipmentGrid">
+
+    <div class="panel-group ">
+        <label>创建开始时间</label>
+        <wms-Date-Time-Picker id="shipmentCreateDateFrom" format="yyyy/MM/dd 00:00:00" is-query="true"/>
+    </div>
+    <div class="panel-group ">
+        <label>创建结束时间</label>
+        <wms-Date-Time-Picker id="shipmentCreateDateTo" format="yyyy/MM/dd 23:59:59" is-query="true"/>
+    </div>
+
+    <div class="panel-group ">
+        <label>出库单号</label>
+        <input type="text" ng-model="query.id" class="js_wms_number" />
+    </div>
+
+    <div class="panel-group">
+        <label>商品名称</label>
+        <input type="text" ng-model="query.itemName"/>
+    </div>
+
+    <div class="panel-group">
+        <label>商品条码</label>
+        <input type="text" ng-model="query.barcode"/>
+    </div>
+
+    <div class="panel-group ">
+        <label>货号</label>
+        <input type="text" ng-model="query.skuProductNo" />
+    </div>
+
+    <div class="panel-group ">
+        <label>创建人</label>
+        <input type="text" ng-model="query.createUser" />
+    </div>
+
+</panel_heading_search>
+
+
+<div class="panel-body">
+    <div kendo-grid="shipmentGrid" options="shipmentGridOptions">
+        <div k-detail-template>
+            <kendo-tabstrip class="child-table-main">
+                <ul>
+                    <li class="k-state-active">出库单明细</li>
+                    <li>基本信息</li>
+                    <li>出库单日志</li>
+                </ul>
+
+
+                <!-- 出库单明细 -->
+                <div>
+                    <div kendo-grid="detailGrid" k-options="shipmentDetailOptions(dataItem)">
+                        <wms-import url="shipment/import" template-name="出库明细导入模板" title="出库明细导入"/>
+                    </div>
+                </div>
+
+                <!--基本信息-->
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/out/consumableBasic.html'"></div>
+                </div>
+
+                <!-- 出库单日志 -->
+                <div>
+                    <div kendo-grid k-options="logOptions(dataItem.id,'Shipment')"></div>
+                </div>
+
+            </kendo-tabstrip>
+        </div>
+
+        </kendo-grid>
+
+    </div>
+</div>
+
+</div>
+
+
+<!--商品选择-->
+<div kendo-window="skuPopup" k-title="'SKU'" k-modal="true"
+     k-resizable="false"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/sku.html' }"></div>
+
+
+<!--货位选择-->
+<div kendo-window="locationPopup" k-title="'货位'" k-modal="true"
+     k-resizable="false"
+     k-width="630" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/location.html' }">
+
+ </div>
+</div>
+
+<script id="shipment-editor" type="text/x-kendo-template">
+<div class="edit-form-container">
+    <div class="window-form clearfix">
+        <div class="pure-control-group p-b-5 pure-5">
+            <label>出库单号</label>
+            <input type="text" value="自动生成" disabled="disabled">
+        </div>
+        <div class="pure-control-group p-b-5 pure-5">
+            <label>商家</label>
+            <div class="select-wrapper">
+                <div class="select-border"></div>
+                <wms-ui-select ui-select-name="storerId" ui-select-id="storerId" src="storer" on-select=$parent.storerIdChange($item,$models) ng-disabled="!dataItem.isNew()"></wms-ui-select>
+            </div>
+        </div>
+
+        <div class="pure-control-group p-b-5 pure-5">
+            <label>数据来源</label>
+            <span class="inputDisbled" ng-if="dataItem.isNew()" wms-label="DataSource.Manual"
+                  bind-name="datasourceCode"></span>
+                <span class="inputDisbled" ng-if="!dataItem.isNew()" ng-bind="dataItem.datasourceCode|codeFormat:'DataSource'"></span>
+        </div>
+
+
+        <div class="pure-control-group p-b-5 pure-5">
+            <label>订单来源</label>
+            <span class="inputDisbled" wms-label="AllShipmentFrom.Other" bind-name="fromtypeCode"></span>
+        </div>
+
+        <div class="pure-control-group p-b-5 pure-5">
+            <label>单据状态</label>
+            <span class="inputDisbled" wms-label="TicketStatus.Initial" bind-name="statusCode"></span>
+        </div>
+
+    </div>
+</div>
+
+<kendo-tabstrip>
+<ul>
+    <li class="k-state-active">备注</li>
+</ul>
+
+<div class="edit-form-container">
+    <div class="pure-body p-l-r-10 p-t-10">
+        <div class="pure-control-group p-b-5 pure-5">
+            <label>备注</label>
+            <input id="memo" name="memo" ng-model="memo" type="text"/>
+        </div>
+    </div>
+</div>
+
+</kendo-tabstrip>
+</script>
+
+<script id="shipmentDetail-editor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="window-form clearfix">
+
+            <wms-popup-input data-type="location" data-item="dataItem" data-label="指定货位" data-errorMsg="请输入合法的货位号!"
+                             data-popup="$parent.locationPopup"
+                             validate-value-fn="validateLocationValue($event)" data-required="required"></wms-popup-input>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>SKU：</label>
+                <input type="text" id="skuSku" name="skuSku" ng-click="windowOpen(this)" readonly/>
+                <input type="hidden" id="skuId" name="skuId">
+            </div>
+
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>毛重：</label>
+                <input type="number" name="grossweight" id="grossweight">
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>净重：</label>
+                <input type="number" name="netweight" id="netweight">
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>体积：</label>
+                <input type="number" name="cube" id="cube">
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>期望出库数量：</label>
+                <input type="number" name="orderedQty" id="orderedQty" data-minqty="1"/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>已出库数量：</label>
+                <input type="number" readonly  name="shippedQty" id="shippedQty">
+            </div>
+
+            <div class="pure-control-group p-b-5">
+                <label>库存状态:</label>
+                <div class="panel-select">
+                    <l-select src="InventoryStatus" name="inventoryStatusCode" required
+                              id="inventoryStatusCode"></l-select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+<div ng-include="'/app/tmpl/warehouse/out/printDetail.html'"></div>
+
+
+
+
+
+
+
+
+
+

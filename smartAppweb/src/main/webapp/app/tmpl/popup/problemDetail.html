@@ -1,0 +1,29 @@
+<div class="content-wrap" ng-controller="problemTicklingController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="window-form pure-body">
+                <div class="pure-control-group p-b-5">
+                    <label>问题编号</label>
+                    <input id="keyDetail" name="keyDetail" ng-model="keyDetail" type="text" style="width:280px;"/>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label>问题标题</label>
+                    <input id="summaryDetail" name="summaryDetail" ng-model="summaryDetail" type="text" style="width:280px;"/>
+                </div>
+                <div class="pure-control-group p-b-5">
+                    <label style="float:left">问题描述</label>
+                    <textarea rows="10" cols="58" name="descriptionDetail" id="descriptionDetail" ng-model="descriptionDetail" ></textarea>
+                </div>
+            </div>
+
+            <div class="k-edit-buttons k-state-default">
+                <div style="text-align: center;margin: 10px 10px 10px;">
+                    <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeProblemWindow()">
+                        <span class="k-icon k-cancel"></span>关闭</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

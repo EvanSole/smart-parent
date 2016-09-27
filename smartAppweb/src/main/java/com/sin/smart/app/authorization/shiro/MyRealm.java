@@ -91,7 +91,7 @@ public class MyRealm extends AuthorizingRealm {
             //生成AuthenticationInfo信息交给间接父类AuthenticatingRealm使用CredentialsMatcher进行密码匹配,可自定义实现
             AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(currenUserEntity.getUserName(), userEntity.getPassword(),this.getName());
 
-            this.setSession(GlobalConstants.SESSION_USER,currenUserEntity);
+            this.setSession(GlobalConstants.SESSION_KEY,currenUserEntity);
 
             return authcInfo;
         }

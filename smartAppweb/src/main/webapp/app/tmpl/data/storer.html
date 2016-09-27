@@ -1,0 +1,116 @@
+<div class="content-wrap" ng-controller="dataStorerController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="storerGrid">
+            <div class="panel-group">
+                <label>商家编号:</label>
+                <input type="text" ng-model="query.storerNo"/>
+            </div>
+            <div class="panel-group">
+                <label>商家名称</label>
+                <input type="text" ng-model="query.longName"/>
+            </div>
+        </panel_heading_search>
+    </div>
+    <div class="panel-body">
+      <div kendo-grid="storerGrid" options="mainGridOptions">
+          <div k-detail-template>
+            <!--子表-->
+            <kendo-tabstrip>
+              <ul>
+                <li class="k-state-active">权限信息</li>
+              </ul>
+              <!-- 权限信息 -->
+              <div>
+                <div kendo-grid="storerDetailGrid"  options="detailOptions(dataItem)">
+                </div>
+              </div>
+            </kendo-tabstrip>
+          </div>
+      </div>
+    </div>
+    <!-- 仓库新增权限 -->
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="permissionPopup"
+         k-title="'新增权限'" k-resizable="false"
+         k-modal="true" k-visible="false">
+      <div class="k-edit-form-container">
+        <div class="k-edit-form-container">
+          <div kendo-grid="userGrid" style="width:600px;height: 300px" options="userGridOptions"></div>
+        </div>
+      </div>
+    </div>
+</div>
+<script id="storerEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form">
+            <div class="clearfix">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商家编号:</label>
+                    <input type="text" name="storerNo" id="storerNo" required/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商家类型:</label>
+                    <div class="panel-select">
+                        <l-select src="StorerType" name="typeCode" id="typeCode"></l-select>
+                    </div>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商家名称:</label>
+                    <input type="text" name="longName" id="longName" />
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>商家简称:</label>
+                    <input type="text" name="shortName" id="shortName" />
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>地址:</label>
+                    <input type="text" name="address" id="address"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>国家:</label>
+                    <input  type="text" name="country" id="country" />
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>省区:</label>
+                    <input id="state" name="state"  type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>城市:</label>
+                    <input id="city" name="city" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>县区:</label>
+                    <input id="district" name="district" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>邮政编码:</label>
+                    <input id="zip" name="zip" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>联系人:</label>
+                    <input id="contact" name="contact" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>联系电话:</label>
+                    <input id="telephone" name="telephone" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>传真:</label>
+                    <input id="fax" name="fax" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>电子信箱:</label>
+                    <input id="email" name="email" type="text"/>
+                </div>
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>是否可用:</label>
+                    <input type="checkbox" name="isActive" id="isActive" value="1"/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-5">
+                <label class="panel-label-left">备注</label>
+                <textarea class="tear-text" role="20" cols="52" rows="5" id="description" name="description"></textarea>
+            </div>
+        </div>
+
+    </div>
+</script>

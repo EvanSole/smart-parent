@@ -1,0 +1,9 @@
+<div class="content-wrap" ng-controller="popupCarrierController">
+    <div class="k-edit-buttons k-state-default">
+        <a class="k-button k-button-icontext k-primary k-grid-update" href="#" ng-click="selectCarrier()">
+            <span class="k-icon k-update"></span>更新</a>
+        <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeCarrierWindow()">
+            <span class="k-icon k-cancel"></span>取消</a>
+    </div>
+    <div kendo-grid="carrierPopupGrid" options="carrierGridOptions"></div>
+</div>

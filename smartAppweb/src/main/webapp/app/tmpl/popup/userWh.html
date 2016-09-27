@@ -1,0 +1,32 @@
+<div class="content-wrap" ng-controller="popupUserWhController" >
+    <div class="panel panel-default">
+        <div class="panel-heading" >
+            <form class="pure-form pure-form-land" bind-ui="userWhPopupGrid">
+                <div class="panel-box-main">
+                    <div class="pure-control-group p-b-5 dp-i-b">
+                        <label>登入账号:</label>
+                        <input type="text" ng-model="query.loginName" size="15"/>
+                    </div>
+                    <div class="pure-control-group p-b-5 dp-i-b">
+                        <label>用户名称:</label>
+                        <input type="text" ng-model="query.userName" size="15"/>
+                    </div>
+                    <div class="pure-control-group p-b-5 dp-i-b">
+                        <wms-search-button></wms-search-button>
+                        <wms-reset-button></wms-reset-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div kendo-grid="userWhPopupGrid" options="mainGridOptions"></div>
+        <br>
+        <div class="k-edit-buttons k-state-default">
+            <div class="pull-right">
+                <a class="k-button k-button-icontext k-primary k-grid-update" href="#" ng-click="selectUser()">
+                    <span class="k-icon k-update"></span>确定</a>
+                <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="closeUserWindow()">
+                    <span class="k-icon k-cancel"></span>取消</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="content-wrap" ng-controller="reportReceiptSummaryController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="receiptHeaderGrid">
+            <div class="panel-group">
+                <label>创建日期起:</label><wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00" date/>
+            </div>
+            <div class="panel-group">
+                <label>止:</label><wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>商品条码:</label><input type="text" ng-model="query.barcode"/>
+            </div>
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>供应商:</label>
+                <div class="panel-select">
+                    <r-select src="supplier" name="query.supplierId" id="query.supplierId"></r-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>商品名称</label>
+                <input type="text" ng-model="query.itemName"/>
+            </div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="receiptHeaderGrid" options="mainGridOptions">
+            </div>
+        </div>
+    </div>
+</div>

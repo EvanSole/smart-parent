@@ -44,11 +44,11 @@ public class BaseController {
         return this.response;
     }
 
-    protected CurrentUserEntity getCurrentUser() {
-       return (CurrentUserEntity)getSession().getAttribute(GlobalConstants.SESSION_USER);
+    protected CurrentUserEntity getSessionCurrentUser() {
+       return (CurrentUserEntity)getSession().getAttribute(GlobalConstants.SESSION_KEY);
     }
-    protected void setCurrentUser(CurrentUserEntity user) {
-        getSession().setAttribute(GlobalConstants.SESSION_USER, user);
+    protected void setSessionCurrentUser(CurrentUserEntity user) {
+        getSession().setAttribute(GlobalConstants.SESSION_KEY, user);
     }
 
     protected void setCurrentWarehouseId(long warehouseId) {
@@ -158,14 +158,14 @@ public class BaseController {
      * @return
      */
     protected DbShardVO getDbShardVO(DbShareField...source) {
-        return ShareDbUtil.getDbShardVO(this.getCurrentUser(),this.getCurrentWarehouseId(),source);
+        return ShareDbUtil.getDbShardVO(this.getSessionCurrentUser(),this.getCurrentWarehouseId(),source);
     }
 
     /**
      * 退出登录
      */
     public void removeSessionAttribute(){
-        getSession().removeAttribute(GlobalConstants.SESSION_USER);
+        getSession().removeAttribute(GlobalConstants.SESSION_KEY);
         getSession().removeAttribute(GlobalConstants.WAREHOUSE_ID);
         getSession().removeAttribute(GlobalConstants.TENAN_ID);
     }

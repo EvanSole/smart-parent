@@ -41,16 +41,21 @@
                 /**/login.html = anon
                 /login = anon
                 /logout = logout
+                /unauthorized=anon
                 /favicon.ico = anon
                 /**/*.css = anon
                 /**/*.ico = anon
                 /**/*.jpg = anon
                 /**/*.png = anon
                 /**/*.gif = anon
-                /system/version = anon
+                /**/*.js = user,cusAuthc
+                /**/*.json = user,cusAuthc
                 /app/bower_components/** = anon
-                /app/views/**/*.html =cusAuthc
-                /** = cusAuthc
+                /app/*.html = user,cusAuthc
+                /app/tmpl/*.html = user,cusAuthc
+                /app/tmpl/layout/*.html = user,cusAuthc
+                /app/tmpl/**/*.html = user,cusAuthc
+                /** = user,cusAuthc
             </value>
         </property>
         <property name="filters">

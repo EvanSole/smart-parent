@@ -1,0 +1,363 @@
+<div class="content-wrap" ng-controller="warehouseInSoreturnAsnController">
+
+    <form class="pure-form pure-form-land" bind-ui="soreturnAsnGrid">
+
+        <div class="pure-control-group">
+            <label>单号:</label><input type="text" ng-model="query.orderNo"/></div>
+        <div class="pure-control-group">
+            <label>商品名称:</label><input type="text" ng-model="query.itemName"/></div>
+        <div class="pure-control-group">
+            <label>SKU编码:</label><input type="text" ng-model="query.sku"/></div>
+        <div class="pure-control-group">
+            <label>商品条码:</label><input type="text" ng-model="query.barcode"/></div></br>
+        <div class="pure-control-group">
+            <label>商家:</label>
+            <div class="select-wrapper">
+                <div class="select-border"></div>
+                <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+            </div>
+        </div>
+        <!--<div class="pure-control-group">
+            <label>数据来源:</label><l-select src="DataSource" name="query.datasourceCode" id="query.datasourceCode"></l-select></div>
+        <div class="pure-control-group">
+            <label>收货状态:</label><l-select src="ReceiptStatus" name="query.statusCode" id="query.statusCode"></l-select></div>
+       <div class="pure-control-group">
+            <label>单据来源:</label><l-select src="TicketStatus" name="query.ticketStatusCode" id="query.ticketStatusCode"></l-select></div>
+        <div class="pure-control-group">
+            <label>商品条码:</label><l-select src="ShipmentFrom" name="query.fromTypeCode" id="query.fromTypeCode"></l-select></div></br>
+-->
+        <div class="pure-control-group">
+            <label>物流单号:</label><input type="text" ng-model="query.carrierReferNo"/></div>
+        <div class="pure-control-group">
+            <label>物流公司:</label><input type="text" ng-model="query.carrierName"/></div>
+        <wms-search-button></wms-search-button>
+        <button class="pure-button" ng-click="tt()">重置</button>
+    </form>
+
+    <div kendo-grid="soreturnAsnGrid" options="soreturnAsnGridOptions">
+        <div k-detail-template>
+            <kendo-tabstrip>
+                <ul>
+                    <li class="k-state-active">明细信息</li>
+                    <li>基本信息</li>
+                    <li>承运商信息</li>
+                    <li>供应商信息</li>
+                    <li>操作日志</li>
+                </ul>
+
+
+                <!-- 明细信息 -->
+                <div>
+                    <div kendo-grid k-options="soreturnAsnDetailOptions(dataItem)"></div>
+                </div>
+
+
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/in/soreturnAsnDetailTemp.html'"></div>
+                </div>
+
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/in/carriageTemp.html'"></div>
+                </div>
+
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/in/vendorTemp.html'"></div>
+                </div>
+
+                <div>
+                    <div kendo-grid k-options="logOptions(dataItem.id,'ASN')"></div>
+                </div>
+
+            </kendo-tabstrip>
+        </div>
+    </div>
+</div>
+
+
+
+<script id="asn-editor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <table>
+            <tr>
+                <td class="ali03">商家：</td>
+                <td>
+                    <r-select src="storer" name="storerId" id="storerId"></r-select>
+                </td>
+
+                <td class="ali03">数据来源：</td>
+                <td>
+                    <select id="datasourceCode" name="datasourceCode">
+                        <option value="Manual" selected = "selected">手工创建</option>
+                    </select>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="ali03">参考单号：</td>
+                <td><input type="text" id="referNo" name="referNo"/></td>
+                <td class="ali03">订单来源：</td>
+                <td>
+                    <l-select src="ShipmentFrom" name="fromTypeCode" id="fromTypeCode"></l-select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ali03">来源单号：</td>
+                <td><input id="fromOrderNo" name="fromOrderNo" type="text"/></td>
+                <td class="ali03">仓库单证号：</td>
+                <td><input id="warehouseReferNo" name="warehouseReferNo" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">总托数：</td>
+                <td><input id="totalPalletQty" name="totalPalletQty" type="number"/></td>
+                <td class="ali03">总数量：</td>
+                <td><input id="totalQty" name="totalQty" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">总箱数：</td>
+                <td><input id="totalCartonQty" name="totalCartonQty" type="number"/></td>
+                <td class="ali03">总净重：</td>
+                <td><input id="totalNetWeight" name="totalNetWeight" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">总毛重：</td>
+                <td><input id="totalGrossWeight" name="totalGrossWeight" type="number"/></td>
+                <td class="ali03">总体积：</td>
+                <td><input id="totalCube" name="totalCube" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">起运地址：</td>
+                <td ><input id="fromAddress" name="fromAddress" type="text"/></td>
+                <td width="80px;">预到货日期</td>
+                <td width="80px;">
+                    <input type="text" id="expectedDate" name="expectedDate"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="ali03">备注：</td>
+                <td colspan="3"><textarea cols="50" name="memo" id="memo"></textarea></td>
+            </tr>
+        </table>
+    </div>
+    <hr/>
+    <kendo-tabstrip>
+        <ul>
+            <li class="k-state-active">供应商</li>
+            <li>合作方信息</li>
+            <li>扩展属性</li>
+        </ul>
+
+
+        <!-- 出库单明细 -->
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">供应商：</td>
+                    <td><input  type="text" name="vendorId"/></td>
+                    <td class="ali03">联系人：</td>
+                    <td><input id="vendorContact" name="vendorContact"  type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">联系电话：</td>
+                    <td><input id="vendorTelephone" name="vendorTelephone" type="text"/></td>
+                    <td class="ali03">地址：</td>
+                    <td><input id="vendorAddress" name="vendorAddress" ng-model="vendorAddress" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">供应商编号：</td>
+                    <td><input name="vendorReferNo" id="vendorReferNo" type="text"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali04">承运商：</td>
+                    <td><input id="carrierName" name="carrierName" type="text"/></td>
+                    <td class="ali04">联系人：</td>
+                    <td><input id="carrierContact" name="carrierContact" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali04">联系电话：</td>
+                    <td><input id="carrierTelephone" name="carrierTelephone" type="text"/></td>
+                    <td class="ali04">承运商单证编号：</td>
+                    <td><input id="carrierReferNo" name="carrierReferNo" type="text"/></td>
+
+                </tr>
+                <tr>
+                    <td class="ali03">运输方式：</td>
+                    <td><l-select src="TransportMode" name="transportModeCode" id="transportModeCode"></l-select></td>
+                    </td>
+                    <td class="ali03">车船号码：</td>
+                    <td><input id="vehicleNo" name="vehicleNo" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">地址：</td>
+                    <td><input id="carrierAddress" name="carrierAddress" type="text"/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">扩展属性一：</td>
+                    <td><input id="userdef01" name="userdef01" type="text"/></td>
+                    <td class="ali03">扩展属性二：</td>
+                    <td><input id="userdef02" name="userdef02"  type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性三：</td>
+                    <td><input id="userdef03" name="userdef03"  type="text"/></td>
+                    <td class="ali03">扩展属性四：</td>
+                    <td><input id="userdef04" name="userdef04" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性五：</td>
+                    <td><input id="userdef05" name="userdef05"  type="text"/></td>
+                    <td class="ali03">扩展属性六：</td>
+                    <td><input id="userdef06" name="userdef06" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性七：</td>
+                    <td><input id="userdef07" name="userdef07" type="text"/></td>
+                    <td class="ali03">扩展属性：八</td>
+                    <td><input id="userdef08" name="userdef08" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性九：</td>
+                    <td><input id="userdef09" name="userdef09" type="text"/></td>
+                    <td class="ali03">扩展属性十：</td>
+                    <td><input id="userdef10" name="userdef10" type="text"/></td>
+                </tr>
+            </table>
+        </div>
+
+
+    </kendo-tabstrip>
+</script>
+
+
+<!--详细信息明细数据-->
+<script id="asnDetail-editor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <table width="100%">
+            <tr>
+                <td class="ali03">参考行号：</td>
+                <td><input type="text" id="fromLineNo" name="fromLineNo"/></td>
+                <td class="ali03">参考单号：</td>
+                <td><input type="text" id="fromOrderNo" name="fromOrderNo"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">SKU：</td>
+                <td><input type="text" id="skuId" name="skuId" ng-click="windowOpen()"/></td>
+                <td class="ali03">商品名称：</td>
+                <td><input type="text" id="itemName" readonly name="itemName"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">发票号：</td>
+                <td><input id="invoiceNo" name="invoiceNo" type="text"/></td>
+            </tr>
+        </table>
+    </div>
+    <hr/>
+    <kendo-tabstrip>
+        <ul>
+            <li class="k-state-active">基础信息</li>
+            <li>扩展信息</li>
+        </ul>
+
+
+        <!-- 到货通知单明细 -->
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">期望数量：</td>
+                    <td><input  type="number" id="expectedQty" name="expectedQty"/></td>
+                    <td class="ali03">已收数量：</td>
+                    <td><input  type="number" readonly value="0" id="receivedQty" name="receivedQty"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">每箱件数：</td>
+                    <td><input  type="number" readonly id="" name=""/></td>
+                    <td class="ali03">上次收货时间：</td>
+                    <td><input  type="text" readonly id="lastReceiptTime" name="lastReceiptTime"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">箱数：</td>
+                    <td><input  type="number" id="cartonQty" name="cartonQty"/></td>
+                    <td class="ali03">箱号：</td>
+                    <td><input  type="number" id="cartonNo" name="cartonNo"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">需要质检：</td>
+                    <td><input  type="checkbox" id="isNeedQc" name="isNeedQc"/></td>
+                    <td class="ali03">客户检验单号：</td>
+                    <td><input  type="text" id="qcReferNo" name="qcReferNo"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">净重：</td>
+                    <td><input  type="number" id="netWeight" name="netWeight"/></td>
+
+                    <td class="ali03">毛重：</td>
+                    <td><input  type="number" id="grossWeight" name="grossWeight"/></td>
+
+                </tr>
+                <tr>
+                    <td class="ali03">体积：</td>
+                    <td><input  type="number" id="cube" name="cube"/></td>
+
+                </tr>
+                <tr>
+                    <td class="ali03">备注：</td>
+                    <td colspan="3"><textarea cols="50" name="description" id="description"></textarea></td>
+                </tr>
+            </table>
+        </div>
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">扩展属性一：</td>
+                    <td><input id="userdef01" name="userdef01" type="text"/></td>
+                    <td class="ali03">扩展属性二：</td>
+                    <td><input id="userdef02" name="userdef02"  type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性三：</td>
+                    <td><input id="userdef03" name="userdef03"  type="text"/></td>
+                    <td class="ali03">扩展属性四：</td>
+                    <td><input id="userdef04" name="userdef04" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性五：</td>
+                    <td><input id="userdef05" name="userdef05"  type="text"/></td>
+                    <td class="ali03">扩展属性六：</td>
+                    <td><input id="userdef06" name="userdef06" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性七：</td>
+                    <td><input id="userdef07" name="userdef07" type="text"/></td>
+                    <td class="ali03">扩展属性：八</td>
+                    <td><input id="userdef08" name="userdef08" type="text"/></td>
+                </tr>
+                <tr>
+                    <td class="ali03">扩展属性九：</td>
+                    <td><input id="userdef09" name="userdef09" type="text"/></td>
+                    <td class="ali03">扩展属性十：</td>
+                    <td><input id="userdef10" name="userdef10" type="text"/></td>
+                </tr>
+            </table>
+        </div>
+
+
+    </kendo-tabstrip>
+</script>
+
+<!--商品选择-->
+<div kendo-window="skuPopup" k-title="'SKU'" k-modal="true"
+     k-resizable="false"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/sku.html' }"></div>

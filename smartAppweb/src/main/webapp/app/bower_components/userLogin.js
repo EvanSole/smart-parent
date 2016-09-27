@@ -1,4 +1,4 @@
-$(function(){
+    $(function(){
 //    //居中
 //    $('.login_main').center();
     document.getElementById("username").focus();
@@ -34,7 +34,6 @@ function login(isForceLogin) {
     var tenantNo = document.getElementById("tenantNo");
     var loginName = document.getElementById("username");
     var password = document.getElementById("password");
-    var tenantNo = document.getElementById("tenantNo");
 
     if(isForceLogin === undefined){
         isForceLogin = false;
@@ -96,10 +95,6 @@ function login(isForceLogin) {
 
                         $(".login_info").html(result.message);
                     }
-
-
-
-
                 }
             }
         });

@@ -1,0 +1,53 @@
+<div class="content-wrap" ng-controller="reportExceptionLogController">
+    <div class="panel panel-default">
+        <panel-heading-search bind-ui="reportExceptionLogGrid">
+            <div class="panel-group">
+                <label>开始时间:</label>
+                <wms-Date-Time-Picker id="startTime" is-query="false" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group">
+                <label>结束时间:</label>
+                <wms-Date-Time-Picker id="endTime" is-query="false" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>单据状态:</label>
+                <div class="panel-select">
+                    <l-select src="ExceptionLogStatus" name="query.statusCode" id="query.statusCode"></l-select>
+                </div>
+            </div>
+
+            <div class="panel-group">
+                <label>操作类型:</label>
+                <div class="panel-select">
+                    <l-select src="ExceptionLogType" name="query.operationCode" id="query.operationCode"></l-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>中转车号:</label>
+                <input type="text" ng-model="query.palletNo" />
+            </div>
+            <div class="panel-group">
+                <label>单据号:</label>
+                <input type="text" ng-model="query.orderNo" />
+            </div>
+            <div class="panel-group">
+                <label>创建人:</label>
+                <input type="text" ng-model="query.createUser" />
+            </div>
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>备注:</label>
+                <input type="text" ng-model="query.memo" />
+            </div>
+        </panel-heading-search>
+        <div class="panel-body">
+            <div kendo-grid="reportExceptionLogGrid" options="mainGridOptions"></div>
+        </div>
+    </div>
+</div>

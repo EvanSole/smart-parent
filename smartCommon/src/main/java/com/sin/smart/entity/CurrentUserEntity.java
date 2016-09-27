@@ -1,9 +1,16 @@
 package com.sin.smart.entity;
 
-public class CurrentUserEntity {
+import java.io.Serializable;
+
+public class CurrentUserEntity implements Serializable {
+
+    private Long userId;
     private String userName;
-    private String password;
+    private String realName;
     private Long tenantId; //租户Id
+    private String domain;
+    private String accessToken;
+    private Byte isAdmin;
 
     public String getUserName() {
         return userName;
@@ -11,14 +18,6 @@ public class CurrentUserEntity {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Long getTenantId() {
@@ -29,12 +28,43 @@ public class CurrentUserEntity {
         this.tenantId = tenantId;
     }
 
-    @Override
-    public String toString() {
-        return "CurrentUserEntity{" +
-                "userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", tenantId='" + tenantId + '\'' +
-                '}';
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public Byte getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Byte isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

@@ -9,9 +9,14 @@
   <!-- brand -->
   <a href="#/" class="navbar-brand text-lt">
     {{ app.name }}
+    <!--<i class="fa fa-btc"></i>-->
+    <!--<img src="img/logo.png" alt="." width="64" height="64" class="hide">-->
+    <!--<span class="hidden-folded m-l-xs ng-binding"></span>-->
   </a>
+  <!-- / brand -->
 
 </div>
+<!-- / navbar header -->
 
 <!-- navbar collapse -->
 <div class="collapse pos-rlt navbar-collapse box-shadow bg-white-only h-left-bg">
@@ -30,10 +35,36 @@
     </li>
 
   </ul>
+  <!--<ul class="nav navbar-nav h-nav">-->
+
+    <!--<li ng-repeat="menuItem in menu" class="dropdown" data-test="{{$index === naviIndexes.topMenuIndex}}">-->
+      <!--<a href="" ui-sref="{{ menuItem.code }}" ui-sref-active="active" ng-click="changeTopNavi($index)"  ng-class="{true:'active',false:''}[$index === naviIndexes.topMenuIndex]" >{{ menuItem.name }} </a>-->
+      <!--<div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>-->
+      <!--<div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>-->
+    <!--</li>-->
+
+  <!--</ul>-->
+
+    <!-- / link and dropdown -->
+
+    <!-- search form -->
+
+    <!-- / search form -->
+
+    <!-- nabar right -->
     <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="" class="dropdown-toggle clear" dropdown-toggle="" aria-haspopup="true" aria-expanded="false" ng-click="openWarehouseWin(true)">
+            <span class="hidden-sm hidden-md">{{ user.warehouse }}</span>
+          </a>
+        </li>
         <li class="dropdown" dropdown="">
 
             <a href="" class="dropdown-toggle clear" dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+                <!--<span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                  <img src="img/a0.jpg" alt="...">
+                  <i class="on md b-white bottom"></i>
+                </span>-->
                 <span class="hidden-sm hidden-md">{{ user.userName }}</span> <b class="caret"></b>
             </a>
             <!-- dropdown -->
@@ -48,6 +79,10 @@
                         <li>
                             <span>姓名</span>{{ user.userName }}
                         </li>
+
+                        <!--<li>-->
+                            <!--<span>角色</span>{{ user.roleName }}-->
+                        <!--</li>-->
                     </ol>
                 </div>
                 <div class="user-self">
@@ -60,7 +95,7 @@
 
         <li>
             <div class="fun-icon">
-                <a href="/index/logout"><i class="fa fa-sign-out signOut"></i></a>
+                <a href="/logout"><i class="fa fa-sign-out signOut"></i></a>
             </div>
         </li>
     </ul>

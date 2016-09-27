@@ -1,0 +1,32 @@
+<div ng-controller="warehouseOutWeightController">
+    <table width="100%">
+        <tr>
+            <td width="30%"><input type="hidden" id="shipmentId" name="shipmentId"></td>
+            <td width="12%" class="ali01 font_20">包裹单号</td>
+            <td><input id="carrierReferNo" class="font_20" style="width:340px; height:25" name="carrierReferNo"
+                       type="text"/></td>
+        </tr>
+        <tr>
+            <td width="30%"></td>
+            <td width="12%" class="ali01 font_20">标准重量(kg)</td>
+            <td><input id="totalGrossweight" class="font_20" style="width:340px; height:25" name="totalGrossweight"
+                       disabled="disabled" type="text"/></td>
+        </tr>
+        <tr>
+            <td width="30%"></td>
+            <td width="12%" class="ali01 font_20">重量</td>
+            <td><input id="totalWeight" class="font_20" inputMode="positiveDecimal" style="width:340px; height:25"
+                       name="totalWeight" type="text"/></td>
+        </tr>
+        <tr>
+            <td width="30%"></td>
+            <td width="11%" class="ali01 font_20">操作日志</td>
+            <td>
+                <div name="操作日志" id="logsDiv" style="width:500px;height:224px;overflow:auto;">
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>
+

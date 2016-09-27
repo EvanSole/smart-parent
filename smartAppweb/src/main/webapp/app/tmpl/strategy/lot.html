@@ -1,0 +1,148 @@
+<div class="content-wrap" ng-controller="strategyLotController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="lotGrid">
+            <div class="panel-group">
+                <label>策略名称</label><input type="text" ng-model="query.strategyName" />
+            </div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="lotGrid" options="lotGridOptions">
+                <div k-detail-template>
+                    <div kendo-grid="lotDetailGrid" options="detailOptions(dataItem)">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="lotEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form">
+            <div class="clearfix">
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>策略名称：</label>
+                    <input id="strategyName" name="strategyName" type="text" required/>
+                </div>
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>是否默认：</label>-->
+                    <!--<input id="isDefault" name="isDefault" type="checkbox" ng-model="isDefault" ng-change="change(this)"/>-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>是否可用：</label>-->
+                    <!--<input id="isActive" name="isActive" type="checkbox" ng-model="isActive" ng-checked="isDefault" ng-disabled="isDefault" />-->
+                <!--</div>-->
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>按到货通知单：</label>
+                    <input id="isByAsn" name="isByAsn" type="radio" ng-click="clickRadioButton('isByAsn', this)" class="radioClass" />
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>按入库单：</label>
+                    <input id="isByReceipt" name="isByReceipt" type="radio" ng-click="clickRadioButton('isByReceipt', this)" class="radioClass" />
+                </div>
+
+                <div class="pure-control-group p-b-5 pure-5">
+                    <label>按生产日期：</label>
+                    <input id="isByProductionTime" name="isByProductionTime" type="radio" ng-click="clickRadioButton('isByProductionTime', this)" class="radioClass" />
+                </div>
+            </div>
+
+            <div class="pure-control-group p-b-5 ">
+                <label>描述：</label>
+                <textarea class="tear-text" id="description" name="description" ></textarea>
+            </div>
+
+        </div>
+    </div>
+
+
+</script>
+
+
+
+<script id="lotDetailEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body window-form">
+            <div class="clearfix">
+
+                <div class="pure-control-group p-b-5 ">
+                    <label>批次属性</label>
+                    <label>商品属性</label>
+                    <label>显示名称</label>
+                    <label>显示顺序</label>
+                    <label>数据类型</label>
+                    <label>是否可用</label>
+                    <label>是否必选</label>
+                    <label>默认值</label>
+                </div>
+
+                <div ng-repeat="n in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] track by $index">
+                    <div class="p-b-5">
+                        <input id="id_{{n}}" name="id_{{n}}" type="hidden" />
+                        <input id="lotAttributeCode_{{n}}" name="lotAttributeCode_{{n}}" type="text" style="width: 126px;"/>
+                        <input id="skuCategoryCode_{{n}}" name="skuCategoryCode_{{n}}" type="text" style="width: 126px;"/>
+                        <input id="displayName_{{n}}" name="displayName_{{n}}" type="text"  style="width: 126px;"/>
+                        <input id="displayOrder_{{n}}" name="displayOrder_{{n}}" type="text"  style="width: 126px;"/>
+                        <div class="panel-select" style="position: absolute;width: 82px;">
+                            <l-select src="DataType" name="datatypeCode_{{n}}" id="datatypeCode_{{n}}"></l-select>
+                        </div>
+                        <input id="isActive_{{n}}" name="isActive_{{n}}" type="checkbox" value="1" style="margin-left: 150px;margin-right: 100px;"/>
+                        <input id="isMust_{{n}}" name="isMust_{{n}}" type="checkbox" value="1" style="margin-right: 80px;"/>
+                        <input id="defaultValue_{{n}}" name="defaultValue_{{n}}" type="text" style="width: 96px;"/>
+                    </div>
+                </div>
+
+                <!--<div kendo-grid="lotStrategyGrid" options="lotStrategyGridOptions" />-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>批次属性：</label>-->
+                    <!--<input id="lotAttributeCode" name="lotAttributeCode" type="text" />-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>商品属性：</label>-->
+                    <!--<input id="skuCategoryCode" name="skuCategoryCode" type="text" />-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>显示名称：</label>-->
+                    <!--<input id="displayName" name="displayName" type="text" required/>-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>显示顺序：</label>-->
+                    <!--<input id="displayOrder" name="displayOrder" type="text" />-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>数据类型：</label>-->
+                    <!--<input id="datatypeCode" name="datatypeCode" type="text" required />-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>是否可用：</label>-->
+                    <!--<input id="isActive" name="isActive" type="checkbox" value="1"/>-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>是否必选：</label>-->
+                    <!--<input id="isMust" name="isMust" type="checkbox" value="1"/>-->
+                <!--</div>-->
+
+                <!--<div class="pure-control-group p-b-5 pure-5">-->
+                    <!--<label>默认值：</label>-->
+                    <!--<input id="defaultValue" name="defaultValue" type="text" />-->
+                <!--</div>-->
+
+            </div>
+        </div>
+    </div>
+
+
+</script>
+

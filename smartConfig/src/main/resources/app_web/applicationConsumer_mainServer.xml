@@ -6,9 +6,12 @@
         http://code.alibabatech.com/schema/dubbo  
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
         ">
-   
-    <dubbo:reference id="userService" interface="com.sin.smart.main.service.IUserService" />
 
+    <!--订阅服务-->
+    <dubbo:reference id="userService" interface="com.sin.smart.main.service.IUserService" />
     <dubbo:reference id="roleService" interface="com.sin.smart.main.service.IRoleService" />
-    
+    <dubbo:reference id="permissionService" interface="com.sin.smart.main.service.IPermissionService" />
+    <dubbo:reference id="warehouseService" interface="com.sin.smart.main.service.IWarehouseService" />
+    <dubbo:reference id="moduleService" interface="com.sin.smart.main.service.IModuleService" />
+
 </beans>

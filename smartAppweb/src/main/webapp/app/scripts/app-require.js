@@ -1,7 +1,6 @@
 require.config({
     baseUrl: './',
     waitSeconds: 60,
-    urlArgs: 'V2.1.01.21.1',
     paths: {
         'jquery': 'bower_components/jquery/jquery-latest.min',
         'angular': 'bower_components/angular/angular',
@@ -22,7 +21,7 @@ require.config({
         'ui-router': 'bower_components/angular-ui-router/release/angular-ui-router',
         'ui-select': 'bower_components/angular-ui-select/dist/select.min',
         'ui-breadcrumbs': 'bower_components/angular-utils-ui-breadcrumbs/uiBreadcrumbs',
-        'angular-file-upload': 'bower_components/angular-file-upload/angular-file-upload',
+        'angular-file-upload': 'bower_components/angular-file-upload/angular-file-upload.min',
         'underscore': 'bower_components/underscore/underscore-min',
         'kendo': 'bower_components/kendo/kendo.all.min',
         'kendo-directives': 'bower_components/kendo/kendo.directives',
@@ -97,20 +96,22 @@ define([
     'app',
     'scripts/common/kendo.web.ext',
     'scripts/common/kendo.validator',
-    'scripts/common/config.base',
+    'scripts/common/codeData',
     'scripts/common/const',
+    'scripts/common/config.base',
     'scripts/common/directive',
     'scripts/common/naviDirective',
     'scripts/common/filters',
+//    'scripts/common/routes',
     'scripts/common/stateRoutes',
     'scripts/common/sync',
-    'scripts/common/baseDataEnum',
     'scripts/common/wmsPrint',
     'scripts/common/wmsReportPrint',
     'scripts/common/wmsDataSource',
+    'scripts/common/wmsLog',
     'scripts/common/kendo.messages.zh-CN',
     'scripts/main',
-    'scripts/common/wmsLog'
+    'scripts/common/commonService'
 ], function (require, angular) {
     'use strict';
     angular.element(document).ready(function () {

@@ -1,0 +1,196 @@
+<div class="content-wrap" ng-controller="warehouseOutWaveController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="waveGrid">
+            <div class="panel-group ">
+                <label>创建时间:</label>
+                <wms-Date-Time-Picker id="waveDateFrom" is-query="true"/>
+            </div>
+            <div class="panel-group ">
+                <label>到:</label>
+                <wms-Date-Time-Picker id="waveDateTo" is-query="true"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>创建人:</label>
+                <input type="text" ng-model="query.createUser"/>
+            </div>
+
+
+            <div class="panel-group ">
+                <label>波次单号:</label>
+                <input type="text" ng-model="query.id" class="js_wms_number" />
+            </div>
+
+            <div class="panel-group ">
+                <label>活动名称:</label>
+                <input type="text" ng-model="query.promotionName"/>
+            </div>
+
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+
+            <div class="panel-group ">
+                <label>单据状态:</label>
+                <div class="panel-select">
+                    <l-select src="TicketStatus" name="query.statusCode" id="query.statusCode"></l-select>
+                </div>
+            </div>
+
+            <div class="panel-group ">
+                <label>订单来源:</label>
+                <div class="panel-select">
+                    <l-select src="ShipmentFrom" name="query.fromTypeCode" id="query.fromTypeCode"></l-select>
+                </div>
+            </div>
+
+            <div class="panel-group ">
+                <label>店铺:</label>
+                <div class="panel-select">
+                    <r-select src="shop" name="query.shopId" id="query.shopId"></r-select>
+                </div>
+            </div>
+
+            <div class="panel-group ">
+                <label>物流公司:</label>
+                <div class="panel-select">
+                    <r-select src="carrier" name="query.carrierNo" id="query.carrierNo"></r-select>
+                </div>
+            </div>
+
+            <div class="panel-group">
+                <label>单件:</label>
+                <div class="panel-select">
+                    <l-select src="OrderStructure" name="query.orderstructCode" id="query.orderstructCode"></l-select>
+                </div>
+            </div>
+
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="waveGrid" options="waveGridOptions">
+        <div k-detail-template>
+    <kendo-tabstrip>
+        <ul>
+            <li class="k-state-active">出库单</li>
+            <li>商品汇总</li>
+            <li >分配结果</li>
+            <li>波次单日志</li>
+        </ul>
+
+
+        <!-- start波次单明细,即出库单信息 -->
+        <div>
+          <div kendo-grid ="shipmentGrid" k-options="waveDetailOptions(dataItem)"></div>
+        </div>
+
+
+      <!--start商品汇总-->
+      <div kendo-grid k-options="goodsInfoOptios(dataItem)"></div>
+
+
+      <!--start 分配结果-->
+      <div kendo-grid k-options="allocateOptios(dataItem)"></div>
+
+
+    <!--start 波次单日志-->
+      <div>
+          <div kendo-grid k-options="logOptions(dataItem.id,'Wave')"></div>
+      </div>
+
+
+
+    <script id="waveDetail-editor" type="text/x-kendo-template">
+
+    </script>
+
+
+    </kendo-tabstrip>
+    </div>
+  </kendo-grid>
+</div>
+
+    <div kendo-window="shipmentPopup" k-title="'绑定出库单'" k-modal="true"
+             k-width="600" k-height="400" k-visible="false" k-resizable="false"
+             k-content="{ url: './tmpl/popup/shipmentHeader.html' }">
+    </div>
+    </div>
+
+        <!--物流info展示层start-->
+        <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="carrierConfirmPopup" k-title="'确认物流信息'" k-modal="true"  k-visible="false">
+            <div class="k-edit-form-container">
+                <div class="k-edit-form-container">
+                    <table width="100%">
+                        <tr>
+                            <td style="padding-right:10px; ">物流公司</td>
+                            <td >
+                                <span name="carrierCode" id="carrierCode"/>
+                                <input type="hidden" id="carrierNo" name="carrierNo"/>
+                                <input type="hidden" id="templateId" name="templateId"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right:10px;">起始物流单号</td>
+                            <td>
+                                <input type="text" name="carrierReferNo" id="carrierReferNo"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-right:10px;">物流模板</td>
+                            <td >
+                                <span name="printTemplate" id="printTemplate"/>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="k-edit-buttons k-state-default">
+                    <a class="k-button k-button-icontext k-primary k-grid-update"  ng-click="carrierInfoConfirm('false')"><span class="k-icon k-update"></span>跳过</a>
+                    <a class="k-button k-button-icontext k-primary k-grid-update"  ng-click="carrierInfoConfirm('true')"><span class="k-icon k-update"></span>确定</a>
+                    <!--<a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="carrierConfirmClose()"><span class="k-icon k-cancel"></span>关闭</a>-->
+                </div>
+
+            </div>
+        </div>
+        <!--物流info展示层end-->
+
+
+        <!--面单info展示层start-->
+        <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="wayBillConfirmPopup" k-title="'确认面单信息'" k-resizable="false" k-modal="true"  k-visible="false">
+            <div class="k-edit-form-container">
+                <div class="k-edit-form-container">
+                    <table width="100%">
+                        <tr>
+                            <td style="padding-right:10px; ">物流公司</td>
+                            <td >
+                                <span name="wayBillCarrierCode" id="wayBillCarrierCode"/>
+                                <input type="hidden" id="wayBillTemplateId" name="wayBillTemplateId"/>
+                                <input type="hidden" id="reportCategoryCode" name="reportCategoryCode"/>
+                            </td>
+
+                        <tr>
+                            <td style="padding-right:10px;">面单模板</td>
+                            <td >
+                                <span name="wayBillPrintTemplate" id="wayBillPrintTemplate"/>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="k-edit-buttons k-state-default">
+                    <a class="k-button k-button-icontext k-primary k-grid-update"  ng-click="wayBillInfoConfirm()"><span class="k-icon k-update"></span>确定</a>
+                    <a class="k-button k-button-icontext k-grid-cancel"  href="#" ng-click="wayBillConfirmClose()"><span class="k-icon k-cancel"></span>关闭</a>
+                </div>
+
+            </div>
+        </div>
+        <!--面单info展示层end-->
+
+</div>
+
+<div ng-include="'/app/tmpl/warehouse/out/printDetail.html'"></div>
+</div>

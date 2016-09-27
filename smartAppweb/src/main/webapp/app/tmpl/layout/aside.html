@@ -23,10 +23,31 @@
           </ul>
         </li>
       </ul>
+      <!--<ul class="nav">-->
+        <!--<li ng-repeat="nav in navList" ng-class="{'active': $index === naviIndexes.leftTopIndex}">-->
+          <!--<a href class="auto" ng-click="changeLeftNavi(nav)">-->
+            <!--<span class="pull-right text-muted" ng-if="nav.children.length>0">-->
+              <!--<i class="fa fa-fw fa-angle-right text"></i>-->
+              <!--<i class="fa fa-fw fa-angle-down text-active"></i>-->
+            <!--</span>-->
+            <!--<i class="fa fa-smile-o"></i>-->
+            <!--<span>{{ nav.name }}</span>-->
+          <!--</a>-->
+          <!--<ul class="nav nav-sub dk">-->
+
+            <!--<li ui-sref-active="active" ng-repeat="item in nav.children" ng-class="{'active': $index === naviIndexes.leftSubIndex}">-->
+              <!--<a ui-sref="{{ item.code }}"  ng-click="changeLeftSubNavi(item, $index)">-->
+                <!--<span>{{ item.name }}</span>-->
+              <!--</a>-->
+            <!--</li>-->
+
+          <!--</ul>-->
+        <!--</li>-->
+      <!--</ul>-->
     </div>
     <div class="verion_bottom" ng-show="app.settings.asideFolded == false">
       <label ng-bind="versionNo"></label><br>
-      <a class="version_up_btn" href="#system/version"><em></em>更新历史</a>
+     <a class="version_up_btn" href="#system/version"><em></em>更新历史</a>
     </div>
   </div>
 </div>

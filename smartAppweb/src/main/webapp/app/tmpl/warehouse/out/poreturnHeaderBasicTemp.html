@@ -1,0 +1,52 @@
+<div>
+    <div kendo-div>
+        <table>
+            <tr>
+                <td width="80px;">商家名称</td>
+                <td width="80px;"><input type="text" disabled="true" ng-model="dataItem.storerId"/>
+                </td>
+                <td width="80px;">仓库名称</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.warehouseId"/>
+                </td >
+                <td width="80px;">供应商名称</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.supplierId"/>
+                </td>
+                <td width="80px;">采购退货单号</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.id"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="80px;">退货原因</td>
+                <td width="80px;"><input type="text" disabled="true" ng-model="dataItem.reasonCode"/>
+                </td>
+                <td width="80px;">退货时间</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.returnDate"/>
+                </td >
+                <td width="80px;">承运商名称</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.carrierId"/>
+                </td>
+                <td width="80px;">承运商单证</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.carrierReferNo"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="80px;">车牌号</td>
+                <td width="80px;"><input type="text" disabled="true" ng-model="dataItem.vehicleNo"/>
+                </td>
+                <td width="80px;">运输方式</td>
+                <td width="80px;"><l-select src="TransportMode" id="dataItem.transportModeCode" name="dataItem.transportModeCode"></l-select>
+                </td >
+                <td width="80px;">备注</td>
+                <td width="80px;">
+                    <input type="text" disabled="true" ng-model="dataItem.memo"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

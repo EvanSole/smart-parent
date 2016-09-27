@@ -1,0 +1,123 @@
+<table>
+    <tr>
+        <td width="80px;">商家名称</td>
+        <td width="80px;"><input type="text" disabled="true" ng-model="dataItem.storerId"/>
+        </td>
+        <td width="80px;">仓库名称</td>
+        <td width="80px;">
+            <input type="text" disabled="true" ng-model="dataItem.warehouseId"/>
+        </td>
+        <td width="80px;">店铺名称</td>
+        <td width="80px;">
+            <input type="text" disabled="true" ng-model="dataItem.shopName"/>
+        </td>
+        <td width="80px;">出库单号</td>
+        <td>
+            <input  type="text" disabled="true" ng-model="dataItem.id"/>
+        </td>
+        <td >数据来源</td>
+        <td>
+            <input  type="text" disabled="true" ng-model="dataItem.datasourceCode"/>
+        </td>
+    </tr>
+    <tr>
+        <td >订单来源</td>
+        <td><input  type="text" disabled="true" ng-model="dataItem.fromtypeCode"/>
+        </td>
+        <td >单据类型</td>
+        <td>
+            <input  type="text" disabled="true" value="出库单"/>
+        </td>
+        <td >来源单号</td>
+        <td>
+            <input  type="text" disabled="true" ng-model="dataItem.dnId"/>
+        </td>
+        <td >引用单号</td>
+        <td>
+            <input type="text" disabled="true" ng-model="dataItem.referNo"/>
+        </td>
+        <td >发货状态</td>
+        <td>
+            <input  type="text" disabled="true" ng-model="dataItem.deliveryStatuscode"/>
+        </td>
+    </tr>
+    <tr>
+        <td >波次单号</td>
+        <td><input  type="text" ng-model="dataItem.waveId" disabled="true"/>
+        </td>
+        <td >分销商名称</td>
+        <td>
+            <input  type="text" ng-model="dataItem.order.distributorName" disabled="true"/>
+        </td>
+        <td >客户名称</td>
+        <td>
+            <input  type="text" ng-model="dataItem.buyerNick" disabled="true"/>
+        </td>
+        <td >优先级</td>
+        <td>
+            <input  type="text" ng-model="dataItem.deliveryStatuscode" disabled="true"/>
+        </td>
+        <td >买家订单号</td>
+        <td>
+            <input  type="text" ng-model="dataItem.referNo" disabled="true"/>
+        </td>
+    </tr>
+    <tr>
+        <td >卖家订单号</td>
+        <td><input  type="text" ng-model="dataItem.warehouseReferno" disabled="true"/>
+        </td>
+        <td >仓库单号</td>
+        <td>
+            <input  type="text" ng-model="dataItem.warehouseReferno" disabled="true"/>
+        </td>
+        <td >订单日期</td>
+        <td>
+            <input  type="text" ng-model="dataItem.order.orderTime" disabled="true"/>
+        </td>
+        <td >期望发货时间</td>
+        <td>
+            <input  ng-model="dataItem.order.expectedDate" type="text" disabled="true"/>
+        </td>
+        <td >实际发货时间</td>
+        <td>
+            <input ng-model="dataItem.order.expectedDate" type="text" disabled="true"/>
+        </td>
+    </tr>
+    <tr>
+        <td >是否开票</td>
+        <td><input  type="text" ng-model="dataItem.order.isNeedInvoice" disabled="true"/>
+        </td>
+        <td >发票抬头</td>
+        <td><input  type="text" ng-model="dataItem.order.isNeedInvoice" disabled="true"/>
+        </td>
+        <td >是否货到付款</td>
+        <td>
+            <input  type="checkbox"  ng-model="dataItem.order.isCod" disabled="true"/>
+        </td>
+        <td >承运商名称</td>
+        <td>
+            <input ng-model="dataItem.carrierCode" type="text" disabled="true"/>
+        </td>
+        <td >承运商单证</td>
+        <td>
+            <input ng-model="dataItem.carrierReferNo" type="text" disabled="true"/>
+        </td>
+
+    </tr>
+    <tr>
+        <td >运输方式</td>
+        <td><input ng-model="dataItem.transportModeCode"  type="text" disabled="true"/>
+        </td>
+        <td >车牌号码</td>
+        <td><input ng-model="dataItem.vehicleno" type="text" disabled="true"/>
+        </td>
+        <td >运费</td>
+        <td>
+            <input ng-model="dataItem.order.postfee" type="text" disabled="true"/>
+        </td>
+        <td >商品编号</td>
+        <td>
+            <input type="text" disabled="true"/>
+        </td>
+    </tr>
+</table>

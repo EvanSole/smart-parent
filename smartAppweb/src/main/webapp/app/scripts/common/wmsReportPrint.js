@@ -616,19 +616,8 @@ define(['app'], function (app) {
                     kendo.ui.ExtAlertDialog.showError(xhr);
                 });
         }
-        
-        
-        /**
-         * 打印质检单id
-         * @param ids
-         */
-        wmsReportPrint.prototype.printQcOrderId = function (ids) {
-            checkPrintData(ids);
-            wmsPrint.printData(ids, wmsPrint.PrintType.Barcode);
-        }
-        
-        
-        
+
+
         return new wmsReportPrint();
     }
     ])

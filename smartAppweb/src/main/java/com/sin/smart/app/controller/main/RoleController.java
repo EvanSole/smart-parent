@@ -21,8 +21,8 @@ public class RoleController extends BaseController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseResult queryRoles(@RequestParam Map map){
-        map.put("tenantId", getCurrentUser().getTenantId());
-        return new ResponseResult(roleService.queryPageRoles(map));
+        map.put("tenantId", getSessionCurrentUser().getTenantId());
+        return new ResponseResult(roleService.queryRolePages(map));
     }
 
 

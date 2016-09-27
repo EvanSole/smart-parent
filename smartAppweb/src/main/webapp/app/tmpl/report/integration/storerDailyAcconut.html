@@ -1,0 +1,24 @@
+<div class="content-wrap" ng-controller="reportStorerDailyAccountController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="reportStorerDailyAccountGrid">
+                        <div class="panel-group">
+                            <label>开始时间:</label>
+                            <wms-Date-Time-Picker id="startTime" is-query="true" required format="yyyy/MM/dd 00:00:00"/>
+                        </div>
+                        <div class="panel-group">
+                            <label>结束时间:</label>
+                            <wms-Date-Time-Picker id="endTime" is-query="true" required format="yyyy/MM/dd 23:59:59"/>
+                        </div>
+                        <div class="panel-group">
+                            <label>商家:</label>
+                            <div class="panel-select">
+                                <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                            </div>
+                        </div>
+            </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="reportStorerDailyAccountGrid" options="mainGridOptions"></div>
+        </div>
+    </div>
+
+</div>

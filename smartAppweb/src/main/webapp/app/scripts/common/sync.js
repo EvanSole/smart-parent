@@ -1,9 +1,13 @@
-/**
- * Created by xiagn on 15/3/31.
- */
 define(['app', 'jquery', 'underscore'],function(app, $, _){
     "use strict";
     app.factory('sync', ['$http', '$q','$rootScope', 'url', function ($http, $q, $rootScope, urlConst) {
+
+        var systemDataUrl = [{
+            url:urlConst.dataWarehouseUrl,
+            getDataUrl:urlConst.getSystemDataWarehouseUrl,
+            dataKey:"WAREHOUSE_DATA"
+        }];
+
         function parseData(data) {
             var paramData = _.clone(data);
             _.each(_.keys(paramData),function(key){
@@ -35,7 +39,7 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
             }
             var longValue = value;
             if (_.isFunction(value.getTime)) {
-                return value.getTime()/1000;
+                return value.getTime();
             } else {
                 try{
                     var a=value.split(" ");
@@ -43,9 +47,9 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
 
                     if (a.length>1) {
                       var t=a[1].split(":");
-                      longValue= new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]).getTime()/1000;
+                      longValue= new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]).getTime();
                     } else if (d.length === 3) {
-                      longValue= new Date(d[0],(d[1]-1),d[2]).getTime()/1000;
+                      longValue= new Date(d[0],(d[1]-1),d[2]).getTime();
                     }
 
                 } catch(exception) {
@@ -116,7 +120,7 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
 
                     if (data === undefined) {
                         deferred.reject(data);
-                    } else if(!data.success) {
+                    } else if(!data.suc) {
                         if (data.resultType === "Confirm") {
                             $.when(kendo.ui.ExtOkCancelDialog.show({
                                     title: "确认",
@@ -129,18 +133,39 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                                     deferred.reject(data);
                                 });
                         } else {
-                            $.when(kendo.ui.ExtAlertDialog.show({
-                                title: "错误",
-                                message: data.message,
-                                icon: 'k-ext-error' })).done(function (resp) {
-                                if (resp.button === "OK") {
-                                    deferred.reject(data);
-                                    if (resp.button === 'OK') {
-                                        $rootScope.$broadcast('errorOK', data);
+                            if("1"===data.errorLevel){
+                                var message = "<span style='color: red;font-size: 20px;'>"+data.message+"</span>";
+                                $.when(kendo.ui.ExtAlertDialog.show({
+                                    title: "<span style='color: red;font-size: 20px;'>错误</span>",
+                                    message: message,
+                                    resizable:true,
+                                    height:"auto",
+                                    icon: 'k-ext-error' })).done(function (resp) {
+                                    if (resp.button === "OK") {
+                                        deferred.reject(data);
+                                        if (resp.button === 'OK') {
+                                            $rootScope.$broadcast('errorOK', data);
+                                        }
                                     }
-                                }
-                            });
+                                });
+                                $("#extAlertDialog").css("padding-bottom","40px");
+                                setTimeout(function(){
+                                    $("#extAlertDialog").focus();
+                                },500);
+                            }else {
+                                $.when(kendo.ui.ExtAlertDialog.show({
+                                    title: "错误",
+                                    message: data.message,
+                                    icon: 'k-ext-error' })).done(function (resp) {
+                                    if (resp.button === "OK") {
+                                        deferred.reject(data);
+                                        if (resp.button === 'OK') {
+                                            $rootScope.$broadcast('errorOK', data);
+                                        }
+                                    }
+                                });
                             }
+                        }
                     } else {
 
                         switch (data.resultType) {
@@ -191,9 +216,19 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                             case "Data":
                                 break;
                         }
-                        deferred.resolve(data);
+                        // 针对系统数据进行更新
+                        if (method !== "GET") {
+                          if (url.indexOf(urlConst.switchWarehouseUrl) >= 0) {
+                            $http(_.defaults({url: systemDataUrl[1].getDataUrl, method:"GET", wait: false}, defaultOptions)).then(function (xhr) {
+                              if (xhr.data.result) {
+                                 window.WMS[systemDataUrl[1].dataKey] = xhr.data.result;
+                               }
+                            });
+                          }
+                        } else {
+                          deferred.resolve(data);
+                        }
                     }
-
                 }).error(function(data, status, headers, config) {
                   if (options.wait) {
                     window.clearTimeout(timer);
@@ -229,6 +264,5 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                 return deferred.promise;
             }());
         };
-
     }]);
 });

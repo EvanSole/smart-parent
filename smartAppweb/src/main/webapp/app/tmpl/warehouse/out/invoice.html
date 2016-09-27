@@ -1,0 +1,76 @@
+
+<div class="bas-info border-none child-table-main">
+    <div>
+        <form class="wrapper-md">
+            <div class="clearfix">
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">开票抬头：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.invoiceTitle"/>
+                </div>
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">发票内容：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.invoiceContent"/>
+                </div>
+
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">发票金额：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.invoiceTotal"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">发票类型：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.invoiceTypeCode|codeFormat:'InvoiceType'"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">发票号：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.invoiceNo"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">纳税人识别号：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.taxpayerNo"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">公司名称：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.company"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">开户行：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.bank"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">银行帐号：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.accountNumber"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">注册电话：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.regTelephone"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">注册地址：</label>
+                    <span class="child-span" ng-bind="dataItem.invoice.regAddress"/>
+                </div>
+
+                <div class="panel-group p-r-30 m-b-10">
+                    <label class="child-lab">打印发票明细：</label>
+                     <span class="child-span">
+                         <input type="checkbox" ng-model="dataItem.isPrintsku" disabled="true"/>
+                     </span>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

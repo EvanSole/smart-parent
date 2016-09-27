@@ -1,0 +1,67 @@
+<div class="content-wrap" ng-controller="strategyOutboundController">
+    <div kendo-grid="outBoundGrid" options="mainGridOptions"></div>
+</div>
+
+
+    <script id="outBound-editor" type="text/x-kendo-template">
+        <div class="edit-form-container">
+        <div class="pure-body window-form">
+        <div class="clearfix">
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>策略名称</label>
+                <input type="text" name="strategyName" required id="strategyName">
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>自动发货标记</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <l-select src="OutboundTag"  required noheader name="deliveryTagCode" id="deliveryTagCode"></l-select>
+                </div>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>默认策略：</label>
+                <input id="isDefault" name="isDefault" type="checkbox" ng-model="dataItem.isDefault" ng-change="change(this)"/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>是否可用：</label>
+                <input id="isActive" name="isActive" type="checkbox"  ng-checked = "dataItem.isDefault" ng-disabled="dataItem.isDefault" />
+            </div>
+
+
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>库存分配规则</label>
+                <div class="panel-select">
+                    <l-select src="AllocateRule" name="allocateRuleCode" id="allocateRuleCode" ></l-select>
+                </div>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>重量误差正范围</label>
+                <input id="weightErrorMax" name="weightErrorMax" ng-model="weightErrorMax" type="number" onlyPositiveNumberWide/>
+            </div>
+
+            <div class="pure-control-group p-b-5 pure-5">
+                <label>重量误差负范围</label>
+                <input id="weightErrorMin" name="weightErrorMin" ng-model="weightErrorMin" type="number" onlyPositiveNumberWide/>
+            </div>
+        </div>
+
+        <div class="pure-control-group p-b-5">
+            <label>备注：</label>
+            <textarea class="tear-text" id="description" name="description"></textarea>
+        </div>
+
+    </div>
+    </div>
+
+    </script>
+
+
+
+
+
+

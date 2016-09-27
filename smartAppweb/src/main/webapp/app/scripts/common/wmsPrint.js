@@ -1,6 +1,6 @@
 define(['app'], function (app) {
     'use strict';
-    app.factory('wmsPrint', ['$http','sync', 'url', function ($http,$sync, url) {
+    app.factory('wmsPrint', ['sync', 'url', function ($sync, url) {
         var Print_Detail = "PRINT_DETAIL_DIV_";
         var Print_Div = "PRINT_DIV_";
         var WmsPrint = function () {
@@ -11,12 +11,15 @@ define(['app'], function (app) {
         //打印映射
         var PRINT_CONTENT = {};
         var CNPrint = {};
-        $http.get(url.printTemps).success(function(response) {
-            WmsPrintTemplate = response;
+        $sync(window.BASEPATH + "/baseData/print/temps", "get").then(function (data) {
+            WmsPrintTemplate = data.result;
         });
-        $http.get(url.printMaps).success(function(response) {
-            PRINT_CONTENT = response;
+        $sync(window.BASEPATH + "/baseData/print/maps", "get").then(function (data) {
+            $(data.result).each(function () {
+                PRINT_CONTENT[this.code] = this;
+            });
         });
+
         /**
          * 获得LODOP对象
          * @returns {*}
@@ -103,9 +106,6 @@ define(['app'], function (app) {
             var isArray = $.isArray(printData);
 
             var printOptions = templateObj.printOptions;
-            if(!printOptions){
-                printOptions = {"pageLength":"2900","pageWidth":"2100","pageOri":"1"};
-            }
             if (typeof printOptions == "string") {
                 printOptions = $.parseJSON(printOptions)
             }
@@ -413,17 +413,12 @@ define(['app'], function (app) {
 
             CNPrint = _lodopCustom_CaiNiao();
 
-            CNPrint.PRINT_INITA(0, 14, 400, 800, type + "打印");
+            CNPrint.PRINT_INITA(0, 0, 400, 800, type + "打印");
             CNPrint.SET_PRINT_MODE("CAINIAOPRINT_MODE", "CP_CODE=" + carrierCode + "&CONFIG=0");
 
             //是否多条打印
             var isArray = $.isArray(printData);
-            var printOptions = templateObj.printOptions;
-            if (templateObj.printOptions && typeof templateObj.printOptions == "string") {
-                printOptions = $.parseJSON(printOptions)
-            }else if(!printOptions){
-                printOptions = {"pageLength":"1800","pageWidth":"1100","pageOri":"1"};
-            }
+            var printOptions = $.parseJSON(templateObj.printOptions);
             if (printer) {
                 printOptions.printMachine = printer;
             }
@@ -478,10 +473,7 @@ define(['app'], function (app) {
                 var tr = $("#" + Print_Div + " table tbody tr").eq(0).clone();
                 var trHtml = tr.html();
                 var detailDataArr = o.item;
-                var detailKeyMap = keyMap.detail;
-                if (typeof contentObj == "string") {
-                    var detailKeyMap = $.parseJSON(keyMap.detail);
-                }
+                var detailKeyMap = $.parseJSON(keyMap.detail);
                 for (var i = 0; i < detailDataArr.length; i++) {
                     trHtml = tr.html();
                     var detailData = detailDataArr[i];
@@ -637,7 +629,7 @@ define(['app'], function (app) {
         function _defaultTemplate(code, carrierCode) {
             var template = null;
             $(WmsPrintTemplate).each(function () {
-                if (this.reportCategoryCode == code) {
+                if (this.reportCategoryCode == code && this.isDefault == 1) {
                     if (carrierCode) {
                         if (this.carrier == carrierCode) {
                             template = this;
@@ -670,10 +662,18 @@ define(['app'], function (app) {
 
 
         WmsPrint.prototype.PrintType = {
-            QC_Pick: "QC_Pick",
+            SkuBarcode: "SkuBarcode",
+            Express: "Express",
             ExpressCaiNiao: "Express_CaiNiao",
-            QC_Order_Pick: "QC_Order_Pick",
-            Barcode:"Barcode"
+            Barcode: "Barcode",
+            Declare: "Declare",
+            Associate: "Associate",
+            Location: "Location",
+            TransportDelivery: "TransportDelivery",
+            Asn: "Asn",
+            Receipt: "Receipt",
+            Delivery: "Delivery",
+            Picking: "Picking"
         }
 
 

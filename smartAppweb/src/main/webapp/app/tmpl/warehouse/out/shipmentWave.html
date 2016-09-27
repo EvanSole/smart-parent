@@ -1,0 +1,572 @@
+<div class="content-wrap" ng-controller="warehouseOutShipmentWaveController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="shipmentWaveGrid">
+
+            <div class="panel-group ">
+                <label>店铺:</label>
+                <div class="panel-select">
+                    <r-select src="shop" name="query.shopNo" id="query.shopNo"></r-select>
+                </div>
+            </div>
+
+
+            <div class="panel-group ">
+                <label>承运商:</label>
+                <div class="panel-select">
+                    <r-select src="carrier" name="query.carrierNo" id="query.carrierNo" required></r-select>
+                </div>
+            </div>
+
+            <div class="panel-group ">
+                <label>订单来源:</label>
+                <div class="panel-select">
+                    <l-select src="ShipmentFrom"  name="query.fromtypeCode" id="query.fromtypeCode" required></l-select>
+                </div>
+            </div>
+
+
+            <!--<div class="panel-group ">-->
+            <!--<label>单据状态</label>-->
+            <!--<div class="panel-select">-->
+            <!--<l-select src="TicketStatus" name="query.statusCode" id="query.statusCode" ></l-select>-->
+            <!--</div>-->
+            <!--</div>-->
+
+
+            <div class="panel-group">
+                <label>单件:</label>
+                <div class="panel-select">
+                    <l-select src="OrderStructure" name="query.orderstructCode" id="query.orderstructCode"></l-select>
+                </div>
+            </div>
+
+            <div class="panel-group">
+                <label>区域:</label>
+                <input ng-model="query.locationArea" type="text" />
+                <!--<div class="panel-select">-->
+                    <!--<l-select src="LocationArea" name="query.locationArea" id="query.locationArea"></l-select>-->
+                <!--</div>-->
+            </div>
+
+
+
+            <div class="panel-group ">
+                <label>创建时间:</label>
+                <wms-Date-Time-Picker id="shipmentCreateDateFrom" format="yyyy/MM/dd 00:00:00" is-query="true"/>
+            </div>
+            <div class="panel-group ">
+                <label>到:</label>
+                <wms-Date-Time-Picker id="shipmentCreateDateTo" format="yyyy/MM/dd 23:59:59" is-query="true"/>
+            </div>
+
+            <!--<div class="panel-group ">-->
+            <!--<label>仓库:</label>-->
+            <!--<div class="panel-select">-->
+            <!--<r-select src="warehouse" name="query.warehouseId" id="query.warehouseId"></r-select>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+
+            <div class="panel-group ">
+                <label>货区:</label>
+                <input type="text" ng-model="query.defaultZoneNo"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>货位:</label>
+                <input type="text" ng-model="query.defaultLocationNo"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>商品名称:</label>
+                <input type="text" ng-model="query.itemName"/>
+            </div>
+
+            <div class="panel-group ">
+                <label>商品条码:</label>
+                <input type="text" ng-model="query.barcode"/>
+            </div>
+
+
+        </panel_heading_search>
+
+
+        <div class="panel-body">
+            <div kendo-grid ="shipmentWaveGrid" options="shipmentGridOptions" >
+                <div k-detail-template>
+                    <kendo-tabstrip>
+                        <ul>
+                            <li class="k-state-active">出库单明细</li>
+                            <!--<li ng-click="shipmentBaseOptions(dataItem)">基本信息</li>-->
+                            <li>基本信息</li>
+                            <li>汇总信息</li>
+                            <li >分配结果</li>
+                            <li ng-click="shipmentBaseOptions(dataItem)">收货人信息</li>
+                            <li>发票信息</li>
+                            <li>备注信息</li>
+                            <li>出库单日志</li>
+                            <li>扩展属性</li>
+                        </ul>
+
+
+                        <!-- 出库单明细 -->
+                        <div>
+                            <div kendo-grid k-options="shipmentDetailOptions(dataItem)"></div>
+                        </div>
+
+                        <!--基本信息-->
+                        <div>
+                            <div ng-include="'/app/tmpl/warehouse/out/shipmentBasic.html'"></div>
+                        </div>
+
+                        <!--汇总信息-->
+                        <div>
+                            <div ng-include="'/app/tmpl/warehouse/out/collect.html'"></div>
+                        </div>
+
+
+                        <!--分配结果-->
+                        <div kendo-grid k-options="allocateOptios(dataItem)"></div>
+
+                        <!--收货人信息 -->
+                        <div>
+                            <div ng-include="'/app/tmpl/warehouse/out/receive.html'"></div>
+                        </div>
+
+                        <!--发票信息 -->
+                        <div>
+                            <div ng-include="'/app/tmpl/warehouse/out/invoice.html'"></div>
+                        </div>
+
+                        <!--备注信息 -->
+                        <div>
+                            <div ng-include="'/app/tmpl/warehouse/out/remark.html'"></div>
+                        </div>
+
+                        <!-- 出库单日志 -->
+                        <div>
+                            <div kendo-grid k-options="logOptions(dataItem.id,'Shipment')"></div>
+                        </div>
+
+                        <!--扩展属性-->
+                        <div>
+                            <div ng-include="'/app/tmpl/warehouse/out/extend.html'"></div>
+                        </div>
+
+                        <script id="allocateDetail-editor" type="text/x-kendo-template">
+
+                        </script>
+
+                    </kendo-tabstrip>
+                </div>
+
+                </kendo-grid>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+<script id="shipment-editor" type="text/x-kendo-template">
+<div class="edit-form-container">
+    <div class="pure-body p-t-10">
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>出库单号</label>
+            <input type="text" value="自动生成" disabled="disabled">
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>商家</label>
+            <div class="panel-select">
+                <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer" toid="order.shopNo"></wms-ui-select>
+            </div>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>店铺</label>
+            <div class="panel-select">
+                <r-select src="shop" zero name="order.shopNo" father="storerId" id="order.shopNo" required></r-select>
+            </div>
+        </div>
+
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>数据来源</label>
+            <span class="inputDisbled" wms-label="DataSource.Manual" bind-name="datasourceCode"></span>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>订单来源</label>
+            <div class="panel-select">
+                <l-select src="ShipmentFrom" default="Other" name="fromtypeCode" id="fromtypeCode"></l-select>
+            </div>
+        </div>
+
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>单据状态</label>
+            <span class="inputDisbled"  wms-label="TicketStatus.Initial" bind-name="statusCode"></span>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>波次单号</label>
+            <input disabled="disabled" id="waveId" name="waveId" readonly type="number"/>
+        </div>
+
+    </div>
+</div>
+
+<kendo-tabstrip>
+<ul>
+    <li class="k-state-active">基本信息</li>
+    <li>收货人信息</li>
+    <li>发票信息</li>
+    <li>备注</li>
+    <li>扩展属性</li>
+</ul>
+
+
+<!-- 出库单明细 -->
+<div class="edit-form-container">
+
+    <div class="pure-body p-l-r-20 p-t-10">
+
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>优先发货</label>
+            <input id="isUrgent" name="isUrgent" ng-model="order.isUrgent" type="checkbox"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>交易单号</label>
+            <input id="order.tradeNos" name="order.tradeNos" ng-model="order.tradeNos" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>参考单号</label>
+            <input id="order.referNo" name="order.referNo" ng-model="order.referNo" type="text"/>
+        </div>
+
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>分销商</label>
+            <input id="order.distributorName" name="order.distributorName" ng-model="order.distributorName" type="text"/>
+        </div>
+
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>仓库订单号</label>
+            <input id="warehouseReferno" name="warehouseReferno" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>下单时间</label>
+            <wms-Date-Time-Picker id="order.orderTime" required/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>支付时间</label>
+            <wms-Date-Time-Picker id="order.paymentTime" required/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>期望发货时间</label>
+            <wms-Date-Time-Picker id="order.expectedDate" required/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>实际发货时间</label>
+            <wms-Date-Time-Picker id="deliveryTime"/>
+        </div>
+        <!--<div class="pure-control-group p-b-10 pure-5">-->
+        <!--<label>是否货到付款</label>-->
+        <!--<input id="isCod" name="isCod" type="checkbox"/>-->
+        <!--</div>-->
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>承运商名称</label>
+            <div class="panel-select">
+                <r-select src="carrier" name="carrierCode" id="carrierCode"></r-select>
+            </div>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>承运商单证</label>
+            <input id="carrierReferNo" name="carrierReferNo" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>运输方式</label>
+            <div class="panel-select">
+                <l-select src="TransportMode" name="transportModeCode" id="transportModeCode"></l-select>
+            </div>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>车牌号码</label>
+            <input id="vehicleno" name="vehicleno"  ng-model="vehicleno"  type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>运费</label>
+            <input id="order.postfee" name="order.postfee" ng-model="order.postfee" type="text" />
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="edit-form-container">
+    <div class="pure-body p-l-r-20 p-t-10">
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>买家昵称</label>
+            <input  id="order.buyerNick" name="order.buyerNick" ng-model="order.buyerNick" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>买家姓名</label>
+            <input id="order.buyerName" name="order.buyerName" ng-model="order.buyerName" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>收货人</label>
+            <input id="order.receiverName" name="order.receiverName" ng-model="order.receiverName" type="text" required/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>国家</label>
+            <input type="text" id="order.countryName" name="order.countryName" ng-model="order.countryName"
+                   keepDefaultStyle="true" codeName="Country"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>省区</label>
+            <input type="text" id="order.stateName" name="order.stateName" ng-model="order.stateName" keepDefaultStyle="true"
+                   codeName="Country"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>城市</label>
+            <input id="order.cityName" ng-model="order.cityName" name="order.cityName" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>区/县</label>
+            <input id="order.districtName" name="order.districtName" ng-model="order.districtName" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>邮政编码</label>
+            <input id="order.zip" name="order.zip" ng-model="order.zip" type="text" zipcode/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>手机</label>
+            <input id="order.mobile" name="order.mobile" ng-model="order.mobile" type="text" mobilephone />
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>联系电话</label>
+            <input id="order.telephone" name="order.telephone" ng-model="order.telephone" type="text" telephone/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>电子邮箱</label>
+            <input id="order.email" name="order.email" ng-model="order.email" type="text" email/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>详细地址</label>
+            <input id="order.address" name="order.address" ng-model="order.address" type="text"/>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="edit-form-container">
+    <div class="pure-body p-l-r-20 p-t-10">
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>开票抬头</label>
+            <input  ng-model="invoice.invoiceTitle" id="invoice.invoiceTitle" name="invoice.invoiceTitle" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>发票类型</label>
+            <div class="panel-select">
+                <l-select src="InvoiceType" name="invoice.invoiceTypeCode" id="invoice.invoiceTypeCode" ng-model="invoice.invoiceTypeCode"/>
+            </div>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>公司名称</label>
+            <input id="invoice.company" name="invoice.company" ng-model="invoice.company" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>注册电话</label>
+            <input type="text" id="invoice.regTelephone" name="invoice.regTelephone" telephone ng-model="invoice.regTelephone" />
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>打印发票明细</label>
+            <input id="isPrintsku" name="isPrintsku" ng-model="invoice.isPrintsku" type="checkbox"/>
+        </div>
+    </div>
+
+</div>
+
+<div class="edit-form-container">
+    <div class="pure-body p-l-r-10 p-t-10">
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>卖家备注</label>
+            <input id="order.sellerMemo" ng-model="order.sellerMemo" name="order.sellerMemo"  type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>买家留言</label>
+            <input id="order.buyerMemo" ng-model="order.buyerMemo" name="order.buyerMemo"  type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>订单备注</label>
+            <input id="order.orderMemo" ng-model="order.orderMemo" name="order.orderMemo" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>备注</label>
+            <input id="memo" name="memo" ng-model="memo" type="text"/>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="edit-form-container">
+    <div class="pure-body p-l-r-20 p-t-10">
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性一</label>
+            <input id="order.userdef01" name="order.userdef01" ng-model="order.userdef01" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性二</label>
+            <input id="order.userdef02" name="order.userdef02" ng-model="order.userdef02" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性三</label>
+            <input id="order.userdef03" name="order.userdef03" ng-model="order.userdef03" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性四</label>
+            <input id="order.userdef04" name="order.userdef04" ng-model="order.userdef04" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性五</label>
+            <input id="order.userdef05" name="order.userdef05" ng-model="order.userdef05" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性六</label>
+            <input id="order.userdef06" name="order.userdef06" ng-model="order.userdef06" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性七</label>
+            <input id="order.userdef07" name="order.userdef07" ng-model="order.userdef07" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性八</label>
+            <input id="order.userdef08" name="order.userdef08" ng-model="order.userdef08" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性九</label>
+            <input id="order.userdef09" name="order.userdef09" ng-model="order.userdef09" type="text"/>
+        </div>
+        <div class="pure-control-group p-b-10 pure-5">
+            <label>扩展属性十</label>
+            <input id="order.userdef10" name="order.userdef10" ng-model="order.userdef10" type="text"/>
+
+        </div>
+    </div>
+</div>
+</kendo-tabstrip>
+</script>
+
+<script id="shipmentDetail-editor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body p-l-r-20 p-t-10">
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>参考行号：</label>
+                <input type="text" id="referLineNo" name="referLineNo"/>
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>货区类型：</label>
+                <div class="panel-select">
+                    <r-select src="zoneTypeCode" name="zoneTypeCode" toid="zoneId" id="zoneTypeCode"></r-select>
+                </div>
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>货区名称：</label>
+                <div class="panel-select">
+                    <r-select src="zone" zero father="zoneTypeCode" name="zoneId" id="zoneId" toid="locationId"></r-select>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>货位名称：</label>
+                <div class="panel-select">
+                    <r-select zero src="location" father="zoneId" name="locationId" id="locationId"></r-select>
+                </div>
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>指定托盘号：</label>
+                <input type="text" id="palletNo" name="palletNo"/>
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>箱号：</label>
+                <input id="cartonNo" name="cartonNo" type="number"/>
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>SKU：</label>
+                <input type="text" id="skuSku" name="skuSku" ng-click="windowOpen(this)" readonly required/>
+                <input  type="hidden" id="skuId" name="skuId">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>毛重：</label>
+                <input type="number" name="grossweight" id="grossweight">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>净重：</label>
+                <input type="number" name="netweight" id="netweight">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>体积：</label>
+                <input type="number" name="cube" id="cube">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>期望出库数量：</label>
+                <input type="number" name="orderedQty" required id="orderedQty" data-minqty="1">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>已分配数量：</label>
+                <input type="number" readonly name="allocatedQty" id="allocatedQty">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>已拣货数量：</label>
+                <input type="number" readonly name="pickedQty" id="pickedQty">
+            </div>
+
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>已出库数量：</label>
+                <input type="number" readonly name="shippedQty" id="shippedQty">
+            </div>
+            <div class="pure-control-group p-b-10">
+                <label>库存状态:</label>
+                <div class="panel-select">
+                    <l-select  src="InventoryStatus"  name="inventoryStatus" required id="inventoryStatus"></l-select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+<div ng-include="'/app/tmpl/warehouse/out/printDetail.html'"></div>
+
+<!--商品选择-->
+<div kendo-window="skuPopup" k-title="'SKU'" k-modal="true"
+     k-resizable="false"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/sku.html' }"></div>
+
+
+
+
+
+
+
+

@@ -49,7 +49,7 @@ public class ContextInterceprot extends HandlerInterceptorAdapter {
 	}
 
 	void printAccessLog(HttpServletRequest request, HttpServletResponse response) {
-		SmartUserEntity user = (SmartUserEntity) request.getSession().getAttribute(GlobalConstants.SESSION_USER);
+		SmartUserEntity user = (SmartUserEntity) request.getSession().getAttribute(GlobalConstants.SESSION_KEY);
 		String userName = "";
 		if (user != null) {
 			userName = user.getUserName();

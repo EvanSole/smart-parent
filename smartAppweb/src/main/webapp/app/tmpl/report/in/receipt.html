@@ -1,0 +1,38 @@
+<div class="content-wrap" ng-controller="reportInReceiptController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="receiptHeaderGrid">
+            <div class="panel-group">
+                <label>创建日期起:</label><wms-Date-Time-Picker id="startTime" is-query="true" format="yyyy/MM/dd 00:00:00" date/>
+            </div>
+            <div class="panel-group">
+                <label>止:</label><wms-Date-Time-Picker id="endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group">
+                <label>商家:</label>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+                </div>
+            </div>
+            <div class="panel-group">
+                <label>入库单号:</label><input type="text" ng-model="query.orderNo" class="js_wms_number" />
+            </div>
+            <div class="panel-group">
+                <label>参考单号:</label><input type="text" ng-model="query.referNo"/>
+            </div>
+            <div class="panel-group">
+                <label>通知单号:</label><input type="text" ng-model="query.asnId" class="js_wms_number" />
+            </div>
+            <div class="panel-group">
+                <label>ERP单号:</label><input type="text" ng-model="query.fromErpNo"/>
+            </div>
+            <div class="panel-group">
+                <label>商品条码:</label><input type="text" ng-model="query.skuBarcode"/>
+            </div>
+        </panel_heading_search>
+        <div class="panel-body">
+            <div kendo-grid="receiptHeaderGrid" options="mainGridOptions">
+            </div>
+        </div>
+    </div>
+</div>

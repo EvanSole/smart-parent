@@ -7,6 +7,7 @@ import com.sin.smart.core.redis.RedisTemplate;
 import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
 import com.sin.smart.em.LoginSource;
+import com.sin.smart.inner.SmartConfigUtil;
 import com.sin.smart.utils.IPUtil;
 import com.sin.smart.utils.PwdUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -131,9 +134,10 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseResult loginOut() {
+    public void logout(HttpServletResponse response) throws IOException {
+        getRequest().getSession().removeAttribute(GlobalConstants.SESSION_KEY);
         this.removeSessionAttribute();
-        return getSucMessage();
+        response.sendRedirect(SmartConfigUtil.get("redirect.url"));
     }
 
 

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sin.smart.main.mapper.ModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.sin.smart.entity.main.SmartModuleEntity" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="module_type" property="moduleType" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+    <result column="module_Path" property="modulePath" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="is_visible" property="isVisible" jdbcType="BIT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="is_del" property="isDel" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    id, type_code, module_type, parent_id, module_name, module_Path, description, `position`,
+    is_visible, create_user, create_time, update_user, update_time, is_del
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_smart_module
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAllModuleByAdmin" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_smart_module
+    where module_type = #{moduleType,jdbcType=VARCHAR} AND m.is_Visible = 1 AND m.is_Del = 0
+  </select>
+
+  <select id="selectAllModuleByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from `t_smart_module` m
+    where m.module_type #{moduleType,jdbcType=VARCHAR}
+    AND m.is_Visible = 1 AND m.is_Del = 0
+    AND m.id in (
+       select id from `t_smart_role_permission` rp where rp.relation_type='m' and
+         rp.role_Id in (select role_id from `t_smart_user_role` where user_id = #{userId,jdbcType=BIGINT} )
+       )
+    ORDER BY parent_Id,`POSITION`;
+  </select>
+
+  <select id="selectModuleByIds" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_smart_module m
+    where  m.is_Visible = 1 AND m.is_Del = 0 AND m.id in
+    <foreach collection="list" item="id" index="index"
+             open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_smart_module
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
+    insert into t_smart_module (id, type_code, module_type, 
+      parent_id, module_name, module_Path, 
+      description, position, is_visible, 
+      create_user, create_time, update_user, 
+      update_time, is_del)
+    values (#{id,jdbcType=BIGINT}, #{typeCode,jdbcType=VARCHAR}, #{moduleType,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=BIGINT}, #{moduleName,jdbcType=VARCHAR}, #{modulePath,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{position,jdbcType=INTEGER}, #{isVisible,jdbcType=BIT}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=BIGINT}, #{isDel,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
+    insert into t_smart_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeCode != null" >
+        type_code,
+      </if>
+      <if test="moduleType != null" >
+        module_type,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="moduleName != null" >
+        module_name,
+      </if>
+      <if test="modulePath != null" >
+        module_Path,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="isVisible != null" >
+        is_visible,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleType != null" >
+        #{moduleType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="modulePath != null" >
+        #{modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_smart_module
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.typeCode != null" >
+        type_code = #{record.typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleType != null" >
+        module_type = #{record.moduleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.moduleName != null" >
+        module_name = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modulePath != null" >
+        module_Path = #{record.modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=INTEGER},
+      </if>
+      <if test="record.isVisible != null" >
+        is_visible = #{record.isVisible,jdbcType=BIT},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.isDel != null" >
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_smart_module
+    set id = #{record.id,jdbcType=BIGINT},
+      type_code = #{record.typeCode,jdbcType=VARCHAR},
+      module_type = #{record.moduleType,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      module_Path = #{record.modulePath,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=INTEGER},
+      is_visible = #{record.isVisible,jdbcType=BIT},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=BIGINT},
+      is_del = #{record.isDel,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
+    update t_smart_module
+    <set >
+      <if test="typeCode != null" >
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleType != null" >
+        module_type = #{moduleType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="moduleName != null" >
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="modulePath != null" >
+        module_Path = #{modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        is_visible = #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
+    update t_smart_module
+    set type_code = #{typeCode,jdbcType=VARCHAR},
+      module_type = #{moduleType,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      module_name = #{moduleName,jdbcType=VARCHAR},
+      module_Path = #{modulePath,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      position = #{position,jdbcType=INTEGER},
+      is_visible = #{isVisible,jdbcType=BIT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      is_del = #{isDel,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

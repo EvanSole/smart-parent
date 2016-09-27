@@ -1,0 +1,37 @@
+<div class="content-wrap" ng-controller="reportPickController">
+    <div class="panel panel-default">
+        <panel_heading_search bind-ui="reportPickGrid">
+            <div class="panel-group">
+                <label>拣货开始时间</label>
+                <wms-Date-Time-Picker id="query.startTime" is-query="true" format="yyyy/MM/dd 00:00:00"/>
+            </div>
+            <div class="panel-group">
+                <label>拣货结束时间</label>
+                <wms-Date-Time-Picker id="query.endTime" is-query="true" format="yyyy/MM/dd 23:59:59"/>
+            </div>
+            <div class="panel-group ">
+                <label>拣货人</label>
+                <input type="text" ng-model="query.pickUser"/>
+            </div>
+            <div class="panel-group ">
+                <label>商品条码</label>
+                <input type="text" ng-model="query.barcode"/>
+            </div>
+            <div class="panel-group ">
+                <label>小车号 </label>
+                <input type="text" ng-model="query.vehicleNo"/>
+            </div>
+            <div class="panel-group ">
+                <label>波次单号</label>
+                <input type="text" ng-model="query.waveId" class="js_wms_number" />
+            </div>
+            <div class="panel-group ">
+                <label>出库单号</label>
+                <input type="text" ng-model="query.shipmentId" class="js_wms_number" />
+            </div>
+        </panel_heading_search>
+    </div>
+    <div class="panel-body">
+        <div kendo-grid="reportPickGrid" options="mainGridOptions"></div>
+    </div>
+</div>

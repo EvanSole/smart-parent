@@ -4,9 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by Evan on 2016/9/20.
- */
 @RestController
 public class HealthController {
     /**

@@ -1,0 +1,14 @@
+<div class="content-wrap" ng-controller="popupShipmentHeaderController">
+
+    <div class="k-edit-buttons k-state-default">
+        <a class="k-button k-button-icontext k-primary k-grid-update" href="#" ng-click="selectShipment()">
+            <span class="k-icon k-update"></span>确定</a>
+        <a class="k-button k-button-icontext k-grid-cancel" href="#" ng-click="shipmentConfirmClose()">
+            <span class="k-icon k-cancel"></span>取消</a>
+    </div>
+    <br>
+    <div class="panel-body">
+        <div kendo-grid="shipmentGrid" options="shipmentsGridOptions"></div>
+    </div>
+
+</div>

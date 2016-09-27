@@ -1,0 +1,201 @@
+<div class="content-wrap" ng-controller="warehouseOutPoreturnController">
+    <form class="pure-form pure-form-land" bind-ui="poreturnHeaderGrid">
+        <div class="pure-control-group">
+            <label>创建时间:</label>
+            <input type="date" ng-model="query.createTimeFrom" />到
+            <input type="date" ng-model="query.createTimeTo" />
+        </div>
+        <div class="pure-control-group">
+            <label>采购退货单号:</label><input type="text" ng-model="query.id" /></div>
+        <div class="pure-control-group">
+            <label>商家:</label>
+            <div class="select-wrapper">
+                <div class="select-border"></div>
+                <wms-ui-select ui-select-name="query.storerId" ui-select-id="query.storerId" src="storer"></wms-ui-select>
+            </div>
+        </div>
+        <div class="pure-control-group">
+            <label>仓库:</label><r-select src="warehouse" name="query.warehouseId" id="query.warehouseId"></r-select></div>
+        <br/>
+        <div class="pure-control-group">
+            <label>供应商:</label><input type="text" ng-model="query.supplierId" /></div>
+        <div class="pure-control-group">
+            <label>单据状态:</label><l-select src="TicketStatus" name="query.statusCode" id="query.statusCode" ></l-select></div>
+        <wms-search-button></wms-search-button>
+        <button class="pure-button" ng-click="tt()">重置</button>
+    </form>
+
+    <div kendo-grid="poreturnHeaderGrid" options="mainGridOptions">
+        <div k-detail-template>
+            <kendo-tabstrip>
+                <ul>
+                    <li class="k-state-active">基本信息</li>
+                    <li>汇总信息</li>
+                    <li>操作日志</li>
+                    <li>采购退货单明细</li>
+                </ul>
+
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/out/poreturnHeaderBasicTemp.html'"></div>
+                </div>
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/out/poreturnHeaderSummaryTemp.html'"></div>
+                </div>
+                <div>
+                    <div kendo-grid k-options="logOptions(dataItem.id,'POReturn')"></div>
+                </div>
+                <div>
+                    <div kendo-grid k-options="poreturnDetailOptions(dataItem)"></div>
+                </div>
+            </kendo-tabstrip>
+        </div>
+    </div>
+
+</div>
+
+<script id="poreturn-editor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <table width="100%">
+            <tr>
+                <td class="ali03">采购退货单号：</td>
+                <td>
+                    <div id="stid">自动生成...</div>
+                </td>
+                <td class="ali03">参考单号：</td>
+                <td><input type="text" id="referNo" name="referNo"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">商家：</td>
+                <td><r-select src="storer" name="storerId" id="storerId" ></r-select></td>
+                <td class="ali03">仓库：</td>
+                <td><r-select src="warehouse" name="warehouseId" id="warehouseId"></r-select></td>
+            </tr>
+            <tr>
+                <td class="ali03">供应商：</td>
+                <td><input type="hidden" id="supplierId" name="supplierId"  />
+                    <input type="text" id="supplierName" name="supplierName" ng-click="windowVendorOpen()"  />
+                </td>
+                <td class="ali03">退货原因：</td>
+                <td>
+                    <l-select src="PORefundReason" id="reasonCode" name="reasonCode" ></l-select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ali03">退货时间：</td>
+                <td><input type="date" id="returnDate" name="returnDate"/></td>
+                <td class="ali03">单据状态：</td>
+                <td>
+                    <l-select src="TicketStatus" id="statusCode" name="statusCode" ></l-select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr/>
+    <kendo-tabstrip>
+        <ul>
+            <li class="k-state-active">基本信息</li>
+            <li>汇总信息</li>
+            <li>备注</li>
+        </ul>
+
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">承运商名称：</td>
+                    <td><input id="carrierId" name="carrierId" type="text" /></td>
+                    <td class="ali03">承运商单证：</td>
+                    <td><input id="carrierReferNo" name="carrierReferNo" type="text" /></td>
+                </tr>
+                <tr>
+                    <td class="ali03">运输方式：</td>
+                    <td><l-select src="TransportMode" id="dataItem.transportModeCode" name="dataItem.transportModeCode"></l-select></td>
+                    <td class="ali03">车牌号码：</td>
+                    <td><input id="vehicleNo" name="vehicleNo" type="text" /></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">SKU品种数：</td>
+                    <td><input id="totalCategoryQty" name="totalCategoryQty" type="text" /></td>
+                    <td class="ali03">总数量：</td>
+                    <td><input id="totalQty" name="totalQty" type="text" /></td>
+                </tr>
+                <tr>
+                    <td class="ali03">总净重：</td>
+                    <td><input id="totalNetWeight" name="totalNetWeight" type="text" /></td>
+                    <td class="ali03">总毛重：</td>
+                    <td><input id="totalGrossWeight" name="totalGrossWeight" type="text" /></td>
+                </tr>
+                <tr>
+                    <td class="ali03">总体积：</td>
+                    <td><input id="totalCube" name="totalCube" type="text" /></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="edit-form-container">
+            <table>
+                <tr>
+                    <td class="ali03">备注：</td>
+                    <td><textarea id="memo" name="memo" style="margin: 0px; width: 400px; height: 100px;" ></textarea></td>
+                </tr>
+            </table>
+        </div>
+    </kendo-tabstrip>
+</script>
+
+<script id="poreturnDetail-editor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <table width="100%">
+            <tr>
+                <td class="ali03">采购退货单号：</td>
+                <td>
+                    <div id="id">自动生成...</div>
+                </td>
+                <td class="ali03">货区类型：</td>
+                <td><l-select src="ZoneType" name="zoneId" id="zoneId"></l-select></td>
+            </tr>
+            <tr>
+                <td class="ali03">货区名称：</td>
+                <td><input type="text" name="zoneName" id="zoneName" /></td><!--TODO-->
+                <td class="ali03">货位名称：</td>
+                <td><input type="text" name="locationId" id="locationId" /></td>
+            </tr>
+            <tr>
+                <td class="ali03">指定托盘号：</td>
+                <td><input type="text" name="palletNo" id="palletNo" /></td>
+                <td class="ali03">箱号：</td>
+                <td><input type="text" name="cartonNo" id="cartonNo" /></td>
+            </tr>
+            <tr>
+                <td class="ali03">SKU：</td>
+                <td><input type="text" id="skuId" name="skuId"/></td>
+                <td class="ali03">毛重(KG)：</td>
+                <td><input type="text" id="grossWeight" name="grossWeight"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">净重(KG)：</td>
+                <td><input type="text" id="netWeight" name="netWeight"/></td>
+                <td class="ali03">体积(CM3)：</td>
+                <td><input type="text" id="cube" name="cube"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">采购退货数量：</td>
+                <td><input type="text" id="orderedQty" name="orderedQty"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">备注</td>
+                <td colspan="3"><textarea type="text" id="description" name="description"
+                                          style="margin: 0px; width: 400px; height: 100px;"></textarea></td>
+            </tr>
+        </table>
+    </div>
+</script>
+
+<div kendo-window="vendorPopup" k-title="'供应商选择'" k-modal="true"
+     k-resizable="false"
+     k-width="600" k-height="400" k-visible="false"
+     k-content="{ url: './tmpl/popup/vendor.html'}"></div>

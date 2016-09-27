@@ -1,0 +1,175 @@
+<div class="content-wrap" ng-controller="warehouseInSoreturnReceiptController">
+    <div kendo-grid="soreturnReceiptHeaderGrid" options="mainGridOptions">
+
+        <div k-detail-template>
+            <kendo-tabstrip>
+                <ul>
+                    <li class="k-state-active">明细信息</li>
+                    <li>基本信息</li>
+                    <li>操作日志</li>
+                </ul>
+
+                <!-- 明细信息 -->
+                <div>
+                    <div kendo-grid k-options="soreturnReceiptDetailOptions(dataItem)"></div>
+                </div>
+                <!-- 基本信息 -->
+                <div>
+                    <div ng-include="'/app/tmpl/warehouse/in/soreturnReceiptHeaderBasic.html'"></div>
+                </div>
+                <!-- 操作日志 -->
+                <div>
+                    <div kendo-grid k-options="logOptions(dataItem.id,'SORETURNRECEIPT')"></div>
+                </div>
+
+            </kendo-tabstrip>
+        </div>
+
+    </div>
+
+
+    <div kendo-window="scanPopup" k-resizable="false" k-modal="true" k-title="'扫描商品'" k-width="600" k-height="400" k-visible="false">
+        <table width="100%">
+            <tr class="ali03">
+                <td>库存状态</td>
+                <td><l-select  src="InventoryStatus" ng-model="scanModel.inventoryStatus" name="scanModel.inventoryStatus" id="scanModel.inventoryStatus"></l-select></td>
+            </tr>
+            <tr class="ali03">
+                <td>货位(小车编号)</td>
+                <td><input type="text" name="" id=""></td>
+            </tr>
+            <tr class="ali03">
+                <td>箱号</td>
+                <td><input type="text" name="" id=""></td>
+            </tr>
+            <tr>
+                <td>商品条码</td>
+                <td><input type="text" ng-model="scanModel.barcode"  name="" id=""></td>
+            </tr>
+            <tr class="ali03">
+                <td>扫描数量</td>
+                <td><input type="text" name="" id=""></td>
+            </tr>
+            <tr class="ali03">
+                <td colspan="2"><button ng-click="scanConfirm()">确定</button><button ng-click="scanClose()">关闭</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+<script id="soreturnReceiptHeaderEditor" type="text/x-kendo-template">
+
+    <div class="edit-form-container">
+        <table width="100%">
+            <tr>
+                <td class="ali03">退货通知单号：</td>
+                <td><input type="text" name="referNo" id="referNo"/></td>
+                <td class="ali03">商家：</td>
+                <td>
+                    <r-select src="storer" name="storerId" id="storerId"></r-select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ali03">单据来源：</td>
+                <td><input id="fromTypeCode" name="fromTypeCode" type="text"/></td>
+                <td class="ali03">入库类型：</td>
+                <td><input id="receiptTypeCode" name="receiptTypeCode" type="text"/></td>
+                <td>
+                    <l-select id="receiptTypeCode" name="receiptTypeCode" src="ReceiptType"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="ali03">收货人：</td>
+                <td><input id="receiptUser" name="receiptUser" type="text"/></td>
+                <td class="ali03">检验人：</td>
+                <td><input id="qcUser" name="qcUser" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">收货日期：</td>
+                <td><input id="receiptDate" name="receiptDate" type="text"/></td>
+                <td class="ali03">总数量：</td>
+                <td><input id="totalQty" name="totalQty" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">总托数：</td>
+                <td><input id="totalPalletQty" name="totalPalletQty" type="number"/></td>
+                <td class="ali03">总箱数：</td>
+                <td><input id="totalCartonQty" name="totalCartonQty" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">总净重：</td>
+                <td><input id="totalNetWeight" name="totalNetWeight" type="number"/></td>
+                <td class="ali03">总毛重：</td>
+                <td><input id="totalGrossWeight" name="totalGrossWeight" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">总体积：</td>
+                <td colspan="3"><input id="totalCube" name="totalCube" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">备注：</td>
+                <td colspan="3"><textarea cols="50" name="description" id="description"></textarea></td>
+            </tr>
+        </table>
+    </div>
+
+</script>
+
+
+
+
+<script id="soreturnReceiptDetailEditor" type="text/x-kendo-template">
+
+    <div class="edit-form-container">
+        <table width="100%">
+            <tr>
+                <td class="ali03">通知单行号：</td>
+                <td><input type="text" name="referNo" id="referNo"/></td>
+                <td class="ali03">SKU：</td>
+                <td><input type="text" id="skuId" name="skuId" /></td>
+            </tr>
+            <tr>
+                <td class="ali03">SKU描述：</td>
+                <td><input type="text" name="" id=""/></td><!-- TODO 要查询出来 -->
+                <td class="ali03">收货数量：</td>
+                <td><input type="number" name="receivedQty" id="receivedQty"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">托盘号：</td>
+                <td><input id="palletNo" name="palletNo" type="text"/></td>
+                <td class="ali03">箱号：</td>
+                <td><input id="cartonNo" name="cartonNo" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">货区：</td>
+                <td><input id="xxx" name="xxx" type="text"/></td>
+                <td class="ali03">货位：</td>
+                <td><input id="locationId" name="locationId" type="number"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">净重(kg)：</td>
+                <td><input id="netWeight" name="netWeight" type="text"/></td>
+                <td class="ali03">毛重(kg)：</td>
+                <td><input id="grossWeight" name="grossWeight" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="ali03">体积：</td>
+                <td><input id="cube" name="cube" type="number"/></td>
+                <td class="ali03">库存状态：</td>
+                <td>
+                    <l-select src="InventoryStatus" id="inventoryStatusCode" name="inventoryStatusCode" ></l-select>
+                </td>
+            </tr>
+            <tr>
+                <td class="ali03">收货时间：</td>
+                <td><input id="receiptDate" name="receiptDate" type="date"/></td>
+                <td class="ali03">批次号：</td>
+                <td><input id="lotKey" name="lotKey" type="number"/></td>
+            </tr>
+        </table>
+    </div>
+
+</script>
+
