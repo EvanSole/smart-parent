@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@RequestMapping("/")
 @RestController
 public class LoginController extends BaseController {
 
@@ -52,7 +52,7 @@ public class LoginController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseResult login(@RequestParam String userName, @RequestParam String password,
                                 @RequestParam String tenantNo, @RequestParam boolean rememberMe,
                                 @RequestParam String captcha) throws Exception {
@@ -132,7 +132,7 @@ public class LoginController extends BaseController {
      * 用户登出
      * @return
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     @ResponseBody
     public void logout(HttpServletResponse response) throws IOException {
         getRequest().getSession().removeAttribute(GlobalConstants.SESSION_KEY);

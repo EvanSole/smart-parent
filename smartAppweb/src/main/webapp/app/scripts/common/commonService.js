@@ -212,67 +212,6 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
         return obj;
     }
 
-//  /**
-//   * 导出全部
-//   * @param grid
-//   * @param url
-//   * @returns {boolean}
-//   */
-//  function exportAll(grid, url) {
-//    if (grid._data.length == 0) {
-//      kendo.ui.ExtAlertDialog.showError("grid表格没有数据 ,无法执行导出操作!");
-//      return false;
-//    }
-//    //获取列定义
-//    var subCols = getCols(grid);
-//    //组织数据
-//    var paras = makeExpObj(grid, subCols, url);
-//
-//    downloadFile(paras, window.BASEPATH + "/excel/all")
-//  }
-//  /**
-//   * 导出全部当前页
-//   * @param grid
-//   * @param url
-//   * @returns {boolean}
-//   */
-//  function exportCurrent(grid, url,fileName) {
-//    var paras = makePara(grid,url,fileName);
-//    downloadFile(paras, window.BASEPATH + "/excel/current");
-//  }
-//
-//  function exportCurrentAll(grid, url,fileName) {
-//    var paras = makePara(grid,url,fileName);
-//    downloadFile(paras, window.BASEPATH + "/excel/all");
-//  }
-//  /**
-//   * 导出Excel
-//   * @param params
-//   * @param url
-//   */
-//  function downloadFile(params,url){
-//    if(jQuery("#_fileDownloadForm") !== undefined )
-//      jQuery("#_fileDownloadForm").remove();
-//    var form = jQuery('<form  action="" method="POST" name="_fileDownloadForm" id="_fileDownloadForm"></form>');
-//
-//    form.attr('style','display:none');   //在form表单中添加查询参数
-//    form.attr('target','');
-//    form.attr('action',url);
-//
-//    $('body').append(form);  //将表单放置在web中
-//
-//    if(params)
-//    {
-//      for(var i in params)
-//      {
-//        jQuery('<input type="hidden" name="' + i + '" id="' + i + '" />').appendTo(form);
-//        jQuery('#'+i).val(params[i])
-//      }
-//    }
-//
-//
-//    form.submit();   //表单提交
-//  }
     return {
         exportOperator: exportOperator
     };

@@ -38,7 +38,7 @@ public class ModuleService implements IModuleService{
             list = moduleMapper.selectAllModuleByUserId(sessionCurrentUser.getUserId(),ModuleTypeEnum.WEB.toString());
         }
         // 组合成树状
-        list.forEach(x->{
+        list.forEach( x->{
             if(x.getParentId() == 0){
                 MenuTreeNode menuTreeNode = new MenuTreeNode();
                 copyEntity2Node(menuTreeNode,x);

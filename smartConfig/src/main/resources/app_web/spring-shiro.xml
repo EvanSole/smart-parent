@@ -38,7 +38,7 @@
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
         <property name="filterChainDefinitions">
             <value>
-                /**/login.html = anon
+                /login.html = anon
                 /login = anon
                 /logout = logout
                 /unauthorized=anon
@@ -51,9 +51,7 @@
                 /**/*.js = user,cusAuthc
                 /**/*.json = user,cusAuthc
                 /app/bower_components/** = anon
-                /app/*.html = user,cusAuthc
                 /app/tmpl/*.html = user,cusAuthc
-                /app/tmpl/layout/*.html = user,cusAuthc
                 /app/tmpl/**/*.html = user,cusAuthc
                 /** = user,cusAuthc
             </value>

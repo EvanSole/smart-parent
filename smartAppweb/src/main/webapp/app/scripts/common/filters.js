@@ -13,12 +13,6 @@ define(['app'], function (app) {
                     }
                 }
             }
-
-//            codeArr.foreach(function(data){
-//                if(data.value == input){
-//                    txt = data.key;
-//                }
-//            });
             return txt;
         };
     });
@@ -27,7 +21,6 @@ define(['app'], function (app) {
         return function (input) {
             var whArr = window.WMS.WAREHOUSE_DATA;
             var txt = input;
-//
             if (whArr !== undefined) {
                 for (var i = 0; i < whArr.length; i++) {
                     if (whArr[i].value == input) {
@@ -44,7 +37,6 @@ define(['app'], function (app) {
         return function (input) {
             var stArr = window.WMS.STORER_DATA;
             var txt = input;
-//
             if (stArr !== undefined) {
                 for (var i = 0; i < stArr.length; i++) {
                     if (stArr[i].value == input) {
@@ -60,7 +52,6 @@ define(['app'], function (app) {
         return function (input) {
             var stArr = window.WMS.SHOP_DATA;
             var txt = input;
-//
             if (stArr !== undefined) {
                 for (var i = 0; i < stArr.length; i++) {
                     if (stArr[i].value == input) {

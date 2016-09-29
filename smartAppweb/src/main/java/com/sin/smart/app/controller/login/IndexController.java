@@ -39,6 +39,23 @@ public class IndexController extends BaseController {
     private IRoleService roleService;
 
 
+    /**
+     * 根据租户查询所有仓库
+     * @return
+     */
+    @RequestMapping(value = "warehouse/combox",method = RequestMethod.GET)
+    public ResponseResult searchWarehouseByTenantIdForCombox(){
+        List<SmartWarehouseEntity> warehouses = warehouseService.searchWarehouseByUser(this.getSessionCurrentUser());
+        Map map = new HashMap();
+        map.put("list", BeanUtils.convertListToKeyValues(warehouses, SmartWarehouseEntity.class, "warehouseName", "id"));
+        long whId = this.getCurrentWarehouseId();
+        if( whId != 0){
+            map.put("selected",whId);
+        }
+        return new ResponseResult(map);
+    }
+
+
     /***
      * 根据用户获取菜单
      * @return
@@ -72,24 +89,6 @@ public class IndexController extends BaseController {
 
 
     /**
-     * 根据租户查询所有仓库
-     * @return
-     */
-    @RequestMapping(value = "warehouse/combox",method = RequestMethod.GET)
-    public ResponseResult searchWarehouseByTenantIdForCombox(){
-        List<SmartWarehouseEntity> warehouses = warehouseService.searchWarehouseByUser(this.getSessionCurrentUser());
-        Map map = new HashMap();
-        map.put("list", BeanUtils.convertListToKeyValues(warehouses, SmartWarehouseEntity.class, "warehouseName", "id"));
-
-        long whId = this.getCurrentWarehouseId();
-        if( whId != 0){
-            map.put("selected",whId);
-        }
-        return new ResponseResult(map);
-    }
-
-
-    /**
      * 设置当前仓库
      * @return
      */
@@ -98,10 +97,6 @@ public class IndexController extends BaseController {
         this.setCurrentWarehouseId(warehouseId);
         return getSucMessage();
     }
-
-
-
-
 
 
     /**

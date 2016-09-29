@@ -4,8 +4,11 @@ import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.entity.main.SmartTenantEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ITenantService {
+
+    List<SmartTenantEntity> findByTenantEntity(Map searchMap);
 
     Integer removeByPrimaryKey(Long id);
 
@@ -13,12 +16,11 @@ public interface ITenantService {
 
     Integer modifyTenantEntity(SmartTenantEntity tenantEntity);
 
-    List<SmartTenantEntity> findByTenantEntity(SmartTenantEntity tenantEntity);
-
     SmartTenantEntity findByPrimaryKey(Long id);
 
     PageResponse queryTenantPages(SmartTenantEntity tenantEntity);
 
     Integer queryTenantPageCount(SmartTenantEntity tenantEntity);
-    
+
+
 }

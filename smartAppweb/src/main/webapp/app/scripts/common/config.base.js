@@ -1,7 +1,6 @@
 define(['app'], function(app) {
   'use strict';
-  app
-    .run(['$rootScope','$location', function($rootScope) {
+  app.run(['$rootScope','$location', function($rootScope) {
       $rootScope.app = {
         name: 'WMS',
         settings: {
@@ -11,10 +10,7 @@ define(['app'], function(app) {
           asideDock: false,
           container: false
         }
-
       };
-
-
       //全局事件响应 登出
       $rootScope.$on('event:loginRequired',function(){
         window.location='/';

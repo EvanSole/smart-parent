@@ -22,5 +22,8 @@
     <dubbo:service interface="com.sin.smart.main.service.IPermissionService" ref="permissionService"/>
     <dubbo:service interface="com.sin.smart.main.service.IWarehouseService" ref="warehouseService"/>
     <dubbo:service interface="com.sin.smart.main.service.IModuleService" ref="moduleService"/>
+    <dubbo:service interface="com.sin.smart.main.service.ITenantService" ref="tenantService"/>
+    <dubbo:service interface="com.sin.smart.main.service.ICodeService" ref="codeService"/>
+
 
 </beans>

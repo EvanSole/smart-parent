@@ -1,10 +1,7 @@
-
 <html contentType="text/html;charset=UTF-8"  xmlns="http://www.w3.org/1999/xhtml">
-
 <script>
     var basePath = "<%=basePath%>";
 </script>
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <link rel="shortcut icon" href="<%=basePath%>resources/xmdd.ico" type="image/x-icon">
@@ -15,7 +12,6 @@
     <!--居中显示start-->
     <script type="text/javascript" src="<%=basePath%>resources/qui/libs/js/method/center-plugin.js"></script>
     <!--居中显示end-->
-
     <script type="text/javascript" src="<%=basePath%>resources/js/user/userLogin.js"></script>
     <style>
         /*提示信息*/
@@ -42,31 +38,20 @@
             <span>仓储管理</span>
         </div>
         <form id="loginForm" action="" class="login_form" method="post">
-        <input id="tenement" value="" name="tenement" type="hidden"/>
-        <!--<div style="margin-bottom: 20px;">租户：<input id="tenement" value="MEILISHUO" name="tenement" ></div>-->
-        <div class="user-info">
-        <div class="login_user"><input placeholder="用户名" class="user-text" type="text" id="username"></div>
-        <div class="login_pass"><input placeholder="密&nbsp;&nbsp;&nbsp;码" class="user-text" type="password" id="password"></div>
-            <div class="login_button">
-                <div class="login_button_left"><input value="登录" type="button" onclick="login()"/></div>
+            <div class="user-info">
+                <div class="login_user"><input placeholder="用户名" class="user-text" type="text" id="username"></div>
+                <div class="login_pass"><input placeholder="密&nbsp;&nbsp;&nbsp;码" class="user-text" type="password" id="password"></div>
+                    <div class="login_button">
+                        <div class="login_button_left"><input value="登录" type="button" onclick="login()"/></div>
+                    </div>
+                <div class="login_info" style="display:none;"></div>
             </div>
-        <div class="login_info" style="display:none;"></div>
-    <!--
-    <div class="rem-account">
-    <input type="checkbox">
-    <label>记住账号</label>
-    </div>
-    -->
-
-
-    </div>
-    </form>
-
-    <div id="login-footer">
-    © 2015 Fast Order Software.. All Rights Reserved
+        </form>
+        <div id="login-footer">
+        © 2016 WMS Software.. All Rights Reserved
+        </div>
     </div>
     </div>
-
-</body>
+  </body>
 </html>
 

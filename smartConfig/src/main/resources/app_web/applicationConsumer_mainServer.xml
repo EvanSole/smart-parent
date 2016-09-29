@@ -13,5 +13,7 @@
     <dubbo:reference id="permissionService" interface="com.sin.smart.main.service.IPermissionService" />
     <dubbo:reference id="warehouseService" interface="com.sin.smart.main.service.IWarehouseService" />
     <dubbo:reference id="moduleService" interface="com.sin.smart.main.service.IModuleService" />
+    <dubbo:reference id="tenantService" interface="com.sin.smart.main.service.ITenantService" />
+    <dubbo:reference id="codeService" interface="com.sin.smart.main.service.ICodeService" />
 
 </beans>

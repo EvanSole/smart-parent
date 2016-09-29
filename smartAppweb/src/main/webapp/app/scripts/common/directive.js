@@ -1,7 +1,7 @@
 define(['app', 'scripts/common/sync'], function (app) {
     "use strict";
     var urlMap = {
-        storer: "index/storer/1",   //modify by jl 增加path变量 1代表根据权限获取商家 0代表全部
+        storer: "index/storer/1",
         warehouse: "index/warehouse",
         shop: "index/shop",
         zone: "index/zone/",
@@ -15,7 +15,7 @@ define(['app', 'scripts/common/sync'], function (app) {
         expressReport: "baseData/print/kv/temps/",
         commodityTypeStrategy :"/commodityType/strategy/"
     };
-    app.directive('rSelect', ['sync', 'initializeData', function ($sync, initializeData) {
+    app.directive('rSelect', ['sync', function ($sync) {
         var suffix = "_Scope";
         return {
             restrict: 'EA',
@@ -53,9 +53,7 @@ define(['app', 'scripts/common/sync'], function (app) {
                         if (nextToId) {
                             $scope.selectChange(toId, nextToId);
                         }
-                        // $scope.$parent[option] = [{"key":"naimei","value":"1"},{"key":"naimei2","value":"2"},{"key":"naimei3","value":"3"}];
                     }
-//
                 };
                 var isHas = false;
                 if ($scope.$parent.dataItem && typeof $scope.$parent.dataItem !== "string") {
@@ -161,15 +159,6 @@ define(['app', 'scripts/common/sync'], function (app) {
                         }
                     });
                 }
-                try {
-                    if (!$scope.$$phase) {
-                        // $scope.$apply(function () {
-//                            console.log(window.CODE_SELECT_DATA);
-                        // $scope[type + suffix] = window.CODE_SELECT_DATA[type];
-                        // });
-                    }
-                } catch (e) {
-                }
             },
             replace: true,
             template: function (tE, tA) {
@@ -205,176 +194,6 @@ define(['app', 'scripts/common/sync'], function (app) {
                 return "<select  disabled＝'" + disableFlag + "' id='" + id + "' " + ngInit + "  name='" + name + "' " + ngModel + " ng-options='d.key for d in " + selectDatas + " track by d.value' >" + noheader + "</select>";
             }
         };
-//        .directive('wmsUiSelect', ['sync', function ($sync)  {
-//            var suffix = "_Scope";
-//            return {
-//                restrict: 'EA',
-//                scope: false,
-//                transclude: true,
-//                controller: function ($scope, $element) {
-//                    var src = $element[0].attributes.src.value;
-//                    var name = $element[0].attributes.getNamedItem("ui-select-name").value;
-//                    var id = $element[0].attributes.getNamedItem("ui-select-id").value;
-//                    var zero = $element[0].attributes.zero;
-//                    var father = $element[0].attributes.father;
-//                    var url = urlMap[src];
-//                    var selectDatas = src + suffix;
-//
-//                    //选择事件
-//                    $scope.onSelectChange = function ($item,$models) {
-//                        $scope.dataItem[name] = $item.value;
-//                        //TODO......由于不明storerId的绑定方式，暂时使用onSelect事件绑定
-//                        if (name && name.indexOf("query.") === 0) {
-//
-//                        }
-//                        else{
-//                            $scope.$parent[name]=$item.value;
-//                        }
-//                    };
-//
-//                    //暂时保留R-SELECT功能
-//                    $scope.selectChange = function (curId, toId) {
-//                        var fatherId = $("#" + curId).val();
-//                        var toObj = $("#" + toId);
-//                        if (!toObj || !toObj.attr("option")) {
-//                            toObj = $("[name='" + toId + "']");
-//                        }
-//                        var ngModel = toObj.attr("ng-model");
-//                        var option = toObj.attr("option");
-//                        var childSrc = toObj.attr("src");
-//                        var nextToId = toObj.attr("toid");
-//                        toObj.val("");
-//                        $scope.$$nextSibling[ngModel] = "";
-//                        if (fatherId === '') {
-//                            $scope.$parent[option] = null;
-//                            if (nextToId) {
-//                                $scope.selectChange(toId, nextToId);
-//                            }
-//
-//                        } else {
-//                            $sync(window.BASEPATH + "/" + urlMap[childSrc] + "/" + fatherId, "GET", {wait: false})
-//                                .then(function (xhr) {
-//                                    $scope.$parent[option] = xhr.result;
-//                                });
-//                            if (nextToId) {
-//                                $scope.selectChange(toId, nextToId);
-//                            }
-//                            // $scope.$parent[option] = [{"key":"naimei","value":"1"},{"key":"naimei2","value":"2"},{"key":"naimei3","value":"3"}];
-//                        }
-////
-//                    };
-//                    //检测是否存在
-//                    var isHas = false;
-//                    if ($scope.$parent.dataItem && typeof $scope.$parent.dataItem !== "string") {
-//                        if (name.indexOf(".") > 0) {
-//                            var nas = name.split(".");
-//                            isHas = $scope.$parent.dataItem[nas[0]][nas[1]];
-//                        } else {
-//                            isHas = $scope.$parent.dataItem[name];
-//                        }
-//                    }
-//
-//                    if (!zero || ($scope.$parent.dataItem && isHas)) {
-//                        if (father) {
-//                            url = url + "/" + $scope.$parent.dataItem[father.value];
-//                        }
-//                        $sync(window.BASEPATH    + "/" + url, "GET", {wait: false})
-//                            .then(function (xhr) {
-//                                if (_.isEmpty(xhr) || _.isEmpty(xhr.result)) {
-//                                    return;
-//                                }
-//                                //$scope.$apply(function () {
-//                                var selectDatas = src;
-//                                var copyId = "";
-//                                if (id) {
-//                                    copyId = id.replace(".", "_");
-//                                    selectDatas += copyId + suffix;
-//                                } else {
-//                                    selectDatas += suffix;
-//                                }
-//                                $scope.$parent[selectDatas] = xhr.result;
-////                            var nullData = { "key":"-- 请选择 --","value" :""};
-//                                xhr = xhr.result;
-////                            xhr.unshift(nullData);
-//                                if ($scope.$parent.dataItem) {
-//                                    name = name.split(".");
-//                                    for (var i = 0; i < xhr.length; i++) {
-//                                        if (name.length > 1) {
-//                                            if ($scope.$parent.dataItem[name[0]] && $scope.$parent.dataItem[name[0]][name[1]]) {
-//                                                if (xhr[i].value == $scope.$parent.dataItem[name[0]][name[1]]) {
-//                                                    if (name[0] === 'query') {
-//                                                        $scope.$parent[name[0]][name[1]] = xhr[i].value;
-//                                                    } else {
-//                                                        $scope["has_selected_" + src + copyId] = xhr[i];
-//                                                    }
-//                                                    break;
-//                                                }
-//                                            }
-//                                        } else {
-////                                        console.log("bbbbbbb"+$scope.$parent.dataItem[name]+"--"+xhr[i].value);
-//                                            if (xhr[i].value == $scope.$parent.dataItem[name]) {
-//                                                $scope["has_selected_" + src + copyId] = xhr[i];
-//                                                break;
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                                //});
-//                            });
-//                    }
-//                },
-//
-//                replace: true,
-//                template: function (tE, tA) {
-//                    var selectDatas = tA.src;
-//                    var copyId = "";
-//                    var id = tA.uiSelectId;
-//                    if (id) {
-//                        copyId = (id).replace(".", "_");
-//                        selectDatas += copyId + suffix;
-//                    } else {
-//                        selectDatas += suffix;
-//                    }
-//                    var name = tA.uiSelectName;
-//                    var onSelect = tA.onSelect;
-//                    var ngModel = "";
-//                    if (onSelect) {
-//                        onSelect = "on-select='" + onSelect + "'";
-//                    } else {
-//                        onSelect = "";
-//                    }
-//                    var ngChange = tA.ngChange;
-//                    if (ngChange) {
-//                        ngChange = "ng-change='" + ngChange + "'";
-//                    } else if (tA.toid) {
-//                        ngChange = "ng-change=selectChange('" + tA.id + "','" + tA.toid + "','" + selectDatas + "')";
-//                    } else {
-//                        ngChange = "";
-//                    }
-//                    if (name && name.indexOf("query.") === 0) {
-//                        ngModel = "$parent." + id;
-//                    }
-//                    else {
-//                        //TODO.....此处DATA-BIND没有实际作用  以后考虑改为KENDO UI的方式来绑定
-//                        ngModel = "has_selected_" + tA.src + copyId + "' data-bind='value:" + id  +" ";
-//                    }
-//
-//                    var header = "<span class='ng-pristine ng-valid' style='float: left'> ";
-//                    var element = "";
-//                    var footer = "<ui-select-match allow-clear placeholder='--请选择--' value={{$select.select.value}}>{{$select.selected.key}} " +
-////                    "<input type='hidden' name='"+name + "' id='" + id +"' value='{{ $select.selected.value }}' /> " +
-//                        " </ui-select-match> " +
-//                        "<ui-select-choices repeat='wh.value as wh in $parent.$parent." + selectDatas + " | filter: $select.search'> " +
-//                        "<span ng-bind-html='wh.key | highlight: $select.search'></span> " +
-//                        "</ui-select-choices> " +
-//                        "</ui-select> " +
-//                        "</span>";
-//
-//                    element = "<ui-select value={{$select.selected.value}} " + ngChange + onSelect+" id = '" + id + "' name='" + name + "' src='" + tA.src +"' ng-model ='"+ngModel +"' theme='select2' ng-disabled='disabled' class='ulSelectedW ng-isolate-scope ng-pristine' > ";//ng-options='wh.key for wh in $parent." + selectDatas + " track by wh.value'
-//                    return header + element + footer;
-//                }
-//            };
-//        }])
     }).directive('wmsUiSelect', ['sync', function ($sync)  {
         var suffix = "_Scope";
         return {
@@ -398,7 +217,6 @@ define(['app', 'scripts/common/sync'], function (app) {
                     $scope.dataItem.set("dirty",true);
                     //TODO......由于不明storerId的绑定方式，暂时使用onSelect事件绑定
                     if (name && name.indexOf("query.") === 0) {
-
                     }
                     else{
                         $scope.$parent[name]=$item.value;

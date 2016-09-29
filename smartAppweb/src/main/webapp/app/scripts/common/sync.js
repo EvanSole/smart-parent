@@ -2,12 +2,6 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
     "use strict";
     app.factory('sync', ['$http', '$q','$rootScope', 'url', function ($http, $q, $rootScope, urlConst) {
 
-        var systemDataUrl = [{
-            url:urlConst.dataWarehouseUrl,
-            getDataUrl:urlConst.getSystemDataWarehouseUrl,
-            dataKey:"WAREHOUSE_DATA"
-        }];
-
         function parseData(data) {
             var paramData = _.clone(data);
             _.each(_.keys(paramData),function(key){
@@ -58,6 +52,7 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
             }
             return longValue;
         }
+
         return function (url, method, options) {
             var defaultOptions = {
               url: url,
@@ -101,23 +96,6 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                       window.clearTimeout(timer);
                       kendo.ui.ExtWaitDialog.hide();
                     }
-
-                    // 数据导出
-                    if (url.indexOf('excel') > -1 && options.responseType === "arraybuffer") {
-                      var blob = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-                      var objectUrl = URL.createObjectURL(blob);
-                      var anchor = $('<a/>');
-                      anchor.attr({
-                        href: objectUrl,
-                        target: '_blank',
-                        download: options.fileName
-                      });
-                      $("body").append(anchor);
-                      anchor[0].click();
-                      deferred.resolve(data);
-                      return;
-                    }
-
                     if (data === undefined) {
                         deferred.reject(data);
                     } else if(!data.suc) {
@@ -167,7 +145,6 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                             }
                         }
                     } else {
-
                         switch (data.resultType) {
                             case "Popup":
                                 $.when(kendo.ui.ExtWaitDialog.show({
@@ -218,13 +195,6 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                         }
                         // 针对系统数据进行更新
                         if (method !== "GET") {
-                          if (url.indexOf(urlConst.switchWarehouseUrl) >= 0) {
-                            $http(_.defaults({url: systemDataUrl[1].getDataUrl, method:"GET", wait: false}, defaultOptions)).then(function (xhr) {
-                              if (xhr.data.result) {
-                                 window.WMS[systemDataUrl[1].dataKey] = xhr.data.result;
-                               }
-                            });
-                          }
                         } else {
                           deferred.resolve(data);
                         }

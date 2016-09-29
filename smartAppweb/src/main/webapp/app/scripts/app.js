@@ -16,8 +16,5 @@ define([
 ], function(angular) {
     "use strict";
     return angular.module('app', ['ngLocale', 'ngRoute',
-      'kendo.directives', 'ui.bootstrap', 'ui.router','ui.select',
-        'ngSanitize',
-      'angularUtils.directives.uiBreadcrumbs', 'angularFileUpload', 'app.controllers']);
-
+      'kendo.directives', 'ui.bootstrap', 'ui.router','ui.select', 'ngSanitize', 'angularUtils.directives.uiBreadcrumbs', 'angularFileUpload', 'app.controllers']);
 });
