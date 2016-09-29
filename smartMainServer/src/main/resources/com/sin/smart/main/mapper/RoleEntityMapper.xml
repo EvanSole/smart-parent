@@ -53,7 +53,7 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <select id="selectRoleNameByIds" resultMap="java.long.String">
+  <select id="selectRoleNameByIds" resultType="java.lang.String">
     select role_name from t_smart_role r
     where  r.is_active = 1 AND r.id in
     <foreach collection="list" item="id" index="index"
@@ -131,80 +131,6 @@
       </if>
     </trim>
   </insert>
-
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_smart_role
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.tenantId != null" >
-        tenant_id = #{record.tenantId,jdbcType=BIGINT},
-      </if>
-      <if test="record.roleName != null" >
-        role_name = #{record.roleName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isActive != null" >
-        is_active = #{record.isActive,jdbcType=BIT},
-      </if>
-      <if test="record.createUser != null" >
-        create_user = #{record.createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=BIGINT},
-      </if>
-      <if test="record.updateUser != null" >
-        update_user = #{record.updateUser,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updateTime != null" >
-        update_time = #{record.updateTime,jdbcType=BIGINT},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_smart_role
-    set id = #{record.id,jdbcType=BIGINT},
-      tenant_id = #{record.tenantId,jdbcType=BIGINT},
-      role_name = #{record.roleName,jdbcType=VARCHAR},
-      is_active = #{record.isActive,jdbcType=BIT},
-      create_user = #{record.createUser,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=BIGINT},
-      update_user = #{record.updateUser,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=BIGINT}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sin.smart.entity.main.SmartRoleEntity" >
-    update t_smart_role
-    <set >
-      <if test="tenantId != null" >
-        tenant_id = #{tenantId,jdbcType=BIGINT},
-      </if>
-      <if test="roleName != null" >
-        role_name = #{roleName,jdbcType=VARCHAR},
-      </if>
-      <if test="isActive != null" >
-        is_active = #{isActive,jdbcType=BIT},
-      </if>
-      <if test="createUser != null" >
-        create_user = #{createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=BIGINT},
-      </if>
-      <if test="updateUser != null" >
-        update_user = #{updateUser,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartRoleEntity" >
     update t_smart_role
     set tenant_id = #{tenantId,jdbcType=BIGINT},

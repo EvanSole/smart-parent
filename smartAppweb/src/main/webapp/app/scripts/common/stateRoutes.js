@@ -65,11 +65,11 @@ define(['app'], function (app) {
         message: "数据加载中,请稍后..." });
         if ($rootScope.user === undefined || $rootScope.user.authority === undefined) {
 
-          sync(url.permUrl, 'GET',{wait:false}).then(function (resp) {
+          //sync(url.permUrl, 'GET',{wait:false}).then(function (resp) {
 
-              $rootScope.user.authority = resp.result;
-              $rootScope.user.roleName = resp.result.roleName;
-              $rootScope.user.userName = resp.result.userName;
+              //$rootScope.user.authority = resp.result;
+              //$rootScope.user.roleName = resp.result.roleName;
+              //$rootScope.user.userName = resp.result.userName;
 
               sync(url.naviUrl, 'GET',{wait:false}).then(function (resp) {
                   var menu = resp.result.rows;
@@ -95,7 +95,7 @@ define(['app'], function (app) {
                     kendo.ui.ExtWaitDialog.hide();
                   }
               });
-          });
+          //});
         }
     }]);
 });

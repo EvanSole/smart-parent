@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ModuleMapper {
 
-    List<SmartModuleEntity> selectAllModuleByAdmin(@Param("moduleType") String moduleType);
+    List<SmartModuleEntity> selectAllModules(@Param("moduleType") String moduleType);
 
-    List<SmartModuleEntity> selectAllModuleByUserId(@Param("userId") Long userId, @Param("moduleType")String moduleType);
+    List<SmartModuleEntity> selectAllModuleByPermission(@Param("userId") Long userId, @Param("moduleType")String moduleType);
 
     List<SmartModuleEntity> selectModuleByIds(List moduleIdList);
 }

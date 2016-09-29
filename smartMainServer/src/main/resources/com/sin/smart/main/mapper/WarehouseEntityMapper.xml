@@ -55,7 +55,6 @@
     </where>
   </select>
 
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_smart_warehouse
     where id = #{id,jdbcType=INTEGER}
@@ -286,31 +285,6 @@
         update_time = #{updateTime,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity" >
-    update t_smart_warehouse
-    set tenant_id = #{tenantId,jdbcType=INTEGER},
-      warehouse_no = #{warehouseNo,jdbcType=VARCHAR},
-      warehouse_name = #{warehouseName,jdbcType=VARCHAR},
-      is_active = #{isActive,jdbcType=TINYINT},
-      type_code = #{typeCode,jdbcType=VARCHAR},
-      country = #{country,jdbcType=VARCHAR},
-      province = #{province,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR},
-      district = #{district,jdbcType=VARCHAR},
-      zip = #{zip,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      contact = #{contact,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      fax = #{fax,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=TINYINT},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=BIGINT},
-      update_user = #{updateUser,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
