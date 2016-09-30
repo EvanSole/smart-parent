@@ -1,7 +1,17 @@
-/**
- * Created by xiagn on 15/3/31.
- */
 define([
+
+    './login/loginController',
+
+    './system/tenantController',
+    './system/codeController',
+    './system/versionController',
+    './system/moduleController',
+    './system/roleController',
+    './system/userController',
+
+
+
+
     './data/shopController',
     './data/warehouseController',
     './data/storerController',
@@ -16,15 +26,13 @@ define([
     './data/commodityTypeController',
 
 
-    './system/codeController',
-    './system/tenantController',
-    './system/versionController',
+
+
+
     './system/problemTicklingController',
     './system/templateController',
 
-    './author/moduleController',
-    './author/roleController',
-    './author/userController',
+
 /************库存相关*****************/
     './inventory/cycleController',
     './inventory/transferController',

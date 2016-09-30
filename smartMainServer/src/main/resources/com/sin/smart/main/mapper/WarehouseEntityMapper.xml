@@ -39,6 +39,15 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <select id="selectWarehouseByWarehouseNo" resultMap="com.sin.smart.entity.main.SmartWarehouseEntity" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_smart_warehouse
+    where warehouse_no = #{warehouseNo,jdbcType=VARCHAR}
+  </select>
+
+
+
   <select id="selectWarehouseLists" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />

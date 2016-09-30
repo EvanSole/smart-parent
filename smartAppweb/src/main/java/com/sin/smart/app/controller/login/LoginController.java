@@ -7,7 +7,11 @@ import com.sin.smart.core.redis.RedisTemplate;
 import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
 import com.sin.smart.em.LoginSource;
+import com.sin.smart.entity.CurrentUserEntity;
+import com.sin.smart.entity.main.SmartWarehouseEntity;
 import com.sin.smart.inner.SmartConfigUtil;
+import com.sin.smart.main.service.IUserService;
+import com.sin.smart.main.service.IWarehouseService;
 import com.sin.smart.utils.IPUtil;
 import com.sin.smart.utils.PwdUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,9 +32,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/")
@@ -42,9 +48,28 @@ public class LoginController extends BaseController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private IWarehouseService warehouseService;
+
+    @Autowired
+    private IUserService userService;
+
+
+    /***
+     * 用户登录
+     * @return
+     */
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @ResponseBody
+    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //String url = SmartConfigUtil.get("local.basePath")+"app/login.html";
+       // response.sendRedirect(url);
+    }
+
+
     /****
      * 用户登录
-     * @param tenantNo 租户
+     * @param warehouseNo 仓库
      * @param userName 用户名
      * @param password 登录密码
      * @param rememberMe 是否记住
@@ -54,7 +79,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseResult login(@RequestParam String userName, @RequestParam String password,
-                                @RequestParam String tenantNo, @RequestParam boolean rememberMe,
+                                @RequestParam String warehouseNo, @RequestParam boolean rememberMe,
                                 @RequestParam String captcha) throws Exception {
 
         ResponseResult responseResult = new ResponseResult(this.messages);
@@ -69,14 +94,14 @@ public class LoginController extends BaseController {
         if (StringUtils.isBlank(password)) {
             return getFaultMessage("E00101");
         }
-        if (StringUtils.isBlank(tenantNo)) {
-            return getFaultMessage("E00102");
+        if (StringUtils.isBlank(warehouseNo)) {
+            return getFaultMessage("E00106");
         }
         if (StringUtils.isBlank(captcha)) {
             return getFaultMessage("E00103");
         }
         //验证登陆次数
-        String lockKey = getLockKey(tenantNo,userName);
+        String lockKey = getLockKey(warehouseNo,userName);
         int expiryCount = Integer.parseInt(redisTemplate.get(lockKey) == null ? "0" : redisTemplate.get(lockKey));
         if (expiryCount >= GlobalConstants.MAX_EXPIRY_COUNT) {
             return getFaultMessage("E00104");
@@ -90,18 +115,13 @@ public class LoginController extends BaseController {
         }
         //加密
         password = PwdUtils.toMd5(password, userName);
-
         //设置token
-        CustomUserToken token = new CustomUserToken(userName, password, rememberMe,loginIp,tenantNo, LoginSource.PC);
-
+        CustomUserToken token = new CustomUserToken(userName, password, rememberMe ? true : false , loginIp, warehouseNo, LoginSource.PC);
         responseResult = execShiroLogin(token);
-
         if (responseResult.getSuc()) {
             if (expiryCount > 0) {
                 redisTemplate.set(lockKey,"0",1);
             }
-
-
         } else {
             if (!responseResult.getCode().equals(GlobalConstants.MSG_E00111) &&
                 !responseResult.getCode().equals(GlobalConstants.MSG_E00112) &&
@@ -112,18 +132,14 @@ public class LoginController extends BaseController {
             return responseResult;
         }
 
-        //将租户信息存储到session
-        setCurrentTenant(tenantNo);
-
-        //把项目host放入cookie中
-        this.putDepoHostToCookie();
-
         //验证成功将用户信息返回给前端
         Map map =new HashMap<>();
-        map.put("tenantNo",token.getTenantNo());
+        //将基础信息存储到session
+        initBaseSession(map,warehouseNo);
         map.put("userName",userName);
         responseResult.setResult(map);
-
+       //把项目host放入cookie中
+        this.putDepoHostToCookie();
         return responseResult;
     }
 
@@ -206,12 +222,26 @@ public class LoginController extends BaseController {
         redisTemplate.set(lockKey,count +"",GlobalConstants.EXPIRY_TIME);
     }
 
-    private String getLockKey(String tenantNo,String userName) {
-        return "login_" + tenantNo + "_" + userName;
+    private String getLockKey(String warehouseNo,String userName) {
+        return "login_" + warehouseNo + "_" + userName;
     }
 
     private void putDepoHostToCookie() {
         Cookie cookie = new Cookie("basePath", this.getBasePath());
         this.getResponse().addCookie(cookie);
     }
+
+    private void initBaseSession(Map resultMap,String warehouseNo) {
+        CurrentUserEntity userEntity = this.getSessionCurrentUser();
+        SmartWarehouseEntity warehouseEntity = warehouseService.findWarehouseByWarehouseNo(warehouseNo);
+        if (warehouseEntity != null ) {
+            this.setCurrentWarehouseId(warehouseEntity.getId());
+            this.setCurrentTenantId(warehouseEntity.getTenantId());
+            resultMap.put("warehouseId",warehouseEntity.getId());
+            resultMap.put("tenantId",warehouseEntity.getTenantId());
+        }
+        List roleList = userService.getRoleIdListByUserId(userEntity.getUserId());
+        getSession().setAttribute(GlobalConstants.ROLE_IDS,roleList);
+    }
+
 }

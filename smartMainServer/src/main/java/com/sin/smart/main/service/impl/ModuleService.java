@@ -34,7 +34,7 @@ public class ModuleService implements IModuleService{
             //获得所有模块菜单
             list = moduleMapper.selectAllModules(ModuleTypeEnum.WEB.toString());
         }else{
-            //根据登录用户权限获取模块菜单
+            //根据登录用户权限获取模块
             list = moduleMapper.selectAllModuleByPermission(sessionCurrentUser.getUserId(),ModuleTypeEnum.WEB.toString());
         }
         // 组合成树状

@@ -77,6 +77,13 @@
         limit 1
     </select>
 
+    <select id="selectUserRolesById" resultMap="java.util.List" parameterType="java.lang.Long">
+        SELECT role_id FROM t_smart_user_role WHERE id = #{userId,jdbcType=BIGINT}
+    </select>
+
+
+
+
     <select id="selectUser" resultMap="smartUserEntityResult">
         SELECT
         <include refid="Base_Column_List"/>

@@ -29,7 +29,7 @@ input {
 }
 
 #login_main .landing-box{
-    width: 700px;height: 430px;background: url("../images/wms-login-bg.jpg") bottom #f2f2f2 no-repeat;
+    width: 700px;height: 430px;background: url("../images/bg/default.jpg") bottom #f2f2f2 no-repeat;
     position: absolute;position: absolute;left: 50%;top: 50%;
     margin-top: -215px;margin-left: -350px;
 }

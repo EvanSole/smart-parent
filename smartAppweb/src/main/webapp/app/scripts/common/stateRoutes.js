@@ -54,7 +54,6 @@ define(['app'], function (app) {
             $stateProviderRef.state(value.code, state);
             addState(value.children);
           } else {
-            var controller = "";
             state.templateUrl = "/app/tmpl/" + value.path + ".html";
             $stateProviderRef.state(value.code, state);
           }
@@ -66,21 +65,16 @@ define(['app'], function (app) {
         if ($rootScope.user === undefined || $rootScope.user.authority === undefined) {
 
           //sync(url.permUrl, 'GET',{wait:false}).then(function (resp) {
-
               //$rootScope.user.authority = resp.result;
               //$rootScope.user.roleName = resp.result.roleName;
               //$rootScope.user.userName = resp.result.userName;
 
+
               sync(url.naviUrl, 'GET',{wait:false}).then(function (resp) {
-                  var menu = resp.result.rows;
+                  var menu = resp.result;
                   if (_.isArray(menu) && menu.length > 0) {
+                    //添加module元素
                     addState(menu);
-                    // 顶级元素补充
-                    $stateProviderRef.state("warehouse", {
-                      "url": "/warehouse",
-                      "title": "仓库管理",
-                      "template": "<ui-view/>"
-                    });
                     // 版本更新LINK补充
                     $stateProviderRef.state("version", {
                       "code":"system.version",

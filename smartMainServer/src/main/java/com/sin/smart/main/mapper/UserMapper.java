@@ -22,4 +22,6 @@ public interface UserMapper {
     Integer updateUser(SmartUserEntity  smartUserEntity);
 
     Integer deleteUser(@Param("userId") Long id);
+
+    List selectUserRolesById(@Param("userId") Long userId);
 }

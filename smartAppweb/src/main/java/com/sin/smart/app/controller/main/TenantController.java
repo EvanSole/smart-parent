@@ -20,7 +20,7 @@ public class TenantController extends BaseController {
     @Autowired
     private ITenantService tenantService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "",method = RequestMethod.GET)
     public ResponseResult getTenantList(@RequestParam Map searchMap) throws Exception {
         return new ResponseResult(tenantService.findByTenantEntity(searchMap));
     }

@@ -97,6 +97,7 @@ define([
     'scripts/common/kendo.web.ext',
     'scripts/common/kendo.validator',
     'scripts/common/const',
+    'scripts/controller/urlConstant',
     'scripts/common/config.base',
     'scripts/common/directive',
     'scripts/common/naviDirective',

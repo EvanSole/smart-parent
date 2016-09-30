@@ -1,9 +1,9 @@
 package com.sin.smart.entity.main;
 
 public class SmartWarehouseEntity {
-    private Integer id;
+    private Long id;
 
-    private Integer tenantId;
+    private Long tenantId;
 
     private String warehouseNo;
 
@@ -45,19 +45,19 @@ public class SmartWarehouseEntity {
 
     private Long updateTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getTenantId() {
+    public Long getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(Integer tenantId) {
+    public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
     }
 

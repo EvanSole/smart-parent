@@ -8,16 +8,25 @@ public class CustomUserToken extends UsernamePasswordToken {
 
     private LoginSource source;
     private String tenantNo;
+    private String warehouseNo;
 
-    public CustomUserToken(final String userName, final String password, boolean rememberMe, final String loginIp, String tenantNo, LoginSource source) {
+
+    public CustomUserToken(final String userName, final String password, boolean rememberMe, final String loginIp,String tenantNo, String warehouseNo, LoginSource source) {
         super(userName, password, rememberMe, loginIp);
         this.tenantNo = tenantNo;
+        this.warehouseNo = warehouseNo;
         this.source = source;
     }
 
-    public CustomUserToken(final String userName, final String password, String tenantNo, LoginSource source) {
-        super(userName, password, false, null);
-        this.tenantNo = tenantNo;
+    public CustomUserToken(final String userName, final String password, boolean rememberMe, final String loginIp, String warehouseNo, LoginSource source) {
+        super(userName, password, rememberMe, loginIp);
+        this.warehouseNo = warehouseNo;
+        this.source = source;
+    }
+
+    public CustomUserToken(final String userName, final String password, String warehouseNo, LoginSource source) {
+        super(userName, password, true, null);
+        this.warehouseNo = warehouseNo;
         this.source = source;
     }
 
@@ -35,5 +44,13 @@ public class CustomUserToken extends UsernamePasswordToken {
 
     public void setTenantNo(String tenantNo) {
         this.tenantNo = tenantNo;
+    }
+
+    public String getWarehouseNo() {
+        return warehouseNo;
+    }
+
+    public void setWarehouseNo(String warehouseNo) {
+        this.warehouseNo = warehouseNo;
     }
 }

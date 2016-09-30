@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sin.smart.constants.GlobalConstants;
 import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
+import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.main.SmartWarehouseEntity;
 import com.sin.smart.main.service.IModuleService;
 import com.sin.smart.main.service.IRoleService;
@@ -62,7 +63,10 @@ public class IndexController extends BaseController {
      */
     @RequestMapping(value="menu",method = RequestMethod.GET)
     public ResponseResult getMenuLists(){
-        List list = moduleService.getModulesByUser(this.getSessionCurrentUser());
+        CurrentUserEntity userEntity = new CurrentUserEntity();
+        userEntity.setIsAdmin(new Byte("1"));
+        //List list = moduleService.getModulesByUser(this.getSessionCurrentUser());
+        List list = moduleService.getModulesByUser(userEntity);
         return getSucResultData(list);
     }
 

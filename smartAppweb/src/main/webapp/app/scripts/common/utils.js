@@ -1,11 +1,11 @@
 define(['jquery', 'underscore', 'kendo'], function ($, _) {
     /**
-     * Created by MLS on 15/3/5.
+     * Created by HMT on 15/3/5.
      */
     "use strict";
-    var MLS = MLS === undefined ? {} : MLS;
-    MLS.WMS = MLS.WMS === undefined ? {} : MLS.WMS;
-    MLS.WMS.UTILS = (function () {
+    var HMT = HMT === undefined ? {} : HMT;
+    HMT.WMS = HMT.WMS === undefined ? {} : HMT.WMS;
+    HMT.WMS.UTILS = (function () {
         var columnEditor = {
             hidden: function (container, options) {
                 container.prev().hide();
@@ -431,7 +431,7 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
 //      removeBtn(userInfo, path, grid.element);
         }
     };
-    MLS.WMS.GRIDUTILS = (function () {
+    HMT.WMS.GRIDUTILS = (function () {
         /**
          * 获得grid中行记录
          * @param grid
@@ -681,5 +681,5 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
     }());
 
 
-    window.WMS = MLS.WMS;
+    window.WMS = HMT.WMS;
 });

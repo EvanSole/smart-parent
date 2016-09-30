@@ -73,6 +73,11 @@ public class UserService extends BaseService implements IUserService {
     }
 
     @Override
+    public List getRoleIdListByUserId(Long userId) {
+        return userMapper.selectUserRolesById(userId);
+    }
+
+    @Override
     public Set<String> findRoles(String userName) {
         return null;
     }
@@ -81,4 +86,6 @@ public class UserService extends BaseService implements IUserService {
     public Set<String> findPermissions(String userName) {
         return null;
     }
+
+
 }

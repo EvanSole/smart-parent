@@ -14,7 +14,6 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
@@ -44,14 +43,12 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
-
         log.info("User Login to initialize authorized.....");
-
-        String userName = (String)principals.getPrimaryPrincipal();
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(userService.findRoles(userName));
-        authorizationInfo.setStringPermissions(userService.findPermissions(userName));
-        return authorizationInfo;
+        //String userName = (String)principals.getPrimaryPrincipal();
+        //SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        //authorizationInfo.setRoles(userService.findRoles(userName));
+        //authorizationInfo.setStringPermissions(userService.findPermissions(userName));
+        return null;
     }
 
 

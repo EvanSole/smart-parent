@@ -3,12 +3,12 @@
  */
 define(['scripts/controller/controller', '../../model/system/tenantModel'], function (controller, tenant) {
     "use strict";
-    controller.controller('systemTenantController',['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource','$filter',
+    controller.controller('tenantController',['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource','$filter',
             function($scope, $rootScope, $sync, $url, wmsDataSource, $filter) {
 
                 var tenantHeaderUrl = $url.systemTenantUrl,
                     tenantHeaderColumns = [
-                        WMS.GRIDUTILS.CommonOptionButton(),
+                        //WMS.GRIDUTILS.CommonOptionButton(),
                         { title: '租户Id', field: 'id', align: 'left', width: "150px"},
                         { title: '租户编号', field: 'tenantNo', align: 'left', width: "200px"},
                         { title: '租户名称', field: 'description', align: 'left', width: "200px"}

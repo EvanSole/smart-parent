@@ -31,4 +31,9 @@ public class WarehouseService implements IWarehouseService {
         map.put("tenantId",sessionCurrentUser.getTenantId());
         return warehouseMapper.selectWarehouses(map);
     }
+
+    @Override
+    public SmartWarehouseEntity findWarehouseByWarehouseNo(String warehouseNo) {
+        return warehouseMapper.selectWarehouseByWarehouseNo(warehouseNo);
+    }
 }

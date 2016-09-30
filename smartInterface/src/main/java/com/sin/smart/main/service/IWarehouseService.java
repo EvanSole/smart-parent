@@ -14,5 +14,5 @@ public interface IWarehouseService {
 
     List<SmartWarehouseEntity> searchWarehouses(Map map, CurrentUserEntity sessionCurrentUser);
 
-
+    SmartWarehouseEntity findWarehouseByWarehouseNo(String warehouseNo);
 }

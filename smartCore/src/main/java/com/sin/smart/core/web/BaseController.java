@@ -57,22 +57,22 @@ public class BaseController {
 
     protected long getCurrentWarehouseId() {
        Object warehouseId = getSession().getAttribute(GlobalConstants.WAREHOUSE_ID);
-        if(warehouseId!=null){
+        if(warehouseId != null){
             return Long.parseLong(warehouseId.toString());
         }
        return 0;
     }
 
-    protected void setCurrentTenant(String tenantId) {
+    protected void setCurrentTenantId(Long tenantId) {
         getSession().setAttribute(GlobalConstants.TENAN_ID, tenantId);
     }
 
-    protected String getCurrentTenant() {
-        Object tenantId = getSession().getAttribute(GlobalConstants.TENAN_ID);
-        if(tenantId!=null){
-            return tenantId.toString();
+    protected long getCurrentTenantId() {
+        Object tenantNo = getSession().getAttribute(GlobalConstants.TENAN_ID);
+        if(tenantNo != null){
+            return Long.parseLong(tenantNo.toString());
         }
-        return "";
+        return 0;
     }
 
 
