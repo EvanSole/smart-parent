@@ -29,6 +29,7 @@
     <tx:advice id="coreTxAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="create*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
             <tx:method name="edit*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
             <tx:method name="remove*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
             <tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>

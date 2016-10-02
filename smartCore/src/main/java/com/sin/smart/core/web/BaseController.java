@@ -135,12 +135,12 @@ public class BaseController {
     }
 
     protected ResponseResult getFaultResultData(Object obj){
-        ResponseResult responseResult = new ResponseResult();
+        ResponseResult responseResult = new ResponseResult(messages);
         responseResult.setFaultResult(obj);
         return responseResult;
     }
     protected ResponseResult getSucResultData(Object obj){
-        ResponseResult responseResult = new ResponseResult();
+        ResponseResult responseResult = new ResponseResult(messages);
         responseResult.setResult(obj);
         return responseResult;
     }

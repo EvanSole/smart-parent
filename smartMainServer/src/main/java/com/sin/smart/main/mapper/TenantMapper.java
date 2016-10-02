@@ -11,6 +11,12 @@ public interface TenantMapper {
 
     Integer queryTenantPageCount(SmartTenantEntity tenantEntity);
 
-    List<SmartTenantEntity> findByTenantEntity(Map searchMap);
+    SmartTenantEntity selectByPrimaryKey(Long id);
+
+    Integer deleteByPrimaryKey(Long id);
+
+    Integer insertTenant(SmartTenantEntity entity);
+
+    Integer updateTenant(SmartTenantEntity entity);
 
 }

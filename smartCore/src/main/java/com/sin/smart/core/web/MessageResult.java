@@ -52,7 +52,7 @@ public class MessageResult implements Serializable {
     public static MessageResult getSucMessage(){
         return MessageResult.getMessage("S00001",null);
     }
-    public static MessageResult getErrorMessage(){
+    public static MessageResult getFailMessage(){
         return MessageResult.getMessage("E00001",null);
     }
 

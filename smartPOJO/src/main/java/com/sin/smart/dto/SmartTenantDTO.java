@@ -14,6 +14,14 @@ public class SmartTenantDTO extends BasePO implements Serializable {
 
     private String description;
 
+    private String createUser;
+
+    private Long createTime;
+
+    private String updateUser;
+
+    private Long updateTime;
+
     public Long getId() {
         return id;
     }
@@ -46,6 +54,38 @@ public class SmartTenantDTO extends BasePO implements Serializable {
         this.description = description;
     }
 
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "SmartTenantDTO{" +
@@ -53,6 +93,10 @@ public class SmartTenantDTO extends BasePO implements Serializable {
                 ", typeCode='" + typeCode + '\'' +
                 ", tenantNo='" + tenantNo + '\'' +
                 ", description='" + description + '\'' +
+                ", createUser='" + createUser + '\'' +
+                ", createTime=" + createTime +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

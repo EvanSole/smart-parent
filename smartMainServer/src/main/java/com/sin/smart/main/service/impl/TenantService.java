@@ -1,5 +1,6 @@
 package com.sin.smart.main.service.impl;
 
+import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.dto.SmartTenantDTO;
 import com.sin.smart.entity.main.SmartTenantEntity;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TenantService implements ITenantService {
@@ -29,32 +29,36 @@ public class TenantService implements ITenantService {
         return  response;
     }
 
-
-    @Override
-    public List<SmartTenantEntity> findByTenantEntity(Map searchMap) {
-        return tenantMapper.findByTenantEntity(searchMap);
-    }
-
-    @Override
-    public Integer removeByPrimaryKey(Long id) {
-        return null;
-    }
-
-    @Override
-    public Integer createTenant(SmartTenantEntity tenantEntity) {
-        return null;
-    }
-
-    @Override
-    public Integer modifyTenantEntity(SmartTenantEntity tenantEntity) {
-        return null;
-    }
-
     @Override
     public SmartTenantEntity findByPrimaryKey(Long id) {
-        return null;
+        return tenantMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public MessageResult removeByPrimaryKey(Long id) {
+         tenantMapper.deleteByPrimaryKey(id);
+         return MessageResult.getSucMessage();
+    }
 
+    @Override
+    public MessageResult createTenant(SmartTenantDTO tenantDTO) {
+        SmartTenantEntity entity = BeanUtils.copyBeanPropertyUtils(tenantDTO,SmartTenantEntity.class);
+        Integer number = tenantMapper.insertTenant(entity);
+        if(number>0)
+            return MessageResult.getSucMessage();
+        else
+            return MessageResult.getFailMessage();
+    }
+
+    @Override
+    public MessageResult modifyTenant(SmartTenantDTO tenantDTO) {
+        SmartTenantEntity entity = BeanUtils.copyBeanPropertyUtils(tenantDTO,SmartTenantEntity.class);
+        Integer number = tenantMapper.updateTenant(entity);
+        if(number>0)
+            return MessageResult.getSucMessage();
+        else
+            return MessageResult.getFailMessage();
+
+    }
 
 }

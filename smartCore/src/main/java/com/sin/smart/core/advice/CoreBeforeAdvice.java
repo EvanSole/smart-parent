@@ -54,7 +54,7 @@ public class CoreBeforeAdvice implements MethodBeforeAdvice {
 
         //如果dbShardVO为空 说明不分库 则默认main库
         if(dbShardVO == null){
-            DatabaseContextHolder.setCustomerType(DbShareField.DEFAULT + ms);
+            DatabaseContextHolder.setCustomerType(DbShareField.DEFAULT.getValue() + ms);
         }else{
             DatabaseContextHolder.setCustomerType(getDbName(dbShardVO)+ ms);
         }
@@ -75,6 +75,7 @@ public class CoreBeforeAdvice implements MethodBeforeAdvice {
         String dbName = "";
         Integer packageStr = ShardTableUtil.getJdbcIndex(dbShardVO.getShardDbId());
         dbName += dbShardVO.getSource().toString() + packageStr;
+        System.out.println("dbName-->" + dbName);
         return dbName;
     }
 }
