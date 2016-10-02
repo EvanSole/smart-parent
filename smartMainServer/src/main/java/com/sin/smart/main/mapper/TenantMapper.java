@@ -7,6 +7,10 @@ import java.util.Map;
 
 public interface TenantMapper {
 
+    List<SmartTenantEntity> queryTenantPages(SmartTenantEntity tenantEntity);
+
+    Integer queryTenantPageCount(SmartTenantEntity tenantEntity);
+
     List<SmartTenantEntity> findByTenantEntity(Map searchMap);
 
 }

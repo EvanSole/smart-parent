@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sin.smart.main.mapper.TenantMapper">
+    <resultMap id="BaseResultMap" type="com.sin.smart.entity.main.SmartTenantEntity">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+        <result column="tenant_no" property="tenantNo" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="BIGINT" />
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        `id`,`type_code`,`tenant_no`,`description`, `create_user`,`create_time`,`update_user`,`update_time`
+    </sql>
+
+    <!-- query where 子句 -->
+    <sql id="queryWhereClause">
+        <where>
+            <if test="id !=null and id != 0">
+                AND id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="typeCode != null">
+                AND typec_code = #{typeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="tenantNo != null" >
+                AND tenant_no = #{tenantNo,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <!-- order by 子句 -->
+    <sql id="queryOrderByClause">
+        <if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="orderBy == null">
+            ORDER BY create_time desc
+        </if>
+
+    </sql>
+
+    <!-- query limit 子句 -->
+    <sql id="queryLimitClause">
+        <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
+            LIMIT #{offset}, #{pageSize}
+        </if>
+    </sql>
+
+    <select id="queryTenantPages" resultMap="BaseResultMap" parameterType="com.sin.smart.entity.main.SmartTenantEntity">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_smart_tenant
+        <include refid="queryWhereClause"/>
+        <include refid="queryOrderByClause"/>
+        <include refid="queryLimitClause" />
+    </select>
+
+    <select id="queryTenantPageCount"  resultType="java.lang.Integer" parameterType="com.sin.smart.entity.main.SmartTenantEntity">
+        SELECT count(1) FROM t_smart_tenant
+        <include refid="queryWhereClause"/>
+        LIMIT 1
+    </select>
+
+</mapper>

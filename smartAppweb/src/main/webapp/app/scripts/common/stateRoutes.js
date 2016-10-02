@@ -59,17 +59,22 @@ define(['app'], function (app) {
           }
         });
       }
+
       kendo.ui.ExtWaitDialog.show({
         title: "处理中",
         message: "数据加载中,请稍后..." });
         if ($rootScope.user === undefined || $rootScope.user.authority === undefined) {
-
-          //sync(url.permUrl, 'GET',{wait:false}).then(function (resp) {
-              //$rootScope.user.authority = resp.result;
-              //$rootScope.user.roleName = resp.result.roleName;
-              //$rootScope.user.userName = resp.result.userName;
-
-
+           $rootScope.user = {
+              authority: {},
+              roleName :"",
+              userName:""
+            };
+           //初始化权限
+           sync(url.permUrl, 'GET',{wait:false}).then(function (resp) {
+              $rootScope.user.authority = resp.result;
+              $rootScope.user.roleName = resp.result.roleName;
+              $rootScope.user.userName = resp.result.userName;
+              //初始化菜单
               sync(url.naviUrl, 'GET',{wait:false}).then(function (resp) {
                   var menu = resp.result;
                   if (_.isArray(menu) && menu.length > 0) {
@@ -89,7 +94,7 @@ define(['app'], function (app) {
                     kendo.ui.ExtWaitDialog.hide();
                   }
               });
-          //});
+           });
         }
     }]);
 });

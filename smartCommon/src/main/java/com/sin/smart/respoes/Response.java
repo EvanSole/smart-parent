@@ -1,6 +1,8 @@
 package com.sin.smart.respoes;
 
-public class Response<T> {
+import java.io.Serializable;
+
+public class Response<T> implements Serializable {
     private Integer code;
     private T data;
     private String message;
@@ -10,6 +12,10 @@ public class Response<T> {
         this.code = code;
         this.data = data;
         this.message = message;
+    }
+
+    public Response(T data) {
+        this.data = data;
     }
 
     public Response(Integer code, T data) {
@@ -47,6 +53,10 @@ public class Response<T> {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void mergeMessage(String message){
+        this.message = this.message + message;
     }
 
 }

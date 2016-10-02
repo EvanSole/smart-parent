@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -54,18 +53,11 @@ public class LoginController extends BaseController {
     @Autowired
     private IUserService userService;
 
-
-    /***
-     * 用户登录
-     * @return
-     */
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    @ResponseBody
-    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //String url = SmartConfigUtil.get("local.basePath")+"app/login.html";
-       // response.sendRedirect(url);
+    public void login(HttpServletResponse response) throws IOException {
+        String basePath = SmartConfigUtil.get("local.basePath")+ "app/login.html";
+        response.sendRedirect(basePath);
     }
-
 
     /****
      * 用户登录
@@ -82,8 +74,6 @@ public class LoginController extends BaseController {
                                 @RequestParam String warehouseNo, @RequestParam boolean rememberMe,
                                 @RequestParam String captcha) throws Exception {
 
-        ResponseResult responseResult = new ResponseResult(this.messages);
-
         String loginIp = IPUtil.getIPAddress(this.getRequest());
 
         _LOG.info(" user {} login ,this login ip is {}  ", userName,loginIp);
@@ -97,9 +87,9 @@ public class LoginController extends BaseController {
         if (StringUtils.isBlank(warehouseNo)) {
             return getFaultMessage("E00106");
         }
-        if (StringUtils.isBlank(captcha)) {
-            return getFaultMessage("E00103");
-        }
+//        if (StringUtils.isBlank(captcha)) {
+//            return getFaultMessage("E00103");
+//        }
         //验证登陆次数
         String lockKey = getLockKey(warehouseNo,userName);
         int expiryCount = Integer.parseInt(redisTemplate.get(lockKey) == null ? "0" : redisTemplate.get(lockKey));
@@ -117,8 +107,8 @@ public class LoginController extends BaseController {
         password = PwdUtils.toMd5(password, userName);
         //设置token
         CustomUserToken token = new CustomUserToken(userName, password, rememberMe ? true : false , loginIp, warehouseNo, LoginSource.PC);
-        responseResult = execShiroLogin(token);
-        if (responseResult.getSuc()) {
+        ResponseResult responseResult  = execShiroLogin(token);
+        if (responseResult.getSuc()){
             if (expiryCount > 0) {
                 redisTemplate.set(lockKey,"0",1);
             }
@@ -163,8 +153,6 @@ public class LoginController extends BaseController {
      * @return
      */
     private ResponseResult execShiroLogin(CustomUserToken token) {
-
-        ResponseResult responseResult = new ResponseResult(this.messages);
         //获取当前的Subject
         Subject currentUser = SecurityUtils.getSubject();
         try {
@@ -174,17 +162,13 @@ public class LoginController extends BaseController {
             currentUser.login(token);
 
         } catch (UnknownAccountException uae) {
-            responseResult.setFaultMessage("E00004");
-            return responseResult;
+            return getFaultMessage("E00004");
         } catch (IncorrectCredentialsException ice) {
-            responseResult.setFaultMessage("E00005");
-            return responseResult;
+            return getFaultMessage("E00005");
         } catch (LockedAccountException lae) {
-            responseResult.setFaultMessage("E00006");
-            return responseResult;
+            return getFaultMessage("E00006");
         } catch (ExcessiveAttemptsException eae) {
-            responseResult.setFaultMessage("E00007");
-            return responseResult;
+            return getFaultMessage("E00007");
         } catch (AuthenticationException ae) {
             _LOG.error(" user login validation exception ."+ ae.getMessage() );
             //通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
@@ -198,14 +182,10 @@ public class LoginController extends BaseController {
                     return getFaultMessage(ce.getMessage());
                 }
             } else {
-                responseResult.setFaultMessage("E00008");
-                return responseResult;
+                return getFaultMessage("E00008");
             }
         }
-
-        responseResult.setSucMessage();
-
-        return responseResult;
+        return getSucMessage();
     }
 
 
@@ -240,7 +220,7 @@ public class LoginController extends BaseController {
             resultMap.put("warehouseId",warehouseEntity.getId());
             resultMap.put("tenantId",warehouseEntity.getTenantId());
         }
-        List roleList = userService.getRoleIdListByUserId(userEntity.getUserId());
+        List roleList = userService.getRoleIdListByUserId(userEntity.getId());
         getSession().setAttribute(GlobalConstants.ROLE_IDS,roleList);
     }
 

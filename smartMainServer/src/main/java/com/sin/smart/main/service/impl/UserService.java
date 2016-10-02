@@ -2,7 +2,6 @@ package com.sin.smart.main.service.impl;
 
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.dto.SmartUserDTO;
-import com.sin.smart.enums.ResponseEnum;
 import com.sin.smart.main.mapper.UserMapper;
 import com.sin.smart.main.service.IUserService;
 import com.sin.smart.core.service.BaseService;
@@ -58,17 +57,14 @@ public class UserService extends BaseService implements IUserService {
     }
 
     @Override
-    public PageResponse queryUserPages(SmartUserDTO userDTO) {
+    public PageResponse<List<SmartUserEntity>> queryUserPages(SmartUserDTO userDTO) {
         //DTO转换为VO
         SmartUserEntity smartUserEntity = BeanUtils.copyBeanPropertyUtils(userDTO, SmartUserEntity.class);
-
         List<SmartUserEntity> smartUserEntityList = userMapper.queryUserPages(smartUserEntity);
         Integer totalSize = userMapper.queryUserPageCount(smartUserEntity);
-
         PageResponse pageResponse = new PageResponse();
-        pageResponse.setTotalSize(totalSize);
-        pageResponse.setData(smartUserEntityList);
-        pageResponse.setCode(ResponseEnum.SUCCESS.getCode());
+        pageResponse.setTotal(totalSize);
+        pageResponse.setRows(smartUserEntityList);
         return pageResponse;
     }
 

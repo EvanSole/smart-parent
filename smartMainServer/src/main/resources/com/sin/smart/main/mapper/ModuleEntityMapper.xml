@@ -29,24 +29,24 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <select id="selectAllModules" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectAllModulesAdmin" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from t_smart_module
     where module_type = #{moduleType,jdbcType=VARCHAR} AND is_Visible = 1 AND is_Del = 0
   </select>
 
-  <select id="selectAllModuleByPermission" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectAllModuleNormal" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from `t_smart_module` m
-    where m.module_type #{moduleType,jdbcType=VARCHAR}
+    where m.module_type =#{moduleType,jdbcType=VARCHAR}
     AND m.is_Visible = 1 AND m.is_Del = 0
     AND m.id in (
-       select id from `t_smart_role_permission` rp where rp.relation_type='m' and
-         rp.role_Id in (select role_id from `t_smart_user_role` where user_id = #{userId,jdbcType=BIGINT} )
-       )
-    ORDER BY parent_Id,`POSITION`;
+       select action_id from `t_smart_role_permission` rp where rp.relation_type='m' and
+           rp.role_Id in (select role_id from `t_smart_user_role` where user_id = #{userId,jdbcType=BIGINT} )
+    )
+    ORDER BY m.parent_Id,m.`POSITION`;
   </select>
 
   <select id="selectModuleByIds" resultMap="BaseResultMap" >

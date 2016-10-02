@@ -1,17 +1,15 @@
-/**
- * Created by a2015-217 on 15/5/12.
- */
 define(['scripts/controller/controller', '../../model/system/tenantModel'], function (controller, tenant) {
     "use strict";
-    controller.controller('tenantController',['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource','$filter',
-            function($scope, $rootScope, $sync, $url, wmsDataSource, $filter) {
+    controller.controller('tenantController',['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
+            function($scope, $rootScope, $sync, $url, wmsDataSource) {
 
                 var tenantHeaderUrl = $url.systemTenantUrl,
                     tenantHeaderColumns = [
-                        //WMS.GRIDUTILS.CommonOptionButton(),
-                        { title: '租户Id', field: 'id', align: 'left', width: "150px"},
-                        { title: '租户编号', field: 'tenantNo', align: 'left', width: "200px"},
-                        { title: '租户名称', field: 'description', align: 'left', width: "200px"}
+                        WMS.GRIDUTILS.CommonOptionButton(),
+                        { title: '租户Id', field: 'id', align: 'left', width: "100px"},
+                        { title: '租户编号', field: 'tenantNo', align: 'left', width: "120px"},
+                        { title: '租户名称', field: 'description', align: 'left', width: "120px"},
+                        { title: '租户类型', field: 'typeCode', align: 'left', width: "120px"}
                     ],
                     tenantHeaderDataSource = wmsDataSource({
                         url: tenantHeaderUrl,
@@ -33,12 +31,5 @@ define(['scripts/controller/controller', '../../model/system/tenantModel'], func
                         template: kendo.template($("#tenant-kendo-template").html())
                     }
                 }, $scope);
-
-                $scope.search = function() {
-                    var condition = {"tenantNo":$scope.tenantNo, "description":$scope.description};
-                    $scope.tenantHeaderGrid.dataSource.filter(condition);
-                    $scope.tenantHeaderGrid.refresh();
-                };
-
             }]);
 })

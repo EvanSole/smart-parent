@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sin.smart.main.mapper.UserMapper">
-    <resultMap id="smartUserEntityResult" type="com.sin.smart.entity.main.SmartUserEntity">
+    <resultMap id="UserResultMap" type="com.sin.smart.entity.main.SmartUserEntity">
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="tenant_id" property="tenantId" jdbcType="BIGINT" />
         <result column="user_name" property="userName" jdbcType="VARCHAR" />
@@ -56,20 +56,28 @@
 
     <!-- query limit 子句 -->
     <sql id="queryLimitClause">
-        <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
-            LIMIT #{offset}, #{pageSize}
+        <if test="page != null and page >= 0 and pageSize != null and pageSize > 0">
+            LIMIT #{page}, #{pageSize}
         </if>
     </sql>
 
-    <select id="findByUserName" resultMap="smartUserEntityResult">
+    <select id="findByUserName" resultMap="UserResultMap" parameterType="java.lang.String">
         SELECT
-        <include refid="Base_Column_List"/>
+        `id`,`tenant_id`,`user_name`,`real_name`, `password`,`email`,`telephone`,`mobile`,`is_admin`, `is_active`
         FROM t_smart_user
         WHERE user_name = #{userName,jdbcType=VARCHAR}
         limit 1
     </select>
 
-    <select id="selectUserById" resultMap="smartUserEntityResult" parameterType="java.lang.Long">
+    <select id="selectUser" resultMap="UserResultMap">
+        SELECT
+        `id`,`tenant_id`,`user_name`,`real_name`, `password`,`email`,`telephone`,`mobile`,`is_admin`, `is_active`
+        FROM t_smart_user
+        WHERE user_name = #{userName,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR}
+        limit 1
+    </select>
+
+    <select id="selectUserById" resultMap="UserResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_smart_user
@@ -77,22 +85,12 @@
         limit 1
     </select>
 
-    <select id="selectUserRolesById" resultMap="java.util.List" parameterType="java.lang.Long">
-        SELECT role_id FROM t_smart_user_role WHERE id = #{userId,jdbcType=BIGINT}
+    <select id="selectUserRolesById" resultType="String" parameterType="java.lang.Long">
+        SELECT role_id FROM t_smart_user_role WHERE user_id = #{userId,jdbcType=BIGINT}
     </select>
 
 
-
-
-    <select id="selectUser" resultMap="smartUserEntityResult">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM t_smart_user
-        WHERE user_name = #{userName,jdbcType=VARCHAR} AND password = #{password,jdbcType=VARCHAR}
-        limit 1
-    </select>
-
-    <select id="queryUserPages" resultMap="smartUserEntityResult" parameterType="com.sin.smart.entity.main.SmartUserEntity">
+    <select id="queryUserPages" resultMap="UserResultMap" parameterType="com.sin.smart.entity.main.SmartUserEntity">
         SELECT
         <include refid="Base_Column_List"/>
         FROM t_smart_user

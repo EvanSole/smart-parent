@@ -1,6 +1,7 @@
 package com.sin.smart.entity.main;
 
-public class SmartWarehouseEntity {
+public class SmartWarehouseEntity implements java.io.Serializable {
+
     private Long id;
 
     private Long tenantId;

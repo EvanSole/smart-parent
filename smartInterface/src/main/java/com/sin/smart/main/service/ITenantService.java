@@ -1,6 +1,7 @@
 package com.sin.smart.main.service;
 
 import com.sin.smart.core.web.PageResponse;
+import com.sin.smart.dto.SmartTenantDTO;
 import com.sin.smart.entity.main.SmartTenantEntity;
 
 import java.util.List;
@@ -18,9 +19,6 @@ public interface ITenantService {
 
     SmartTenantEntity findByPrimaryKey(Long id);
 
-    PageResponse queryTenantPages(SmartTenantEntity tenantEntity);
-
-    Integer queryTenantPageCount(SmartTenantEntity tenantEntity);
-
+    PageResponse<List<SmartTenantEntity>> queryTenantPages(SmartTenantDTO tenantDTO);
 
 }

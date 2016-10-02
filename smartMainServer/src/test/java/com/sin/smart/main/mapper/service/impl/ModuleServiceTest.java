@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 public class ModuleServiceTest extends SpringTxTestCase {
 
@@ -17,12 +18,24 @@ public class ModuleServiceTest extends SpringTxTestCase {
     @Test
     public void testGetModelByUser(){
         CurrentUserEntity entity = new CurrentUserEntity();
-        entity.setUserId(1L);
+        entity.setId(1L);
         entity.setTenantId(88L);
         entity.setUserName("admin");
         entity.setIsAdmin(new Byte("1"));
         List list = moduleService.getModulesByUser(entity);
         System.out.println("JSON-->"+JSON.toJSONString(list));
     }
+
+    @Test
+    public void testGetAllModuleActionByUser(){
+        CurrentUserEntity entity = new CurrentUserEntity();
+        entity.setId(1L);
+        entity.setIsAdmin(new Byte("0"));
+        Map map = moduleService.getAllModuleActionByUser(entity);
+        System.out.println("Map-->"+JSON.toJSONString(map));
+    }
+
+
+
 
 }

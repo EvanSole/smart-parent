@@ -68,11 +68,11 @@ public class MyRealm extends AuthorizingRealm {
         SmartUserEntity userEntity = userService.findByUserName(userName);
 
         if(userEntity != null){
-            if(userEntity.getIsActive() == 0 || userEntity.getIsDel() == 1){
+            if("0".equals(String.valueOf(userEntity.getIsActive()))|| "1".equals(String.valueOf(userEntity.getIsDel()))){
                 log.info("Did not find the account or the account is not activated!");
                 throw new UnknownAccountException("Did not find the account or the account is not activated!"); //未找到账户或者账户未激活
             }
-            if(Boolean.TRUE.equals(userEntity.getIsActive())) {
+            if("0".equals(String.valueOf(userEntity.getIsActive()))) {
                 log.info("Account is locked!");
                 throw new LockedAccountException("Account is locked"); //帐号锁定
             }

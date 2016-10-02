@@ -82,6 +82,6 @@ public class PwdUtils {
     }
 
     public static void main(String a[]) throws UnsupportedEncodingException {
-        System.out.println(toMd5("123456", "admin", 12));
+        System.out.println(toMd5("123456", "test", 12));
     }
 }

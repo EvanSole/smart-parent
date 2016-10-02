@@ -3,6 +3,7 @@ package com.sin.smart.entity.main;
 import com.sin.smart.entity.po.BasePO;
 
 public class SmartTenantEntity extends BasePO {
+
     private Long id;
 
     private String typeCode;

@@ -1,15 +1,13 @@
 define([
 
-    './login/loginController',
-
     './system/tenantController',
+
+
     './system/codeController',
     './system/versionController',
     './system/moduleController',
     './system/roleController',
     './system/userController',
-
-
 
 
     './data/shopController',

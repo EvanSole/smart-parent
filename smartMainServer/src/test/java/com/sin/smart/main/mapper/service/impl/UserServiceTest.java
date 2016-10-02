@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 
 public class UserServiceTest extends SpringTxTestCase {
 
@@ -23,8 +25,14 @@ public class UserServiceTest extends SpringTxTestCase {
     }
 
     @Test
+    public void testGetUserByUserName(){
+        SmartUserEntity smartUserEntity = userService.findByUserName("test");
+        System.out.println(smartUserEntity.getRealName());
+    }
+
+    @Test
     public void testGetUser(){
-        SmartUserEntity smartUserEntity = userService.findUser("admin","admin");
+        SmartUserEntity smartUserEntity = userService.findUser("test","2580ae4196df174e1d6f736f54281db8");
         System.out.println(smartUserEntity.getRealName());
     }
 
@@ -34,7 +42,13 @@ public class UserServiceTest extends SpringTxTestCase {
         userDTO.setOffset(1);
         userDTO.setPageSize(15);
         PageResponse pageResponse = userService.queryUserPages(userDTO);
-        System.out.println(JSON.toJSONString(pageResponse.getData()));
+        System.out.println(JSON.toJSONString(pageResponse.getRows()));
+    }
+
+    @Test
+    public void testRoleIdListByUserId(){
+        List  list = userService.getRoleIdListByUserId(1L);
+        System.out.println(JSON.toJSONString(list));
     }
 
 }

@@ -18,14 +18,20 @@
     <result column="is_module_default" property="isModuleDefault" jdbcType="BIT" />
   </resultMap>
 
+  <resultMap id="ModulePermResultMap" type="java.util.LinkedHashMap">
+    <result column="module_id" property="moduleId" jdbcType="BIGINT" />
+    <result column="action_name" property="actionName" jdbcType="VARCHAR" />
+    <result column="action_code" property="actionCode" jdbcType="VARCHAR" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, module_id, action_name, action_code, is_active, url, http_method, relation_url, 
     description, create_user, create_time, update_user, update_time, is_module_default
   </sql>
 
-  <select id="selectPermissionMapperByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectPermissionMapperByUserId" resultMap="ModulePermResultMap" parameterType="java.lang.Long" >
     select module_id,action_code,action_name from `t_smart_permission` where id in (
-        select action_Id from `t_smart_role_permission` where  relationType='a' AND role_id in (
+        select action_Id from `t_smart_role_permission` where  relation_type='a' AND role_id in (
            select role_id from `t_smart_user_role` where user_id = #{userId,jdbcType=BIGINT}
         )
     )

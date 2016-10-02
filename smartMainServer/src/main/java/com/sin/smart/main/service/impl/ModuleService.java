@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +32,11 @@ public class ModuleService implements IModuleService{
         List <SmartModuleEntity> list = null;
         List <MenuTreeNode> retList = new ArrayList<MenuTreeNode>();
         if(sessionCurrentUser.getIsAdmin() != null && sessionCurrentUser.getIsAdmin() == 1){
-            //获得所有模块菜单
-            list = moduleMapper.selectAllModules(ModuleTypeEnum.WEB.toString());
+            //如果是管理员获得所有模块菜单
+            list = moduleMapper.selectAllModulesAdmin(ModuleTypeEnum.WEB.toString());
         }else{
-            //根据登录用户权限获取模块
-            list = moduleMapper.selectAllModuleByPermission(sessionCurrentUser.getUserId(),ModuleTypeEnum.WEB.toString());
+            //如果是普通用户则根据登录用户权限获取模块
+            list = moduleMapper.selectAllModuleNormal(sessionCurrentUser.getId(),ModuleTypeEnum.WEB.toString());
         }
         // 组合成树状
         list.forEach( x->{
@@ -55,11 +56,19 @@ public class ModuleService implements IModuleService{
     @Override
     public Map getAllModuleActionByUser(CurrentUserEntity sessionCurrentUser) {
         Map retMap = new HashMap();
-        if(sessionCurrentUser.getIsAdmin() == 1){
+        if( 1 == sessionCurrentUser.getIsAdmin()){
             retMap.put("isAdmin",true);
             return retMap;
         }
-        List <Object[]> list = permissionMapper.selectPermissionMapperByUserId(sessionCurrentUser.getUserId());
+        //根据当前用户Id获取用户的模块及模块对应操作权限
+        List<Map<String, Object>> mapList = permissionMapper.selectPermissionMapperByUserId(sessionCurrentUser.getId());
+        List<Object[]> list = new ArrayList<Object[]>();
+        for (Map<String, Object> map : mapList) {
+            Collection values = map.values();
+            List listArray = new ArrayList(values);
+            list.add(listArray.toArray());
+        }
+        //获取模块Id
         List moduleIdList = new ArrayList();
         list.forEach(x-> {
             moduleIdList.add(x[0]);
@@ -68,7 +77,8 @@ public class ModuleService implements IModuleService{
             retMap.put("isAdmin",false);
             return retMap;
         }
-        List <SmartModuleEntity>mList = moduleMapper.selectModuleByIds(moduleIdList);
+        //过滤
+        List<SmartModuleEntity> mList = moduleMapper.selectModuleByIds(moduleIdList);
         list.forEach(x-> {
             Optional<SmartModuleEntity> optional= mList.stream().filter(y->y.getId() == (Long)x[0]).findFirst();
             if(optional.isPresent()){
@@ -100,6 +110,7 @@ public class ModuleService implements IModuleService{
         menuTreeNode.setParentId(String.valueOf(moduleEntity.getParentId()));
         menuTreeNode.setPath(moduleEntity.getModulePath());
     }
+
     private void makeMenuTree(MenuTreeNode menuTreeNode,List<SmartModuleEntity> moduleList){
         List<MenuTreeNode> list = new ArrayList<MenuTreeNode>();
         moduleList.forEach(x->{
@@ -112,9 +123,6 @@ public class ModuleService implements IModuleService{
         });
         menuTreeNode.setChildren(list);
     }
-
-
-
 
     @Override
     public Integer removeByPrimaryKey(Long id) {

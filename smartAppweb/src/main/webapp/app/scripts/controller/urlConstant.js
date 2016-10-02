@@ -6,19 +6,21 @@ define(['app'], function (app) {
             naviUrl: window.BASEPATH + '/index/menu',
             //根据当前登录用户获取按钮操作权限
             permUrl: window.BASEPATH + '/index/perm',
+
+            //租户管理
+            systemTenantUrl: window.BASEPATH + '/tenant',
+
+
+
+
+
+
             //根据登录用户当前租户查询所有仓库
             getWarehouseUrl: window.BASEPATH + '/index/warehouse/combox',
             //选择设置当前仓库
             switchWarehouseUrl: window.BASEPATH + '/index/warehouse/current',
             dataWarehouseUrl: window.BASEPATH + '/warehouse',
             getSystemDataWarehouseUrl:window.BASEPATH + "/index/warehouse",
-
-
-
-            //系统设置
-            systemTenantUrl: window.BASEPATH + '/tenant',
-
-
 
             systemCodeHeaderUrl: window.BASEPATH + '/code/header',
             systemCodeDetailUrl: window.BASEPATH + '/code/detail',

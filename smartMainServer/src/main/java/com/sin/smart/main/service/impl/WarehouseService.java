@@ -18,7 +18,7 @@ public class WarehouseService implements IWarehouseService {
 
     @Override
     public List<SmartWarehouseEntity> searchWarehouseByUser(CurrentUserEntity sessionCurrentUser) {
-        return warehouseMapper.selectWarehouseLists(sessionCurrentUser.getUserId(),sessionCurrentUser.getTenantId());
+        return warehouseMapper.selectWarehouseLists(sessionCurrentUser.getId(),sessionCurrentUser.getTenantId());
     }
 
     @Override

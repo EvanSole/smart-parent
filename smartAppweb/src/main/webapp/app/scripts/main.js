@@ -114,36 +114,6 @@ define([
             e.preventDefault();
             $rootScope.closePwdWin();
         });
-        // 切换仓库
-        $rootScope.openWarehouseWin = function (isSwitch) {
-            sync(url.getWarehouseUrl, "GET", {wait: false}).then(function (resp) {
-                var list = resp.result.list;
-                if (!resp.result.selected || isSwitch) {
-                    $scope.warehouseList = list;
-                    var switchWarehouseWindow = $('#switchWarehouseWin').data("kendoWindow");
-                    switchWarehouseWindow.setOptions({
-                        modal: true,
-                        width: '620px',
-                        title: '仓库选择',
-                        actions: []
-                    });
-                    switchWarehouseWindow.center().open();
-                } else {
-                    var warehouse = _.findWhere(list, {value: resp.result.selected});
-                    $rootScope.user.warehouse = warehouse.key;
-                }
-            });
-        };
-        $rootScope.switchWarehouse = function (warehouse) {
-            sync(url.switchWarehouseUrl + "/" + warehouse.value, "PUT", {wait: false}).then(function (resp) {
-                $rootScope.user.warehouse = warehouse.key;
-                if ($('#switchWarehouseWin').data("kendoWindow")) {
-                    $('#switchWarehouseWin').data("kendoWindow").close();
-                }
-                //$location.path("/");
-                window.location.href = window.BASEPATH + "/app/index.html";
-            });
-        };
       }
     ]);
 });

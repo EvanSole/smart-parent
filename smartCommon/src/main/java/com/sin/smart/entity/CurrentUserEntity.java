@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CurrentUserEntity implements Serializable {
 
-    private Long userId;
+    private Long id;
     private String userName;
     private String realName;
     private Long tenantId; //租户Id
@@ -28,12 +28,12 @@ public class CurrentUserEntity implements Serializable {
         this.tenantId = tenantId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getRealName() {

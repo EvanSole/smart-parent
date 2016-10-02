@@ -1,7 +1,7 @@
 package com.sin.smart.app.interceptor;
 
 import com.sin.smart.constants.GlobalConstants;
-import com.sin.smart.entity.main.SmartUserEntity;
+import com.sin.smart.entity.CurrentUserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +49,7 @@ public class ContextInterceprot extends HandlerInterceptorAdapter {
 	}
 
 	void printAccessLog(HttpServletRequest request, HttpServletResponse response) {
-		SmartUserEntity user = (SmartUserEntity) request.getSession().getAttribute(GlobalConstants.SESSION_KEY);
+		CurrentUserEntity user = (CurrentUserEntity) request.getSession().getAttribute(GlobalConstants.SESSION_KEY);
 		String userName = "";
 		if (user != null) {
 			userName = user.getUserName();

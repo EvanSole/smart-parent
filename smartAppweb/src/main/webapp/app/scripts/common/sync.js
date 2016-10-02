@@ -103,46 +103,27 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                             $.when(kendo.ui.ExtOkCancelDialog.show({
                                     title: "确认",
                                     message: data.message,
-                                    icon: 'k-ext-question' })
-                            ).then(function(resp){
-                                    if (resp.button === 'OK') {
-                                        $rootScope.$broadcast('confirmOK',data);
-                                    }
-                                    deferred.reject(data);
-                                });
+                                    icon: 'k-ext-question'
+                                })
+                            ).then(function (resp) {
+                                if (resp.button === 'OK') {
+                                    $rootScope.$broadcast('confirmOK', data);
+                                }
+                                deferred.reject(data);
+                            });
                         } else {
-                            if("1"===data.errorLevel){
-                                var message = "<span style='color: red;font-size: 20px;'>"+data.message+"</span>";
-                                $.when(kendo.ui.ExtAlertDialog.show({
-                                    title: "<span style='color: red;font-size: 20px;'>错误</span>",
-                                    message: message,
-                                    resizable:true,
-                                    height:"auto",
-                                    icon: 'k-ext-error' })).done(function (resp) {
-                                    if (resp.button === "OK") {
-                                        deferred.reject(data);
-                                        if (resp.button === 'OK') {
-                                            $rootScope.$broadcast('errorOK', data);
-                                        }
+                            $.when(kendo.ui.ExtAlertDialog.show({
+                                title: "错误",
+                                message: data.message,
+                                icon: 'k-ext-error'
+                            })).done(function (resp) {
+                                if (resp.button === "OK") {
+                                    deferred.reject(data);
+                                    if (resp.button === 'OK') {
+                                        $rootScope.$broadcast('errorOK', data);
                                     }
-                                });
-                                $("#extAlertDialog").css("padding-bottom","40px");
-                                setTimeout(function(){
-                                    $("#extAlertDialog").focus();
-                                },500);
-                            }else {
-                                $.when(kendo.ui.ExtAlertDialog.show({
-                                    title: "错误",
-                                    message: data.message,
-                                    icon: 'k-ext-error' })).done(function (resp) {
-                                    if (resp.button === "OK") {
-                                        deferred.reject(data);
-                                        if (resp.button === 'OK') {
-                                            $rootScope.$broadcast('errorOK', data);
-                                        }
-                                    }
-                                });
-                            }
+                                }
+                            });
                         }
                     } else {
                         switch (data.resultType) {
@@ -193,12 +174,9 @@ define(['app', 'jquery', 'underscore'],function(app, $, _){
                             case "Data":
                                 break;
                         }
-                        // 针对系统数据进行更新
-                        if (method !== "GET") {
-                        } else {
-                          deferred.resolve(data);
-                        }
+                        deferred.resolve(data);
                     }
+
                 }).error(function(data, status, headers, config) {
                   if (options.wait) {
                     window.clearTimeout(timer);

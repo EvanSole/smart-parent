@@ -15,7 +15,7 @@ public interface IUserService {
 
     SmartUserEntity findByUserName(String userName);
 
-    PageResponse queryUserPages(SmartUserDTO userDTO);
+    PageResponse<List<SmartUserEntity>> queryUserPages(SmartUserDTO userDTO);
 
     Integer removeUser(Long id);
 

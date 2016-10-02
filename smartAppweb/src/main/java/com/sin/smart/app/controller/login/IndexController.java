@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.sin.smart.constants.GlobalConstants;
 import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
-import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.main.SmartWarehouseEntity;
 import com.sin.smart.main.service.IModuleService;
 import com.sin.smart.main.service.IRoleService;
@@ -39,6 +38,31 @@ public class IndexController extends BaseController {
     @Autowired
     private IRoleService roleService;
 
+    /**
+     * 根据用户获取操作权限
+     * @return
+     */
+    @RequestMapping(value="perm",method = RequestMethod.GET)
+    public ResponseResult getPermission(){
+        Map map = moduleService.getAllModuleActionByUser(this.getSessionCurrentUser());
+        map.put("userName",this.getSessionCurrentUser().getUserName());
+        List<Long> roleList = (List<Long>) this.getSession().getAttribute(GlobalConstants.ROLE_IDS);
+        List <String> roleNameList = roleService.getRoleNameByIds(roleList);
+        map.put("roleName",roleNameList.stream().collect(Collectors.joining(",")));
+        return getSucResultData(map);
+    }
+
+    /***
+     * 根据用户获取菜单
+     * @return
+     */
+    @RequestMapping(value="menu",method = RequestMethod.GET)
+    public ResponseResult getMenuLists(){
+        List list = moduleService.getModulesByUser(this.getSessionCurrentUser());
+        return getSucResultData(list);
+    }
+
+
 
     /**
      * 根据租户查询所有仓库
@@ -53,34 +77,6 @@ public class IndexController extends BaseController {
         if( whId != 0){
             map.put("selected",whId);
         }
-        return new ResponseResult(map);
-    }
-
-
-    /***
-     * 根据用户获取菜单
-     * @return
-     */
-    @RequestMapping(value="menu",method = RequestMethod.GET)
-    public ResponseResult getMenuLists(){
-        CurrentUserEntity userEntity = new CurrentUserEntity();
-        userEntity.setIsAdmin(new Byte("1"));
-        //List list = moduleService.getModulesByUser(this.getSessionCurrentUser());
-        List list = moduleService.getModulesByUser(userEntity);
-        return getSucResultData(list);
-    }
-
-    /**
-     * 根据用户获取按钮权限
-     * @return
-     */
-    @RequestMapping(value="perm",method = RequestMethod.GET)
-    public ResponseResult getPermission(){
-        Map map = moduleService.getAllModuleActionByUser(this.getSessionCurrentUser());
-        map.put("userName",this.getSessionCurrentUser().getUserName());
-        List <Long> roleList = (List<Long>) this.getSession().getAttribute(GlobalConstants.ROLE_IDS);
-        List <String> roleNameList = roleService.getRoleNameByIds(roleList);
-        map.put("roleName",roleNameList.stream().collect(Collectors.joining(",")));
         return getSucResultData(map);
     }
 
@@ -88,7 +84,7 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "warehouse",method = RequestMethod.GET)
     public ResponseResult searchWarehouseByTenantId(){
         List<SmartWarehouseEntity> warehouses = warehouseService.searchWarehouseByUser(getSessionCurrentUser());
-        return new ResponseResult(BeanUtils.convertListToKeyValues(warehouses, SmartWarehouseEntity.class, "warehouseName", "id"));
+        return getSucResultData(BeanUtils.convertListToKeyValues(warehouses, SmartWarehouseEntity.class, "warehouseName", "id"));
     }
 
 
@@ -216,41 +212,5 @@ public class IndexController extends BaseController {
         menuMap.put("name", menuJson.get("name"));
         return menuMap;
     }
-
-
-
-    /**
-     * 通过passport获取用户权限信息
-     * @param url
-     * @param accessToken
-     * @return
-     */
-    /*private CusOAuthResourceResponse getUserPermission(String url,String accessToken){
-        try {
-            OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
-            OAuthClientRequest userInfoRequest = new OAuthBearerClientRequest(url)
-                    .setAccessToken(accessToken).buildQueryMessage();
-
-            CusOAuthResourceResponse resourceResponse = null;
-            resourceResponse = oAuthClient.resource(userInfoRequest, OAuth.HttpMethod.GET, CusOAuthResourceResponse.class);
-            System.out.println(123);
-
-            return resourceResponse;
-            *//*
-            menu=[{"is_main_page":"0","code":"","create_time":"1442304542","is_enable":"1","type":"MENU","is_show":"1","expanded":true,"user_id":"0",
-            "children":[
-            {"is_main_page":"0","code":"","create_time":"1442304566","is_enable":"1","type":"MENU","is_show":"1","expanded":true,"user_id":"0",
-            "children":[
-            {"is_main_page":"0","code":"query","create_time":"1442304610","is_enable":"1","type":"ACTION","is_show":"1","expanded":true,"user_id":"0","children":[],"parent_id":"520","name":"查询","is_public":"1","id":"522","external_code":"","value":"/asn","app_id":"17","sort_order":"5"},
-            {"is_main_page":"0","code":"save","create_time":"1442304648","is_enable":"1","type":"ACTION","is_show":"1","expanded":true,"user_id":"0","children":[],"parent_id":"520","name":"保存到货通知单","is_public":"1","id":"523","external_code":"","value":"/asn","app_id":"17","sort_order":"10"}],
-            "parent_id":"519",
-            "name":"到货通知单","is_public":"1","id":"520","external_code":"","value":"/in/asn.html","app_id":"17","sort_order":"5"},
-            {"is_main_page":"0","code":"","create_time":"1442304587","is_enable":"1","type":"MENU","is_show":"1","expanded":true,"user_id":"0","children":[{"is_main_page":"0","code":"query","create_time":"1442391468","is_enable":"1","type":"ACTION","is_show":"1","expanded":true,"user_id":"0","children":[],"parent_id":"521","name":"入库单查询","is_public":"1","id":"524","external_code":"","value":"/receipt","app_id":"17","sort_order":"5"}],"parent_id":"519","name":"入库单","is_public":"1","id":"521","external_code":"","value":"/in/receipt.html","app_id":"17","sort_order":"10"}],"parent_id":"1","name":"入库","is_public":"1","id":"519","external_code":"","value":"/in","app_id":"17","sort_order":"115"}]
-             *//*
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
 
 }

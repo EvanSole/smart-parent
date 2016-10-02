@@ -1,4 +1,3 @@
-/*
 $(function(){
     $("#userName").keydown(function(event){
         if(event.keyCode==13){
@@ -82,7 +81,7 @@ function login() {
                 $(".login_info").html("登录成功正在跳转...");
                 top.location.href = basePath+"app/index.html";
             }else{
-                errorMsg = "登录失败!"
+                errorMsg = "登录失败!"+ result.message;
                 $(".login_info").html(errorMsg);
                 $(".login_info").addClass("alert-danger")
                 $(".login_info").removeClass("alert-success");
@@ -101,4 +100,4 @@ function getBasePath() {
        port = "/";
     }
     return  window.location.protocol+"//"+window.location.hostname+port;
-}*/
+}

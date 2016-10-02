@@ -22,11 +22,7 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseResult queryRoles(@RequestParam Map map){
         map.put("tenantId", getSessionCurrentUser().getTenantId());
-        return new ResponseResult(roleService.queryRolePages(map));
+        return getSucResultData(roleService.queryRolePages(map));
     }
-
-
-
-
 
 }

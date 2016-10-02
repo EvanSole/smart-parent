@@ -2,29 +2,33 @@ package com.sin.smart.entity.po;
 
 import java.io.Serializable;
 
-public class BasePO implements Serializable{
+public class BasePO implements Serializable {
 
 	private String orderBy;
-	private int offset = 0;
-	private int pageSize = 15;//每页多少条
+	private Integer offset = 0;  //从第几条开始
+	private Integer pageSize = 15;//每页多少条
 	private Integer page = 1; //当前第几页
+	private Integer total;
 
-	public int getPage() {
+	public Integer getPage() {
 		return page;
 	}
 
-	public void setPage(int page) {
+	public void setPage(Integer page) {
 		this.page = page;
 	}
 
-	public int getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 
+	public void setOffset(Integer offset) {
+		this.offset = offset;
+	}
 
 	public Integer getOffset() {
 		if(pageSize<=0){
@@ -32,10 +36,6 @@ public class BasePO implements Serializable{
 		}
 		this.offset = (page-1)*pageSize;
 		return offset;
-	}
-
-	public void setOffset(Integer offset) {
-		this.offset = offset;
 	}
 
 	public String getOrderBy() {
@@ -46,5 +46,11 @@ public class BasePO implements Serializable{
 		this.orderBy = orderBy;
 	}
 
+	public Integer getTotal() {
+		return total;
+	}
 
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
 }
