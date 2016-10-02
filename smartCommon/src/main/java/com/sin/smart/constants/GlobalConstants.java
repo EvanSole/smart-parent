@@ -7,6 +7,7 @@ public class GlobalConstants {
     public static final String WAREHOUSE_ID = "warehouseId";
     public static final String TENAN_ID = "tenanId";
     public final static String ROLE_IDS = "roles";
+    public static final String DEFAULT_TENANT_TYPE = "WMS";
 
     public static final String SPLIT_TABLE_KEY = "splitTableKey"; //分表标志
 
@@ -14,6 +15,7 @@ public class GlobalConstants {
     public static final int EXPIRY_TIME = 1800;
 
     public static final int DEFAULT_ZONE_ID = 88;
+
 
     public static final String MSG_E00111 = "E00111";
     public static final String MSG_E00112 = "E00112";

@@ -1,6 +1,7 @@
 define([
 
     './system/tenantController',
+    './system/warehouseController',
 
 
     './system/codeController',
@@ -11,24 +12,9 @@ define([
 
 
     './data/shopController',
-    './data/warehouseController',
-    './data/storerController',
-    './data/goodsController',
-    './data/supplierController',
-    './data/customerController',
-    './data/distributorController',
     './data/carrierController',
-    './data/locationController',
-    './data/locationListController',
     './data/zoneController',
-    './data/commodityTypeController',
 
-
-
-
-
-    './system/problemTicklingController',
-    './system/templateController',
 
 
 /************库存相关*****************/

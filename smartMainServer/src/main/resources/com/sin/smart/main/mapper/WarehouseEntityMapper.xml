@@ -26,17 +26,71 @@
     <result column="update_time" property="updateTime" jdbcType="BIGINT" />
   </resultMap>
 
+  <resultMap id="UserWarehouseResultMap" type="java.util.LinkedHashMap">
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, tenant_id, warehouse_no, warehouse_name, is_active, type_code, country, province, 
     city, district, zip, address, contact, telephone, fax, email, description, is_del, 
     create_user, create_time, update_user, update_time
   </sql>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <!-- query where 子句 -->
+  <sql id="queryWhereClause">
+    <where>
+      <if test="id !=null and id != 0">
+        AND id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="warehouseNo != null">
+        AND warehouse_no = #{warehouseNo,jdbcType=VARCHAR}
+      </if>
+      <if test="warehouseName != null" >
+        AND warehouse_name = #{warehouseName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <!-- order by 子句 -->
+  <sql id="queryOrderByClause">
+    <if test="orderBy != null">
+      ORDER BY ${orderBy}
+    </if>
+    <if test="orderBy == null">
+      ORDER BY create_time desc
+    </if>
+
+  </sql>
+
+  <!-- query limit 子句 -->
+  <sql id="queryLimitClause">
+    <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
+      LIMIT #{offset}, #{pageSize}
+    </if>
+  </sql>
+
+  <select id="queryWarehousePages" resultMap="BaseResultMap" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_smart_warehouse
+    <include refid="queryWhereClause"/>
+    <include refid="queryOrderByClause"/>
+    <include refid="queryLimitClause" />
+  </select>
+
+  <select id="queryWarehousePageCount"  resultType="java.lang.Integer" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity">
+    SELECT count(1) FROM t_smart_warehouse
+    <include refid="queryWhereClause"/>
+    LIMIT 1
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_smart_warehouse
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
 
   <select id="selectWarehouseByWarehouseNo" resultType="com.sin.smart.entity.main.SmartWarehouseEntity" parameterType="java.lang.String" >
@@ -45,8 +99,6 @@
     from t_smart_warehouse
     where warehouse_no = #{warehouseNo,jdbcType=VARCHAR}
   </select>
-
-
 
   <select id="selectWarehouseLists" resultMap="BaseResultMap"  >
     select
@@ -64,35 +116,35 @@
     </where>
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="selectUserByWarehouseId" resultType="java.lang.Long" parameterType="java.lang.Long">
+    select user_id from t_smart_user_warehouse where warehouse_id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <!-- 根据仓库获取仓库分配用户信息 -->
+  <select id="queryUserByWarehousePages" resultMap="UserWarehouseResultMap" parameterType="java.util.Map">
+    select user_id,user_name,real_name from t_smart_user_warehouse
+    where warehouse_id = #{warehouseId,jdbcType=BIGINT}
+    <include refid="queryOrderByClause"/>
+    <include refid="queryLimitClause" />
+  </select>
+
+  <select id="queryUserByWarehousePageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(id) from t_smart_user_warehouse
+    where warehouse_id = #{id,jdbcType=BIGINT}
+    <include refid="queryOrderByClause"/>
+    <include refid="queryLimitClause" />
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_smart_warehouse
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity" >
-    insert into t_smart_warehouse (id, tenant_id, warehouse_no, 
-      warehouse_name, is_active, type_code, 
-      country, province, city, 
-      district, zip, address, 
-      contact, telephone, fax, 
-      email, description, is_del, 
-      create_user, create_time, update_user, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{tenantId,jdbcType=INTEGER}, #{warehouseNo,jdbcType=VARCHAR}, 
-      #{warehouseName,jdbcType=VARCHAR}, #{isActive,jdbcType=TINYINT}, #{typeCode,jdbcType=VARCHAR}, 
-      #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{district,jdbcType=VARCHAR}, #{zip,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{contact,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}, 
-      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateUser,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity" >
+  <insert id="insertWarehouse" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity" >
     insert into t_smart_warehouse
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="tenantId != null" >
         tenant_id,
       </if>
@@ -158,9 +210,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="tenantId != null" >
         #{tenantId,jdbcType=INTEGER},
       </if>
@@ -227,7 +276,7 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity" >
+  <update id="updateWarehouse" parameterType="com.sin.smart.entity.main.SmartWarehouseEntity" >
     update t_smart_warehouse
     <set >
       <if test="tenantId != null" >
@@ -294,6 +343,7 @@
         update_time = #{updateTime,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
+
 </mapper>

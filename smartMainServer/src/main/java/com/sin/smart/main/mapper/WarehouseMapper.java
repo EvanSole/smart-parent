@@ -10,9 +10,23 @@ public interface WarehouseMapper {
 
     List<SmartWarehouseEntity> selectWarehouseLists(@Param("userId") Long userId,@Param("tenantId") Long tenantId);
 
-    List<SmartWarehouseEntity> selectWarehouses(Map map);
-
-    SmartWarehouseEntity selectWarehouseById(@Param("id") Long id);
+    SmartWarehouseEntity selectByPrimaryKey(@Param("id") Long id);
 
     SmartWarehouseEntity selectWarehouseByWarehouseNo(@Param("warehouseNo") String warehouseNo);
+
+    List<SmartWarehouseEntity> queryWarehousePages(SmartWarehouseEntity warehouseEntity);
+
+    Integer queryWarehousePageCount(SmartWarehouseEntity warehouseEntity);
+
+    Integer insertWarehouse(SmartWarehouseEntity warehouseEntity);
+
+    Integer updateWarehouse(SmartWarehouseEntity warehouseEntity);
+
+    Integer deleteByPrimaryKey(@Param("id") Long id);
+
+    List selectUserByWarehouseId(@Param("id") Long id);
+
+    List queryUserByWarehousePages(Map searchMap);
+
+    Integer queryUserByWarehousePageCount(Map searchMap);
 }

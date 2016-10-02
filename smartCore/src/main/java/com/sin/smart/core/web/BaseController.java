@@ -68,9 +68,9 @@ public class BaseController {
     }
 
     protected long getCurrentTenantId() {
-        Object tenantNo = getSession().getAttribute(GlobalConstants.TENAN_ID);
-        if(tenantNo != null){
-            return Long.parseLong(tenantNo.toString());
+        Object tenantId = getSession().getAttribute(GlobalConstants.TENAN_ID);
+        if(tenantId != null){
+            return Long.parseLong(tenantId.toString());
         }
         return 0;
     }

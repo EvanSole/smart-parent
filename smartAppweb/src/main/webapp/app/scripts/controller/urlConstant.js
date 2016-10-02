@@ -9,7 +9,7 @@ define(['app'], function (app) {
 
             //租户管理
             systemTenantUrl: window.BASEPATH + '/tenant',
-
+            systemWarehouseUrl: window.BASEPATH + '/warehouse',
 
 
 

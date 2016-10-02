@@ -1,25 +1,24 @@
 define(['scripts/controller/controller', '../../model/data/warehouseModel'], function (controller, warehouseModel) {
     "use strict";
-    controller.controller('dataWarehouseController',
-        ['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
+    controller.controller('warehouseController', ['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
             function ($scope, $rootScope, $sync, $url, wmsDataSource) {
-                var warehouseUrl = $url.dataWarehouseUrl,
+                var warehouseUrl = $url.systemWarehouseUrl,
                     warehouseColumns = [
                         WMS.GRIDUTILS.CommonOptionButton(),
                         { filterable: false, title: '仓库编号', field: 'warehouseNo', align: 'left', width: "120px"},
                         { filterable: false, title: '仓库名称', field: 'warehouseName', align: 'left', width: "120px"},
-                        { filterable: false, title: '仓库类型', field: 'typeCode', align: 'left', width: "120px", template: WMS.UTILS.codeFormat('typeCode', 'WarehouseType')},
+                        { filterable: false, title: '仓库类型', field: 'typeCode', align: 'left', width: "120px"},
                         { filterable: false, title: '是否可用', field: 'isActive', align: 'left', width: "150px", template: WMS.UTILS.checkboxDisabledTmp("isActive")}
 
                     ],
                     userWarehouseColumns = [
                         WMS.GRIDUTILS.deleteOptionButton("detail"),
-                        { filterable: false, title: '登入账号', field: 'loginName', align: 'left', width: "50px"},
-                        { filterable: false, title: '用户名称', field: 'userName', align: 'left', width: "50px"}
+                        { filterable: false, title: '登入账号', field: 'userName', align: 'left', width: "50px"},
+                        { filterable: false, title: '用户名称', field: 'realName', align: 'left', width: "50px"}
                     ],
                     userColumns = [
-                        { filterable: false, title: '登入账号', field: 'loginName', align: 'left', width: "80px"},
-                        { filterable: false, title: '用户名称', field: 'userName', align: 'left', width: "80px"}
+                        { filterable: false, title: '登入账号', field: 'userName', align: 'left', width: "80px"},
+                        { filterable: false, title: '用户名称', field: 'realName', align: 'left', width: "80px"}
                     ],
                     warehouseDataSource = wmsDataSource({
                         url: warehouseUrl,
@@ -27,14 +26,17 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                             model: warehouseModel.header
                         }
                     });
+
                 userColumns = userColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
                 userColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
+
                 warehouseColumns = warehouseColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
                 userWarehouseColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
+
                 $scope.mainGridOptions = WMS.GRIDUTILS.getGridOptions({
                     dataSource: warehouseDataSource,
                     toolbar: [
-                        { name: "create", text: "新增仓库", className: "btn-auth-add"}
+                        { name: "create", text: "新增", className: "btn-auth-add"}
                     ],
                     columns: warehouseColumns,
                     editable: {
@@ -46,10 +48,11 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                     },
                     filterable: true
                 }, $scope);
-                $scope.selectSingleRow = WMS.GRIDUTILS.selectSingleRow;
 
+                $scope.selectSingleRow = WMS.GRIDUTILS.selectSingleRow;
                 $scope.selectAllRow = WMS.GRIDUTILS.selectAllRow;
-                $scope.detailOptions = function(dataItem) {
+
+                 $scope.detailOptions = function(dataItem) {
                     var detailOptions = WMS.GRIDUTILS.getGridOptions({
                         dataSource: wmsDataSource({
                             url: warehouseUrl + "/" + dataItem.id+"/user",
@@ -66,21 +69,21 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                             mode: "popup"
                         },
                         toolbar: [
-                            { template:'<a class="k-button k-button-custom-command" ng-click="permission(dataItem)">新增权限</a>', className: "btn-auth-addWhUser"},
+                            { template:'<a class="k-button k-button-custom-command" ng-click="permission(dataItem)">分配用户</a>', className: "btn-auth-addWhUser"},
                             { template:'<a class="k-button k-button-custom-command" ng-click="batchDelete(this)">批量删除</a>', className: "btn-auth-batchDelete"}
                         ],
                         columns: userWarehouseColumns
                     }, $scope);
-                    //$scope.warehouseDetailGrid = detailOptions;
                     return detailOptions;
                 };
-                $scope.permission = function(e){
 
+
+                $scope.permission = function(dataItem){
                     $scope.permissionPopup.refresh().open().center();
                     $scope.gridUUid = this.warehouseDetailGrid;
                     var userDataSource = wmsDataSource({
                         serverPaging:false,
-                        url: "/warehouse/"+ e.id +"/userCan",
+                        url: "/warehouse/"+ dataItem.id +"/allocation/user",
                         schema: {
                             model: {
                                 id: "id",
@@ -90,11 +93,10 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                             }
                         },
                         pageSize: 30
-
                     });
                     this.userGrid.setDataSource(userDataSource);
                     this.userGrid.refresh();
-                    $scope.warehouseId = e.id;
+                    $scope.warehouseId = dataItem.id;
                 };
 
                 $scope.userGridOptions = WMS.GRIDUTILS.getGridOptions({
@@ -103,7 +105,7 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                     pageable: true,
                     editable: false,
                     toolbar: [
-                        { template:'<a class="k-button k-button-custom-command" ng-click="saveUser()">保存权限</a>'}
+                        { template:'<a class="k-button k-button-custom-command" ng-click="saveUser()">保存分配</a>'}
                     ],
                     columns: userColumns,
                     filterable: true
@@ -139,8 +141,6 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                         }, function (xhr) {
                             e.warehouseDetailGrid.dataSource.read({});
                         });
-
-
                 };
             }
         ]

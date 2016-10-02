@@ -1,5 +1,6 @@
 package com.sin.smart.app.controller.main;
 
+import com.sin.smart.constants.GlobalConstants;
 import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
 import com.sin.smart.dto.SmartTenantDTO;
@@ -36,7 +37,7 @@ public class TenantController extends BaseController {
 
     @RequestMapping(value = "",method = RequestMethod.POST)
     public ResponseResult createTenant(@RequestBody SmartTenantDTO tenantDTO) throws Exception {
-        tenantDTO.setTypeCode("WMS");
+        tenantDTO.setTypeCode(GlobalConstants.DEFAULT_TENANT_TYPE);
         tenantDTO.setCreateUser(this.getSessionCurrentUser().getUserName());
         tenantDTO.setCreateTime(new Date().getTime());
         tenantDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());

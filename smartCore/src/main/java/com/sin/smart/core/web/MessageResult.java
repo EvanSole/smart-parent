@@ -11,7 +11,11 @@ public class MessageResult implements Serializable {
     private String message;
     private Object result;
 
-    public static MessageResult getMessage(String code,Object []params){
+    public static MessageResult getMessage(String code){
+        return getMessage(code,null);
+    }
+
+    public static MessageResult getMessage(String code,Object [] params){
         MessageResult mr = new MessageResult();
         mr.setCode(code);
         mr.setParams(params);

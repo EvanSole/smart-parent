@@ -1,5 +1,6 @@
 package com.sin.smart.main.service.impl;
 
+import com.sin.smart.convert.ListArraysConvert;
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.MenuTreeNode;
@@ -62,12 +63,7 @@ public class ModuleService implements IModuleService{
         }
         //根据当前用户Id获取用户的模块及模块对应操作权限
         List<Map<String, Object>> mapList = permissionMapper.selectPermissionMapperByUserId(sessionCurrentUser.getId());
-        List<Object[]> list = new ArrayList<Object[]>();
-        for (Map<String, Object> map : mapList) {
-            Collection values = map.values();
-            List listArray = new ArrayList(values);
-            list.add(listArray.toArray());
-        }
+        List<Object[]> list = ListArraysConvert.listMapToArrayConvert(mapList);
         //获取模块Id
         List moduleIdList = new ArrayList();
         list.forEach(x-> {
