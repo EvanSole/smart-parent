@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -71,6 +72,11 @@ public class UserService extends BaseService implements IUserService {
     @Override
     public List getRoleIdListByUserId(Long userId) {
         return userMapper.selectUserRolesById(userId);
+    }
+
+    @Override
+    public List<SmartUserEntity> queryUsersByWarehouse(Map searchMap) {
+        return userMapper.selectUsersByWarehouse(searchMap);
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -55,18 +56,35 @@ public class WarehouseController extends BaseController {
         return getMessage(warehouseService.removeWarehouse(id));
     }
 
-
+    //查询已分配用户
     @RequestMapping(value = "/{id}/user", method = RequestMethod.GET)
     public ResponseResult queryUserByWarehouseId(@PathVariable Long id,@RequestParam Map map) {
         map.put("warehouseId", id);
         return getSucResultData(warehouseService.queryUserByWarehouse(map));
     }
 
-
+    //查询未分配用户
     @RequestMapping(value = "/{id}/allocatable/user", method = RequestMethod.GET)
     public ResponseResult queryAllocatableUser(@PathVariable Long id,@RequestParam Map map) {
         map.put("warehouseId", id);
         return getSucResultData(warehouseService.queryAllocatableUser(map));
+    }
+
+    //保存分配用户
+    @RequestMapping(value = "/{id}/allocatable/user", method = RequestMethod.POST)
+    public ResponseResult saveAllocatableUser(@PathVariable Long id,@RequestBody Map map) {
+        map.put("warehouseId", id);
+        map.put("createUser",this.getSessionCurrentUser().getId());
+        return getMessage(warehouseService.saveAllocatableUser(map));
+    }
+
+    //删除分配用户
+    @RequestMapping(value = "/{id}/allocated/user/{userWhIds}", method = RequestMethod.DELETE)
+    public ResponseResult remaveAllocatableUser(@PathVariable Long id, @PathVariable String userWhIds) {
+        Map map = new HashMap();
+        map.put("warehouseId", id);
+        map.put("userWhIds", userWhIds);
+        return getMessage(warehouseService.removeAllocatableUser(map));
     }
 
 }

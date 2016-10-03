@@ -4,19 +4,23 @@ import com.sin.smart.convert.ListArraysConvert;
 import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.dto.SmartWarehouseDTO;
+import com.sin.smart.dto.UserWarehouseDTO;
 import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.main.SmartUserEntity;
 import com.sin.smart.entity.main.SmartWarehouseEntity;
-import com.sin.smart.main.mapper.UserMapper;
 import com.sin.smart.main.mapper.WarehouseMapper;
+import com.sin.smart.main.service.IUserService;
 import com.sin.smart.main.service.IWarehouseService;
+import com.sin.smart.utils.ArrayUtil;
 import com.sin.smart.utils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +32,7 @@ public class WarehouseService implements IWarehouseService {
     WarehouseMapper warehouseMapper;
 
     @Autowired
-    UserMapper userMapper;
+    IUserService userService;
 
     @Override
     public List<SmartWarehouseEntity> searchWarehouseByUser(CurrentUserEntity sessionCurrentUser) {
@@ -90,34 +94,66 @@ public class WarehouseService implements IWarehouseService {
         List userLists = new ArrayList();
         list.forEach(x->{
             Map userMap = new HashMap();
-            userMap.put("userId",x[0]);
-            userMap.put("userName",x[1]);
-            userMap.put("realName",x[2]);
+            userMap.put("id",x[0]);
+            userMap.put("userId",x[1]);
+            userMap.put("userName",x[2]);
+            userMap.put("realName",x[3]);
             userLists.add(userMap);
         });
-
         Integer totalSize = warehouseMapper.queryUserByWarehousePageCount(searchMap);
         PageResponse<List> response = new PageResponse();
         response.setTotal(totalSize);
         response.setRows(userLists);
-//        Map resultMap = new HashMap();
-//        resultMap.put("rows",userList);
-//        resultMap.put("total",totalSize);
         return  response;
     }
 
 
     @Override
-    public PageResponse<List> queryAllocatableUser(Map searchMap) {
-        List<Map<String, Object>> mapList = warehouseMapper.queryUserByWarehousePages(searchMap);
-        List<Object[]> list = ListArraysConvert.listMapToArrayConvert(mapList);
+    public Map queryAllocatableUser(Map searchMap) {
+        List<SmartUserEntity> userEntityList = userService.queryUsersByWarehouse(searchMap);
+        Map resultMap = new HashMap();
+        resultMap.put("total",userEntityList.size());
+        resultMap.put("rows",userEntityList);
+        return resultMap;
+    }
 
-        Long tenantId = 88L;
-        List<SmartUserEntity> userEntityList = userMapper.selectUsersByTenantId(tenantId);
+    @Override
+    public MessageResult saveAllocatableUser(Map map) {
+        String createUser = MapUtils.getString(map, "createUser");
+        Long warehouseId = MapUtils.getLong(map, "warehouseId");
+        String ids = MapUtils.getString(map, "userIds");
+        if (warehouseId != null && StringUtils.isNotBlank(ids)) {
+            Long[] userIds = ArrayUtil.toLongArray(ids.split(","));
+            List<UserWarehouseDTO> userWarehouseDTOList = new ArrayList<>();
+            for(Long userId : userIds){
+                SmartUserEntity userEntity = userService.findUserById(userId);
+                UserWarehouseDTO  userWarehouseDTO = new UserWarehouseDTO();
+                userWarehouseDTO.setUserId(userId);
+                userWarehouseDTO.setRealName(userEntity.getRealName());
+                userWarehouseDTO.setUserName(userEntity.getUserName());
+                userWarehouseDTO.setWarehouseId(warehouseId);
+                userWarehouseDTO.setCreateTime(new java.util.Date().getTime());
+                userWarehouseDTO.setCreateUser(createUser);
+                userWarehouseDTO.setUpdateTime(new java.util.Date().getTime());
+                userWarehouseDTO.setUpdateUser(createUser);
+                userWarehouseDTOList.add(userWarehouseDTO);
+            }
+            warehouseMapper.insertBatchUserWarehouse(userWarehouseDTOList);
+            return MessageResult.getSucMessage();
+        }
+        return MessageResult.getMessage("E10002");
+    }
 
-
-
-        return null;
+    @Override
+    public MessageResult removeAllocatableUser(Map map) {
+        String userWhIds = MapUtils.getString(map, "userWhIds");
+        Long warehouseId = MapUtils.getLong(map, "warehouseId");
+        if (warehouseId != null && StringUtils.isNotBlank(userWhIds)) {
+            Long[] ids =  ArrayUtil.toLongArray(userWhIds.split(","));
+            warehouseMapper.deleteBatchUserWarehouse(ids);
+            return MessageResult.getSucMessage();
+        }
+        return MessageResult.getMessage("E10003");
     }
 
 }

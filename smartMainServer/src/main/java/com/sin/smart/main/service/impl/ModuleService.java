@@ -9,6 +9,7 @@ import com.sin.smart.enums.ModuleTypeEnum;
 import com.sin.smart.main.mapper.ModuleMapper;
 import com.sin.smart.main.mapper.PermissionMapper;
 import com.sin.smart.main.service.IModuleService;
+import com.sin.smart.main.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ModuleService implements IModuleService{
     ModuleMapper moduleMapper;
 
     @Autowired
-    PermissionMapper permissionMapper;
+    IPermissionService permissionService;
 
     @Override
     public List getModulesByUser(CurrentUserEntity sessionCurrentUser) {
@@ -62,7 +63,7 @@ public class ModuleService implements IModuleService{
             return retMap;
         }
         //根据当前用户Id获取用户的模块及模块对应操作权限
-        List<Map<String, Object>> mapList = permissionMapper.selectPermissionMapperByUserId(sessionCurrentUser.getId());
+        List<Map<String, Object>> mapList = permissionService.findPermissionMapperByUserId(sessionCurrentUser.getId());
         List<Object[]> list = ListArraysConvert.listMapToArrayConvert(mapList);
         //获取模块Id
         List moduleIdList = new ArrayList();

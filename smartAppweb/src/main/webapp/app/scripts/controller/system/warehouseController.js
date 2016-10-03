@@ -16,10 +16,11 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                         { filterable: false, title: '登入账号', field: 'userName', align: 'left', width: "50px"},
                         { filterable: false, title: '用户名称', field: 'realName', align: 'left', width: "50px"}
                     ],
-                    userColumns = [
+                    allocatAbleUserColumns = [
                         { filterable: false, title: '登入账号', field: 'userName', align: 'left', width: "80px"},
                         { filterable: false, title: '用户名称', field: 'realName', align: 'left', width: "80px"}
                     ],
+
                     warehouseDataSource = wmsDataSource({
                         url: warehouseUrl,
                         schema: {
@@ -27,8 +28,8 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                         }
                     });
 
-                userColumns = userColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
-                userColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
+                //allocatableUserColumns = allocatAbleUserColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
+                allocatAbleUserColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
 
                 warehouseColumns = warehouseColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
                 userWarehouseColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
@@ -48,11 +49,10 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                     },
                     filterable: true
                 }, $scope);
-
                 $scope.selectSingleRow = WMS.GRIDUTILS.selectSingleRow;
                 $scope.selectAllRow = WMS.GRIDUTILS.selectAllRow;
 
-                 $scope.detailOptions = function(dataItem) {
+                $scope.detailOptions = function(dataItem) {
                     var detailOptions = WMS.GRIDUTILS.getGridOptions({
                         dataSource: wmsDataSource({
                             url: warehouseUrl + "/" + dataItem.id+"/user",
@@ -77,13 +77,12 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                     return detailOptions;
                 };
 
-
                 $scope.permission = function(dataItem){
                     $scope.permissionPopup.refresh().open().center();
                     $scope.gridUUid = this.warehouseDetailGrid;
                     var userDataSource = wmsDataSource({
                         serverPaging:false,
-                        url: "/warehouse/"+ dataItem.id +"/allocation/user",
+                        url: warehouseUrl+"/"+ dataItem.id +"/allocatable/user",
                         schema: {
                             model: {
                                 id: "id",
@@ -91,8 +90,7 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                                     id: {type: "number", editable: false, nullable: true }
                                 }
                             }
-                        },
-                        pageSize: 30
+                        }
                     });
                     this.userGrid.setDataSource(userDataSource);
                     this.userGrid.refresh();
@@ -101,32 +99,33 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
 
                 $scope.userGridOptions = WMS.GRIDUTILS.getGridOptions({
                     dataSource: {},
-                    sortable: true,
-                    pageable: true,
+                    pageable: false,
                     editable: false,
                     toolbar: [
                         { template:'<a class="k-button k-button-custom-command" ng-click="saveUser()">保存分配</a>'}
                     ],
-                    columns: userColumns,
+                    columns: allocatAbleUserColumns,
                     filterable: true
                 });
 
+                //保存分配用户
                 $scope.saveUser = function (){
-                    var ids="";
+                    var ids ="";
                     var selectedData = WMS.GRIDUTILS.getCustomSelectedData($scope.userGrid);
                     for(var i=0;i<selectedData.length;i++){
-                        ids+=selectedData[i].id+",";
+                        ids += selectedData[i].id+",";
                     }
                     ids=ids.substring(0,ids.length-1);
                     var warehouseId = $scope.warehouseId;
                     var params={warehouseId:warehouseId,userIds:ids};
-                    $sync("/warehouse/"+warehouseId+"/user","POST",{data: params}).then(function(){
-                        $scope.permissionPopup.close();
-                        $scope.gridUUid.dataSource.read();
-                    });
+                    $sync(warehouseUrl+"/"+warehouseId+"/allocatable/user","POST",{data: params}).
+                       then(function(){
+                          $scope.permissionPopup.close();
+                          $scope.gridUUid.dataSource.read();
+                       });
                 };
 
-                //批量删除权限
+                //批量删除分配用户
                 $scope.batchDelete = function(e){
                     var ids = "";
                     var selectedData = WMS.GRIDUTILS.getCustomSelectedData(e.warehouseDetailGrid);
@@ -134,8 +133,8 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                         ids+=selectedData[i].id+",";
                     }
                     ids = ids.substring(0,ids.length-1);
-
-                    $sync(window.BASEPATH + "/warehouse/user/" + ids, "DELETE")
+                    var warehouseId = e.dataItem.id;
+                    $sync(warehouseUrl +"/"+warehouseId+ "/allocated/user/" + ids, "DELETE")
                         .then(function (xhr) {
                             e.warehouseDetailGrid.dataSource.read({});
                         }, function (xhr) {

@@ -28,5 +28,9 @@ public interface IWarehouseService {
 
     PageResponse<List> queryUserByWarehouse(Map searchMap);
 
-    PageResponse<List> queryAllocatableUser(Map map);
+    Map queryAllocatableUser(Map map);
+
+    MessageResult saveAllocatableUser(Map map);
+
+    MessageResult removeAllocatableUser(Map map);
 }

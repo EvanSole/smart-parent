@@ -5,6 +5,7 @@ import com.sin.smart.dto.SmartUserDTO;
 import com.sin.smart.entity.main.SmartUserEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface IUserService {
@@ -28,4 +29,6 @@ public interface IUserService {
     Set<String> findPermissions(String userName);
 
     List getRoleIdListByUserId(Long userId);
+
+    List<SmartUserEntity> queryUsersByWarehouse(Map searchMap);
 }

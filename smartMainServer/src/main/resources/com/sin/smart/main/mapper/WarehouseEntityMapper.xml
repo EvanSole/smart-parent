@@ -123,7 +123,7 @@
 
   <!-- 根据仓库获取仓库分配用户信息 -->
   <select id="queryUserByWarehousePages" resultMap="UserWarehouseResultMap" parameterType="java.util.Map">
-    select user_id,user_name,real_name from t_smart_user_warehouse
+    select id,user_id,user_name,real_name from t_smart_user_warehouse
     where warehouse_id = #{warehouseId,jdbcType=BIGINT}
     <include refid="queryOrderByClause"/>
     <include refid="queryLimitClause" />
@@ -136,6 +136,27 @@
     <include refid="queryLimitClause" />
   </select>
 
+  <insert id="insertBatchUserWarehouse" useGeneratedKeys="true" parameterType="java.util.List">
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO  t_smart_user_warehouse (user_id,user_name,real_name,warehouse_id,create_user, create_time, update_user, update_time)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      ( #{item.userId}, #{item.userName}, #{item.realName}, #{item.warehouseId},
+        #{item.createUser}, #{item.createTime},#{item.updateUser}, #{item.updateTime})
+    </foreach>
+  </insert>
+
+  <delete id="deleteBatchUserWarehouse" parameterType="java.lang.Long" >
+    delete from t_smart_user_warehouse
+    where id IN
+    <foreach item="item" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+  
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_smart_warehouse

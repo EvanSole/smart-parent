@@ -2,13 +2,20 @@ package com.sin.smart.main.service.impl;
 
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.entity.main.SmartPermissionEntity;
+import com.sin.smart.main.mapper.PermissionMapper;
 import com.sin.smart.main.service.IPermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PermissionService implements IPermissionService {
+
+    @Autowired
+    PermissionMapper permissionMapper;
+
     @Override
     public Integer removeByPrimaryKey(Long id) {
         return null;
@@ -42,5 +49,10 @@ public class PermissionService implements IPermissionService {
     @Override
     public Integer queryPermissionPageCount(SmartPermissionEntity permissionEntity) {
         return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> findPermissionMapperByUserId(Long id) {
+        return permissionMapper.selectPermissionMapperByUserId(id);
     }
 }

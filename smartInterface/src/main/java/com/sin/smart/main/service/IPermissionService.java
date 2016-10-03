@@ -4,6 +4,7 @@ import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.entity.main.SmartPermissionEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IPermissionService {
 
@@ -21,4 +22,5 @@ public interface IPermissionService {
 
     Integer queryPermissionPageCount(SmartPermissionEntity permissionEntity);
 
+    List<Map<String,Object>> findPermissionMapperByUserId(Long id);
 }

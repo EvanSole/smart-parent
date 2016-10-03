@@ -874,4 +874,14 @@ public class ArrayUtil {
 		return newArray;
 	}
 
+	public static Long[] toLongArray(Object[] array) {
+		Long[] newArray = new Long[array.length];
+
+		for (int i = 0; i < array.length; i++) {
+			newArray[i] = Long.valueOf(String.valueOf(array[i]));
+		}
+
+		return newArray;
+	}
+
 }

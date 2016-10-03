@@ -4,6 +4,7 @@ import com.sin.smart.entity.main.SmartUserEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper {
 
@@ -25,6 +26,6 @@ public interface UserMapper {
 
     List selectUserRolesById(@Param("userId") Long userId);
 
-    List<SmartUserEntity> selectUsersByTenantId(@Param("tenantId") Long tenantId);
+    List<SmartUserEntity> selectUsersByWarehouse(Map map);
 
 }

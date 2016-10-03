@@ -2,9 +2,8 @@ define(['app', 'kendo', 'scripts/common/sync'],function(app, kendo){
     'use strict';
     app.factory('wmsDataSource', ['$http', '$q', 'sync', 'url', function ($http, $q, $sync, url) {
         var omitKeys = ["filter", "skip", "sort", "take"];
-        var hasKeyList = [{keyName: 'skuId', url: url.dataGoodsUrl+"/searchAll"}];
         /**
-         * 正式环境用数据交换器
+         * 数据交换器
          * @param options
          */
         var WmsOnlineTransport = function (options) {
