@@ -1,6 +1,8 @@
 package com.sin.smart.main.service;
 
+import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
+import com.sin.smart.dto.SmartRoleDTO;
 import com.sin.smart.entity.main.SmartRoleEntity;
 
 import java.util.List;
@@ -8,24 +10,23 @@ import java.util.Map;
 
 public interface IRoleService {
 
+    PageResponse queryRolePages(SmartRoleDTO roleDTO);
+
     Integer removeByPrimaryKey(Long id);
 
-    Integer createRole(SmartRoleEntity roleEntity);
+    Integer createRole(SmartRoleDTO roleDTO);
 
-    Integer modifyRoleEntity(SmartRoleEntity roleEntity);
-
-    List<SmartRoleEntity> findByRoleEntity(SmartRoleEntity roleEntity);
+    Integer modifyRole(SmartRoleDTO roleDTO);
 
     SmartRoleEntity findByPrimaryKey(Long id);
 
-    PageResponse queryRolePages(Map map);
-
-    Integer queryRolePageCount(SmartRoleEntity roleEntity);
-
-    /***
-     * 根据角色id获取角色名称
-     * @param roleList
-     * @return
-     */
     List<String> getRoleNameByIds(List<Long> roleList);
+
+    PageResponse<List> queryRolesByUserPages(Map searchMap);
+
+    Map queryAllocatableRoles(Map searchMap);
+
+    MessageResult saveAllocatableRoles(Map searchMap);
+
+    MessageResult removeAllocatableRole(Map searchMap);
 }

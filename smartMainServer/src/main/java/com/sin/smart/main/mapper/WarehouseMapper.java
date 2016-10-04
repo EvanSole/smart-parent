@@ -1,6 +1,6 @@
 package com.sin.smart.main.mapper;
 
-import com.sin.smart.dto.UserWarehouseDTO;
+import com.sin.smart.dto.SmartUserWarehouseDTO;
 import com.sin.smart.entity.main.SmartWarehouseEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,7 +31,7 @@ public interface WarehouseMapper {
 
     Integer queryUserByWarehousePageCount(Map searchMap);
 
-    Integer insertBatchUserWarehouse(List<UserWarehouseDTO> userWarehouseDTOList);
+    Integer insertBatchUserWarehouse(List<SmartUserWarehouseDTO> userWarehouseDTOList);
 
     Integer deleteBatchUserWarehouse(@Param("ids") Long[] ids);
 }

@@ -1,6 +1,4 @@
-/**
- * Created by jl on 15/3/27.
- */
+
 define(['kendo'],
     function(kendo){
         'use strict';

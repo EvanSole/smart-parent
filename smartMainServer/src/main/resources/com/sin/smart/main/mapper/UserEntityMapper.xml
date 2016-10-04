@@ -20,6 +20,14 @@
         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
     </resultMap>
 
+    <resultMap id="RoleUsersResultMap" type="java.util.LinkedHashMap">
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="real_name" property="realName" jdbcType="VARCHAR" />
+        <result column="is_admin" property="isAdmin" jdbcType="BIT" />
+    </resultMap>
+
     <sql id="Base_Column_List" >
         `id`,`tenant_id`,`user_name`,`real_name`, `password`,`email`,`telephone`,`mobile`,`is_admin`,
         `is_active`,`is_del`,`create_user`,`create_time`,`update_user`,`update_time`
@@ -28,17 +36,20 @@
     <!-- query where 子句 -->
     <sql id="queryWhereClause">
         <where>
-            <if test="id != 0">
+            <if test=" id != null and id != 0">
                 AND id = #{id,jdbcType=BIGINT}
             </if>
             <if test="userName != null">
                 AND user_name = #{userName,jdbcType=VARCHAR}
             </if>
+            <if test="realName != null">
+                AND real_name = #{realName,jdbcType=VARCHAR}
+            </if>
             <if test="telephone != null" >
                 AND telephone = #{telephone,jdbcType=VARCHAR}
             </if>
-            <if test="telephone != null" >
-                AND password = #{password,jdbcType=VARCHAR}
+            <if test="mobile != null" >
+                AND mobile = #{mobile,jdbcType=VARCHAR}
             </if>
         </where>
     </sql>
@@ -121,4 +132,179 @@
         LIMIT 1
     </select>
 
+
+    <select id="queryUserByRolePages" resultMap="RoleUsersResultMap" parameterType="java.util.Map">
+        SELECT
+        tb_b.`id`,tb_b.`user_id`,tb_a.`user_name`,tb_a.`real_name`,tb_a.`is_admin`
+        FROM t_smart_user_role tb_b LEFT JOIN t_smart_user tb_a
+        ON tb_b.user_id = tb_a.id
+        WHERE tb_b.role_id = #{roleId,jdbcType=BIGINT} and tb_a.tenant_id = #{tenantId,jdbcType=BIGINT}
+        <include refid="queryLimitClause" />
+    </select>
+
+    <select id="queryUserByRolePageCount"  resultType="java.lang.Integer" parameterType="java.util.Map" >
+        SELECT count(1)
+        FROM t_smart_user_role tb_b LEFT JOIN t_smart_user tb_a
+        ON tb_b.user_id = tb_a.id
+        WHERE tb_b.role_id = #{roleId,jdbcType=BIGINT} and tb_a.tenant_id = #{tenantId,jdbcType=BIGINT}
+        LIMIT 1
+    </select>
+
+
+    <insert id="insertUser" parameterType="com.sin.smart.entity.main.SmartUserEntity" >
+        insert into t_smart_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="tenantId != null" >
+                tenant_id,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="realName != null" >
+                real_name,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="telephone != null" >
+                telephone,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="isAdmin != null" >
+                is_admin,
+            </if>
+            <if test="isDel != null" >
+                is_del,
+            </if>
+            <if test="isActive != null" >
+                is_active,
+            </if>
+            <if test="createUser != null" >
+                create_user,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateUser != null" >
+                update_user,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="tenantId != null" >
+                #{tenantId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null" >
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null" >
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isAdmin != null" >
+                #{isAdmin,jdbcType=BIT},
+            </if>
+            <if test="isDel != null" >
+                #{isDel,jdbcType=BIT},
+            </if>
+            <if test="isActive != null" >
+                #{isActive,jdbcType=BIT},
+            </if>
+            <if test="createUser != null" >
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="updateUser != null" >
+                #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateUser" parameterType="com.sin.smart.entity.main.SmartUserEntity" >
+        update t_smart_user
+        <set >
+            <if test="tenantId != null" >
+                tenant_id = #{tenantId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null" >
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null" >
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isAdmin != null" >
+                is_admin = #{isAdmin,jdbcType=BIT},
+            </if>
+            <if test="isDel != null" >
+                is_del = #{isDel,jdbcType=BIT},
+            </if>
+            <if test="isActive != null" >
+                is_active = #{isActive,jdbcType=BIT},
+            </if>
+            <if test="createUser != null" >
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="updateUser != null" >
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateUserPwd" parameterType="com.sin.smart.entity.main.SmartUserEntity" >
+        update t_smart_user
+        <set >
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null" >
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+     </update>
 </mapper>

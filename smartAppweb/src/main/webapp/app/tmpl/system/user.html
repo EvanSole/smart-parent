@@ -1,0 +1,90 @@
+<div class="content-wrap" ng-controller="userController">
+     <div class="panel panel-default">
+        <panel_heading_search bind-ui="userGrid">
+            <div class="panel-group ">
+                <label>登录账号</label>
+                <input type="text" ng-model="query.userName" />
+            </div>
+            <div class="panel-group ">
+                <label>用户姓名</label>
+                <input type="text" ng-model="query.realName" />
+            </div>
+        </panel_heading_search>
+     </div>
+     <div class="panel-body">
+        <div kendo-grid="userGrid" options="mainGridOptions">
+            <div k-detail-template>
+                <kendo-tabstrip class="child-table-main">
+                    <ul>
+                        <li class="k-state-active">角色信息</li>
+                        <!--<li ng-click="shipmentBaseOptions(dataItem)">基本信息</li>-->
+                        <li>仓库信息</li>
+                    </ul>
+                    <div kendo-grid="userRoleGrid" k-options="userRoleGridOptions(dataItem)"></div>
+                    <div kendo-grid k-options="warehouseOptios(dataItem)"></div>
+                </kendo-tabstrip>
+            </div>
+        </div>
+    </div>
+
+    <!-- 仓库分配用户 -->
+    <div class="k-popup-edit-form k-window-content k-content ng-scope" kendo-window="permissionPopup"
+         k-title="'分配角色'" k-resizable="false" k-modal="true" k-visible="false">
+        <div class="k-edit-form-container">
+            <div kendo-grid="roleGrid" style="width:800px;height:300px;" k-options="roleGridOptions"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<script id="userEditor" type="text/x-kendo-template">
+    <div class="edit-form-container">
+        <div class="pure-body p-t-10">
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>登录账号</label>
+                <div>
+                    <input type="text" name="userName" id="userName" required/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>用户姓名</label>
+                <div>
+                    <input type="text" name="realName" id="realName" required/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5" ng-if="dataItem.isNew()" >
+                <label>密码</label>
+                <div>
+                    <input type="password" name="password" id="password" value="123456" required/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>电子邮箱</label>
+                <div>
+                    <input type="email" name="email" id="email" email/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>联系电话</label>
+                <div>
+                    <input type="text" name="telephone" id="telephone"/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>手机:</label>
+                <div>
+                    <input type="text" name="mobile" id="mobile"/>
+                </div>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>是否可用</label>
+                <input type="checkbox" name="isActive" id="isActive"  value="1" checked="checked"/>
+            </div>
+            <div class="pure-control-group p-b-10 pure-5">
+                <label>是否管理员</label>
+                <input type="checkbox" name="isAdmin" id="isAdmin"  value="1" checked="checked"/>
+            </div>
+        </div>
+    </div>
+</script>

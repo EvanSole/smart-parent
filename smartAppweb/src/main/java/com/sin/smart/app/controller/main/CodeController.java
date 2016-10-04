@@ -2,8 +2,8 @@ package com.sin.smart.app.controller.main;
 
 import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
-import com.sin.smart.dto.CodeDetailDTO;
-import com.sin.smart.dto.CodeHeaderDTO;
+import com.sin.smart.dto.SmartCodeDetailDTO;
+import com.sin.smart.dto.SmartCodeHeaderDTO;
 import com.sin.smart.main.service.ICodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +35,7 @@ public class CodeController extends BaseController {
     }
 
     @RequestMapping(value = "/header", method = RequestMethod.POST)
-    public ResponseResult createCodeHeader(@RequestBody CodeHeaderDTO codeHeaderDTO) throws Exception {
+    public ResponseResult createCodeHeader(@RequestBody SmartCodeHeaderDTO codeHeaderDTO) throws Exception {
         codeHeaderDTO.setCreateUser(this.getSessionCurrentUser().getUserName());
         codeHeaderDTO.setCreateTime(new Date().getTime());
         codeHeaderDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
@@ -44,7 +44,7 @@ public class CodeController extends BaseController {
     }
 
     @RequestMapping(value = "/header/{id}", method = RequestMethod.PUT)
-    public ResponseResult modifyCodeHeader(@PathVariable Long id,@RequestBody CodeHeaderDTO codeHeaderDTO) throws Exception {
+    public ResponseResult modifyCodeHeader(@PathVariable Long id,@RequestBody SmartCodeHeaderDTO codeHeaderDTO) throws Exception {
         codeHeaderDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         codeHeaderDTO.setUpdateTime(new Date().getTime());
         return getSucResultData(codeService.modifyCodeHeader(codeHeaderDTO));
@@ -57,7 +57,7 @@ public class CodeController extends BaseController {
 
 
     @RequestMapping(value = "/header/{id}/detail", method = RequestMethod.POST)
-    public ResponseResult createCodeDetail(@PathVariable Long id,@RequestBody CodeDetailDTO codeDetailDTO) throws Exception {
+    public ResponseResult createCodeDetail(@PathVariable Long id,@RequestBody SmartCodeDetailDTO codeDetailDTO) throws Exception {
         codeDetailDTO.setCodeId(id);
         codeDetailDTO.setCreateUser(this.getSessionCurrentUser().getUserName());
         codeDetailDTO.setCreateTime(new Date().getTime());
@@ -72,7 +72,7 @@ public class CodeController extends BaseController {
     }
 
     @RequestMapping(value = "/header/{id}/detail/{detailId}", method = RequestMethod.PUT)
-    public ResponseResult modifyCodeDetail(@PathVariable Long id,@PathVariable Long detailId,@RequestBody CodeDetailDTO codeDetailDTO) throws Exception {
+    public ResponseResult modifyCodeDetail(@PathVariable Long id,@PathVariable Long detailId,@RequestBody SmartCodeDetailDTO codeDetailDTO) throws Exception {
         codeDetailDTO.setCodeId(id);
         codeDetailDTO.setId(detailId);
         codeDetailDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());

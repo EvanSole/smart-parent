@@ -55,4 +55,9 @@ public class PermissionService implements IPermissionService {
     public List<Map<String, Object>> findPermissionMapperByUserId(Long id) {
         return permissionMapper.selectPermissionMapperByUserId(id);
     }
+
+    @Override
+    public Map queryPermModuleByRoles(Map searchMap) {
+        return null;
+    }
 }

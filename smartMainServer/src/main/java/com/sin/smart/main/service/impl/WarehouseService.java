@@ -4,7 +4,7 @@ import com.sin.smart.convert.ListArraysConvert;
 import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.dto.SmartWarehouseDTO;
-import com.sin.smart.dto.UserWarehouseDTO;
+import com.sin.smart.dto.SmartUserWarehouseDTO;
 import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.main.SmartUserEntity;
 import com.sin.smart.entity.main.SmartWarehouseEntity;
@@ -14,7 +14,6 @@ import com.sin.smart.main.service.IWarehouseService;
 import com.sin.smart.utils.ArrayUtil;
 import com.sin.smart.utils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,13 +120,13 @@ public class WarehouseService implements IWarehouseService {
     public MessageResult saveAllocatableUser(Map map) {
         String createUser = MapUtils.getString(map, "createUser");
         Long warehouseId = MapUtils.getLong(map, "warehouseId");
-        String ids = MapUtils.getString(map, "userIds");
+        String ids = MapUtils.getString(map, "roleIds");
         if (warehouseId != null && StringUtils.isNotBlank(ids)) {
             Long[] userIds = ArrayUtil.toLongArray(ids.split(","));
-            List<UserWarehouseDTO> userWarehouseDTOList = new ArrayList<>();
+            List<SmartUserWarehouseDTO> userWarehouseDTOList = new ArrayList<>();
             for(Long userId : userIds){
                 SmartUserEntity userEntity = userService.findUserById(userId);
-                UserWarehouseDTO  userWarehouseDTO = new UserWarehouseDTO();
+                SmartUserWarehouseDTO userWarehouseDTO = new SmartUserWarehouseDTO();
                 userWarehouseDTO.setUserId(userId);
                 userWarehouseDTO.setRealName(userEntity.getRealName());
                 userWarehouseDTO.setUserName(userEntity.getUserName());
@@ -154,6 +153,20 @@ public class WarehouseService implements IWarehouseService {
             return MessageResult.getSucMessage();
         }
         return MessageResult.getMessage("E10003");
+    }
+
+    @Override
+    public PageResponse<List> findWarehouseByUser(Map searchMap) {
+        Long userId = MapUtils.getLong(searchMap, "userId");
+        Long tenantId = MapUtils.getLong(searchMap, "tenantId");
+        List<SmartWarehouseEntity>  warehouseEntityList =  warehouseMapper.selectWarehouseLists(userId,tenantId);
+        PageResponse pageResponse = new PageResponse();
+        pageResponse.setRows(warehouseEntityList);
+        pageResponse.setTotal(warehouseEntityList.size());
+        //Map resultMap = new HashMap();
+        //resultMap.put("rows",warehouseEntityList);
+        //resultMap.put("tatol",warehouseEntityList.size());
+        return pageResponse;
     }
 
 }

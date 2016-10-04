@@ -4,9 +4,9 @@ import com.sin.smart.entity.po.BasePO;
 
 import java.io.Serializable;
 
-public class SmartUserEntity extends BasePO implements Serializable {
+public class SmartUserEntity extends BasePO {
 
-    private long id;
+    private Long id;
     private Long tenantId;
     private String userName;
     private String password;
@@ -22,11 +22,11 @@ public class SmartUserEntity extends BasePO implements Serializable {
     private String updateUser;
     private Long updateTime;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -142,69 +142,4 @@ public class SmartUserEntity extends BasePO implements Serializable {
         this.updateTime = updateTime;
     }
 
-    @Override
-    public String toString() {
-        return "SmartUserEntity{" +
-                "id=" + id +
-                ", tenantId=" + tenantId +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", realName='" + realName + '\'' +
-                ", email='" + email + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", isActive=" + isActive +
-                ", isDel=" + isDel +
-                ", createUser='" + createUser + '\'' +
-                ", createTime=" + createTime +
-                ", updateUser='" + updateUser + '\'' +
-                ", updateTime=" + updateTime +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SmartUserEntity that = (SmartUserEntity) o;
-
-        if (id != that.id) return false;
-        if (tenantId != null ? !tenantId.equals(that.tenantId) : that.tenantId != null) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (realName != null ? !realName.equals(that.realName) : that.realName != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (telephone != null ? !telephone.equals(that.telephone) : that.telephone != null) return false;
-        if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
-        if (isAdmin != null ? !isAdmin.equals(that.isAdmin) : that.isAdmin != null) return false;
-        if (isActive != null ? !isActive.equals(that.isActive) : that.isActive != null) return false;
-        if (isDel != null ? !isDel.equals(that.isDel) : that.isDel != null) return false;
-        if (createUser != null ? !createUser.equals(that.createUser) : that.createUser != null) return false;
-        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (updateUser != null ? !updateUser.equals(that.updateUser) : that.updateUser != null) return false;
-        return updateTime != null ? updateTime.equals(that.updateTime) : that.updateTime == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (tenantId != null ? tenantId.hashCode() : 0);
-        result = 31 * result + (userName != null ? userName.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (realName != null ? realName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
-        result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
-        result = 31 * result + (isAdmin != null ? isAdmin.hashCode() : 0);
-        result = 31 * result + (isActive != null ? isActive.hashCode() : 0);
-        result = 31 * result + (isDel != null ? isDel.hashCode() : 0);
-        result = 31 * result + (createUser != null ? createUser.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (updateUser != null ? updateUser.hashCode() : 0);
-        result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
-        return result;
-    }
 }

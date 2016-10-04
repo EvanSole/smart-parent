@@ -11,8 +11,9 @@ define(['app'], function (app) {
             systemWarehouseUrl: window.BASEPATH + '/warehouse',
             systemCodeHeaderUrl: window.BASEPATH + '/code/header',
             systemCodeDetailUrl: window.BASEPATH + '/code/detail',
-
-
+            authorRoleUrl: window.BASEPATH + '/role',
+            authorUserUrl: window.BASEPATH + '/user',
+            authorModuleUrl: window.BASEPATH + '/module',
 
 
 
@@ -22,6 +23,8 @@ define(['app'], function (app) {
             switchWarehouseUrl: window.BASEPATH + '/index/warehouse/current',
             dataWarehouseUrl: window.BASEPATH + '/warehouse',
             getSystemDataWarehouseUrl:window.BASEPATH + "/index/warehouse",
+
+
 
 
             systemTemplateListUrl: window.BASEPATH + '/report/template',
@@ -49,10 +52,7 @@ define(['app'], function (app) {
             strategyReceiptUrl: window.BASEPATH + "/strategy/receipt",
             strategyReplenishUrl: window.BASEPATH + "/strategy/replenish",
 
-            authorModuleUrl: window.BASEPATH + '/author/module',
 
-            authorRoleUrl: window.BASEPATH + '/author/role',
-            authorUserUrl: window.BASEPATH + '/author/user',
 
 
             dataSaveUserUrl: window.BASEPATH + '/warehouse/',

@@ -89,7 +89,6 @@ public class MyRealm extends AuthorizingRealm {
             AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(currenUserEntity.getUserName(), userEntity.getPassword(),this.getName());
 
             this.setSession(GlobalConstants.SESSION_KEY,currenUserEntity);
-
             return authcInfo;
         }
         return null;

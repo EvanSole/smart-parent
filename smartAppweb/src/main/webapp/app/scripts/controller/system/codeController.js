@@ -1,7 +1,5 @@
 
-
-define(['scripts/controller/controller',
-    '../../model/system/codeModel'], function(controller,codeModel) {
+define(['scripts/controller/controller', '../../model/system/codeModel'], function(controller,codeModel) {
     "use strict";
     controller.controller('codeController', ['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
             function($scope, $rootScope, $sync, $url, wmsDataSource) {

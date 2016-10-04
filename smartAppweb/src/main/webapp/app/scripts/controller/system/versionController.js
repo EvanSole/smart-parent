@@ -1,6 +1,4 @@
-/**
- * Created by a2015-217 on 15/7/8.
- */
+
 define(['scripts/controller/controller',''], function(controller) {
     "use strict";
     controller.controller('versionController',

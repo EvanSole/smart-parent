@@ -1,4 +1,5 @@
-define(['scripts/controller/controller', '../../model/data/warehouseModel'], function (controller, warehouseModel) {
+
+define(['scripts/controller/controller', '../../model/system/warehouseModel'], function (controller, warehouseModel) {
     "use strict";
     controller.controller('warehouseController', ['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
             function ($scope, $rootScope, $sync, $url, wmsDataSource) {
@@ -28,7 +29,7 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                         }
                     });
 
-                //allocatableUserColumns = allocatAbleUserColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
+                //allocatAbleUserColumns = allocatAbleUserColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
                 allocatAbleUserColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
 
                 warehouseColumns = warehouseColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);

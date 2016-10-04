@@ -28,4 +28,9 @@ public interface UserMapper {
 
     List<SmartUserEntity> selectUsersByWarehouse(Map map);
 
+    List<Map<String,Object>> queryUserByRolePages(Map searchMap);
+
+    Integer queryUserByRolePageCount(Map searchMap);
+
+    Integer updateUserPwd(SmartUserEntity userEntity);
 }

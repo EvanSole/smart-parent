@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class SmartUserDTO extends BasePO implements Serializable {
 
+    private Long  id;
     private Long tenantId;
     private String userName;
     private String password;
@@ -13,6 +14,21 @@ public class SmartUserDTO extends BasePO implements Serializable {
     private String email;
     private String telephone;
     private String mobile;
+    private Byte isAdmin;
+    private Byte isActive;
+    private Byte isDel;
+    private String createUser;
+    private Long createTime;
+    private String updateUser;
+    private Long updateTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getTenantId() {
         return tenantId;
@@ -71,4 +87,59 @@ public class SmartUserDTO extends BasePO implements Serializable {
         this.mobile = mobile;
     }
 
+    public Byte getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Byte isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public Byte getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Byte isActive) {
+        this.isActive = isActive;
+    }
+
+    public Byte getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Byte isDel) {
+        this.isDel = isDel;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+    }
 }

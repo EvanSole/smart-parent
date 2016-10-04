@@ -23,4 +23,6 @@ public interface IPermissionService {
     Integer queryPermissionPageCount(SmartPermissionEntity permissionEntity);
 
     List<Map<String,Object>> findPermissionMapperByUserId(Long id);
+
+    Map queryPermModuleByRoles(Map searchMap);
 }

@@ -11,6 +11,7 @@ public class GlobalConstants {
 
     public static final String SPLIT_TABLE_KEY = "splitTableKey"; //分表标志
 
+    public static final String DEFAULT_PASSWORD =  "123456";
     public static final int MAX_EXPIRY_COUNT = 3; //登录错误验证次数
     public static final int EXPIRY_TIME = 1800;
 

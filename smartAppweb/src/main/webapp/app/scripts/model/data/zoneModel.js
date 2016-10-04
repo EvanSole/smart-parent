@@ -1,6 +1,4 @@
-/**
- * Created by songwu on 15/3/27.
- */
+
 define(['kendo'],
     function(kendo){
         'use strict';
@@ -16,10 +14,6 @@ define(['kendo'],
                     description: { type: "string" },
                     isOnsale: { type: "boolean", defaultValue: true},
                     isActive: { type: "boolean", defaultValue: true }
-//                    createUser: { type: "string" },
-//                    createTime: { type: "string" },
-//                    updateUser: { type: "string" },
-//                    updateTime: { type: "string" }
                 }
             },
             location:{
@@ -33,7 +27,6 @@ define(['kendo'],
                     isMultilot: { type: "boolean", defaultValue: true },
                     isMultisku: { type: "boolean", defaultValue: true },
                     description: { type: "string" },
-
                     putaway_seq: {type:"number"} ,
                     pickup_seq: {type:"number"} ,
                     cube: {type:"number"} ,
@@ -46,13 +39,9 @@ define(['kendo'],
                     zcoord: {type:"number"} ,
                     maxCategoryQty: {type:"number"} ,
                     maxQty: {type:"number"} ,
-
                     isActive: { type: "boolean", defaultValue: true },
                     isDefault: { type: "boolean" }
-//                    createUser: { type: "string" },
-//                    createTime: { type: "string" },
-//                    updateUser: { type: "string" },
-//                    updateTime: { type: "string" }
+
                 }
             }
         };

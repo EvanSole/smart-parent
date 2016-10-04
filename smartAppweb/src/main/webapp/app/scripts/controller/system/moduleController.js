@@ -1,7 +1,5 @@
-/**
- * Created by MLS on 15/3/6.
- */
-define(['scripts/controller/controller','../../model/author/actionModel'], function(controller,actionModel) {
+
+define(['scripts/controller/controller','../../model/system/permissionModel'], function(controller, actionModel) {
     "use strict";
     controller.controller('authorModuleController',
         ['$scope', '$rootScope', 'sync','url', 'wmsDataSource','$timeout',

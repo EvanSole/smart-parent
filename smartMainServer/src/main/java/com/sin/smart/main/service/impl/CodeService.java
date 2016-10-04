@@ -2,8 +2,8 @@ package com.sin.smart.main.service.impl;
 
 import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
-import com.sin.smart.dto.CodeDetailDTO;
-import com.sin.smart.dto.CodeHeaderDTO;
+import com.sin.smart.dto.SmartCodeDetailDTO;
+import com.sin.smart.dto.SmartCodeHeaderDTO;
 import com.sin.smart.entity.main.SmartCodeDetailEntity;
 import com.sin.smart.entity.main.SmartCodeHeaderEntity;
 import com.sin.smart.main.mapper.CodeDetailMapper;
@@ -46,14 +46,14 @@ public class CodeService implements ICodeService {
     }
 
     @Override
-    public MessageResult createCodeHeader(CodeHeaderDTO codeHeaderDTO) {
+    public MessageResult createCodeHeader(SmartCodeHeaderDTO codeHeaderDTO) {
         SmartCodeHeaderEntity codeHeaderEntity = BeanUtils.copyBeanPropertyUtils(codeHeaderDTO,SmartCodeHeaderEntity.class);
         codeHeaderMapper.insertCodeHeader(codeHeaderEntity);
         return MessageResult.getSucMessage();
     }
 
     @Override
-    public MessageResult modifyCodeHeader(CodeHeaderDTO codeHeaderDTO) {
+    public MessageResult modifyCodeHeader(SmartCodeHeaderDTO codeHeaderDTO) {
         SmartCodeHeaderEntity codeHeaderEntity = BeanUtils.copyBeanPropertyUtils(codeHeaderDTO,SmartCodeHeaderEntity.class);
         codeHeaderMapper.updateCodeHeader(codeHeaderEntity);
         return MessageResult.getSucMessage();
@@ -72,14 +72,14 @@ public class CodeService implements ICodeService {
     }
 
     @Override
-    public MessageResult createCodeDetail(CodeDetailDTO codeDetailDTO) {
+    public MessageResult createCodeDetail(SmartCodeDetailDTO codeDetailDTO) {
         SmartCodeDetailEntity codeDetailEntity = BeanUtils.copyBeanPropertyUtils(codeDetailDTO,SmartCodeDetailEntity.class);
         codeDetailMapper.insertCodeDetail(codeDetailEntity);
         return MessageResult.getSucMessage();
     }
 
     @Override
-    public MessageResult modifyCodeDetail(CodeDetailDTO codeDetailDTO) {
+    public MessageResult modifyCodeDetail(SmartCodeDetailDTO codeDetailDTO) {
         SmartCodeDetailEntity codeDetailEntity = BeanUtils.copyBeanPropertyUtils(codeDetailDTO,SmartCodeDetailEntity.class);
         codeDetailMapper.updateCodeDetail(codeDetailEntity);
         return MessageResult.getSucMessage();

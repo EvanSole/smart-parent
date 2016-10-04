@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 public class BaseController {
 
     @Autowired
@@ -26,12 +25,6 @@ public class BaseController {
     @Autowired
     protected Messages messages;
 
-
-    /**
-     * 获取session
-     *
-     * @return HttpSession
-     */
     protected HttpSession getSession() {
         return request.getSession();
     }
@@ -46,9 +39,6 @@ public class BaseController {
 
     protected CurrentUserEntity getSessionCurrentUser() {
        return (CurrentUserEntity)getSession().getAttribute(GlobalConstants.SESSION_KEY);
-    }
-    protected void setSessionCurrentUser(CurrentUserEntity user) {
-        getSession().setAttribute(GlobalConstants.SESSION_KEY, user);
     }
 
     protected void setCurrentWarehouseId(long warehouseId) {

@@ -1,30 +1,17 @@
-/**
- * Created by MLS on 15/3/9.
- */
-define(['scripts/controller/controller','../../model/author/roleModel'], function(controller,roleModel) {
+define(['scripts/controller/controller','../../model/system/roleModel'], function(controller, roleModel) {
     "use strict";
-    controller.controller('authorRoleController',
-        ['$scope', '$rootScope', 'sync', 'url','wmsDataSource',
+    controller.controller('roleController', ['$scope', '$rootScope', 'sync', 'url','wmsDataSource',
             function($scope, $rootScope, $sync,$url,wmsDataSource) {
                 var roleUrl = $url.authorRoleUrl,
                     roleColumns = [
                         { title: '操作', command:[
-                            { name: "grant", text:"授权", className: "btn-auth-grant", click:function(e){
-                                  $scope.grantFunc(e,this);
-                            } },
-                            { name: "edit", className: "btn-auth-edit",
-                                text: { edit: "编辑", cancel: "取消", update: "保存" } },
-                            WMS.GRIDUTILS.deleteButton
-                        ],
-                            width:"240px"
+                            { name: "grant", text:"授权", className: "btn-auth-grant", click:function(e){$scope.grantPermission(e,this);}},
+                            { name: "edit", className: "btn-auth-edit", text: { edit: "编辑", cancel: "取消", update: "保存" } },
+                            WMS.GRIDUTILS.deleteButton ],
+                            width:"180px"
                         },
-                        { title: '角色名称', field: 'roleName',align: 'left', width: "150px",
-                            filterable: {cell: {
-                                enabled: true,
-                                delay: 1500
-                            }}
-                        },
-                        { filterable: false, title: '是否可用', field: 'isActive', template:WMS.UTILS.checkboxDisabledTmp("isActive"), align: 'left', width: "75px"}
+                        { title: '角色名称', field: 'roleName',align: 'left', width: "150px", filterable: { cell: {enabled: true, delay: 1500 }}},
+                        { title: '是否可用',filterable: false,  field: 'isActive', template:WMS.UTILS.checkboxDisabledTmp("isActive"), align: 'left', width: "75px"}
                     ],
                     roleDataSource =  wmsDataSource({
                         url: roleUrl,
@@ -35,20 +22,20 @@ define(['scripts/controller/controller','../../model/author/roleModel'], functio
                 roleColumns = roleColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
                 $scope.mainGridOptions =  WMS.GRIDUTILS.getGridOptions({
                     dataSource: roleDataSource,
-                    toolbar: [{ name: "create", text: "新建角色", className: "btn-auth-add"}],
+                    toolbar: [{ name: "create", text: "新增", className: "btn-auth-add"}],
                     columns: roleColumns,
                     editable: {
                         mode: "popup",
                         window: {
-                            width: "500px"
+                            width: "380px"
                         },
                         template: kendo.template($("#roleEditor").html())
                     }
                 }, $scope);
 
                 var detailColumns=[
-                    {filterable: false, title: '用户姓名', field: 'userName', align: 'left', width: "200px"},
-                    {filterable: false, title: '登录账号', field: 'loginName', align: 'left', width: "200px"},
+                    {filterable: false, title: '登录账户', field: 'userName', align: 'left', width: "200px"},
+                    {filterable: false, title: '用户姓名', field: 'realName', align: 'left', width: "200px"},
                     { filterable: false, title: '系统管理员', field: 'isAdmin', template: WMS.UTILS.checkboxDisabledTmp("isAdmin"), align: 'left', width: "100px"}
                 ];
 
@@ -60,17 +47,16 @@ define(['scripts/controller/controller','../../model/author/roleModel'], functio
                         }),
                         columns: detailColumns
                     };
-
                     return WMS.GRIDUTILS.getGridOptions(defaultOptions, $scope);
                 };
 
-                $scope.grantFunc=function(e, gridWidgets){
+                //角色授权
+                $scope.grantPermission = function(e, gridWidgets){
                     e.preventDefault();
                     var dataItem = gridWidgets.dataItem($(e.currentTarget).closest("tr"));
                     $scope.grantPop.selectDataItem = dataItem;
                     $scope.grantPop.content(kendo.template($("#grantPop-template").html()));
                     $scope.grantPop.center().open();
-
                 };
 
                 $scope.search = function() {
@@ -80,60 +66,38 @@ define(['scripts/controller/controller','../../model/author/roleModel'], functio
                 };
 
 
-            }]).controller('authorRoleGrantController',
-        ['$scope', '$rootScope', 'url','sync',
-            function ($scope, $rootScope, $url,$sync) {
+            }]).controller('grantAuthorRoleController',  ['$scope', '$rootScope', 'url','sync',
+              function ($scope, $rootScope, $url,$sync) {
                 var parent = $scope.$parent;
                 $scope.model = parent.grantPop.selectDataItem;
-
-                var authorModuleUrl = $url.authorRoleUrl;
+                var authorRoleUrl = $url.authorRoleUrl;
                 var roleId =$scope.model.id;
                 $scope.naviOptions = {
                     dataTextField: "name",
                     checkboxes: {
                         checkChildren: true
                     }
-//                    ,
-//                    check: function(e) {
-//                        console.log("Checking", e.node);
-//                    }
                 };
+               $sync(authorRoleUrl+"/"+roleId+"/module","GET")
+               .then(function(data){
+                   if ($scope.tree) {
+                       $scope.tree.dataSource.data(kendo.observableHierarchy(WMS.UTILS.processTreeData(data.result.rows, "id", "parentId", 0, true)));
+                       $scope.tree.expand(".k-item");
+                   } else {
+                       $scope.treeData = kendo.observableHierarchy(WMS.UTILS.processTreeData(data.result.rows, "id", "parentId", 0, true));
+                   }
+               }).then(function(data){
+                   console.log("load file " + authorModuleUrl + " fail : " + e);
+               });
 
-                $.ajax({
-                    url: authorModuleUrl+"/"+roleId+"/module",
-                    dataType: 'json',
-                    async: true
-                }).done(function(content){
-//                        var naviDatasource = new kendo.data.HierarchicalDataSource({
-//                            data: kendo.observableHierarchy(
-//                                WMS.UTILS.processTreeData(content.result, "id", "parentId", 0))
-//                        });
-                    if ($scope.tree) {
-                        $scope.tree.dataSource.data(kendo.observableHierarchy(
-                            WMS.UTILS.processTreeData(content.result.rows, "id", "parentId", 0, true)));
-                        $scope.tree.expand(".k-item");
-
-                    } else {
-                        $scope.treeData = kendo.observableHierarchy(
-                            WMS.UTILS.processTreeData(content.result.rows, "id", "parentId", 0, true));
-                    }
-
-
-
-                }).fail(function(e){
-                    console.log("load file " + authorModuleUrl + " fail : " + e);
-                });
                 $scope.saveRoleAction = function(){
-
                     var treeObj = $scope.tree;
                     var data = treeObj.dataSource.view();
                     $scope.selData=[];
                     $scope.getCheckedNode(data);
                     var authorModuleUrl = $url.authorRoleUrl;
                     var roleId;
-                    $sync(authorModuleUrl+"/"+roleId+"/module",
-                        "POST",
-                        {
+                    $sync(authorModuleUrl+"/"+roleId+"/module","POST",{
                             data: {
                                 roleId:$scope.model.id,
                                 actions: _.uniq($scope.selData)

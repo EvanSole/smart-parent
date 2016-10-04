@@ -32,4 +32,6 @@ public interface IWarehouseService {
     MessageResult saveAllocatableUser(Map map);
 
     MessageResult removeAllocatableUser(Map map);
+
+    PageResponse<List> findWarehouseByUser(Map searchMap);
 }

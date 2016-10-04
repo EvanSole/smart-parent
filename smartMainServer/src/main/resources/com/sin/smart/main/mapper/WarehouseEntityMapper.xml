@@ -101,19 +101,34 @@
   </select>
 
   <select id="selectWarehouseLists" resultMap="BaseResultMap"  >
-    select
-    <include refid="Base_Column_List" />
-    from t_smart_warehouse tsw inner join t_smart_user_warehouse tsuw
-    on tsw.id = tsuw.warehouse_id
-    <where>
-       tsw.is_active = 1
-       <if test="tenantId !=0 ">
-           and tsw.tenant_id = #{tenantId,jdbcType=BIGINT}
-       </if>
-       <if test="userId !=0 ">
-          and tsuw.user_id  #{userId,jdbcType=BIGINT}
-       </if>
-    </where>
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from t_smart_warehouse tsw inner join t_smart_user_warehouse tsuw-->
+    <!--on tsw.id = tsuw.warehouse_id-->
+    <!--<where>-->
+       <!--tsw.is_active = 1-->
+       <!--<if test="tenantId != null and tenantId !=0 ">-->
+          <!--and tsw.tenant_id = #{tenantId,jdbcType=BIGINT}-->
+       <!--</if>-->
+       <!--<if test="userId != null and userId !=0 ">-->
+          <!--and tsuw.user_id = #{userId,jdbcType=BIGINT}-->
+       <!--</if>-->
+    <!--</where>-->
+
+     SELECT
+     warehouse_no, warehouse_name, type_code
+     FROM t_smart_warehouse tb_a
+     WHERE
+     EXISTS ( SELECT 1 FROM t_smart_user_warehouse tb_b WHERE tb_b.user_id = tb_a.id
+      <if test="userId != null and userId !=0 ">
+        and tb_b.user_id = #{userId,jdbcType=BIGINT}
+      </if>
+     )
+     AND  tb_a.is_active = 1
+    <if test="tenantId != null and tenantId !=0 ">
+      AND tb_a.tenant_id = #{tenantId,jdbcType=BIGINT}
+    </if>
+
   </select>
 
   <select id="selectUserByWarehouseId" resultType="java.lang.Long" parameterType="java.lang.Long">
@@ -133,7 +148,7 @@
     select count(id) from t_smart_user_warehouse
     where warehouse_id = #{id,jdbcType=BIGINT}
     <include refid="queryOrderByClause"/>
-    <include refid="queryLimitClause" />
+    limit 1
   </select>
 
   <insert id="insertBatchUserWarehouse" useGeneratedKeys="true" parameterType="java.util.List">

@@ -1,7 +1,9 @@
 package com.sin.smart.main.service;
 
+import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
 import com.sin.smart.dto.SmartUserDTO;
+import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.main.SmartUserEntity;
 
 import java.util.List;
@@ -18,17 +20,18 @@ public interface IUserService {
 
     PageResponse<List<SmartUserEntity>> queryUserPages(SmartUserDTO userDTO);
 
-    Integer removeUser(Long id);
+    MessageResult removeUser(Long id);
 
-    Integer createUser(SmartUserDTO userDTO);
+    MessageResult createUser(SmartUserDTO userDTO);
 
-    Integer modifyUser(SmartUserDTO userDTO);
-
-    Set<String> findRoles(String userName);
-
-    Set<String> findPermissions(String userName);
+    MessageResult modifyUser(SmartUserDTO userDTO);
 
     List getRoleIdListByUserId(Long userId);
 
     List<SmartUserEntity> queryUsersByWarehouse(Map searchMap);
+
+    PageResponse<List> queryUserByRoles(Map searchMap);
+
+    MessageResult modifyResetUserPwd(Long id,CurrentUserEntity userEntity);
+
 }
