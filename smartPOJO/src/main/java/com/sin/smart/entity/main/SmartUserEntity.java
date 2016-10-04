@@ -2,8 +2,6 @@ package com.sin.smart.entity.main;
 
 import com.sin.smart.entity.po.BasePO;
 
-import java.io.Serializable;
-
 public class SmartUserEntity extends BasePO {
 
     private Long id;
