@@ -22,6 +22,8 @@
     id, type_code, module_type, parent_id, module_name, module_Path, description, `position`,
     is_visible, create_user, create_time, update_user, update_time, is_del
   </sql>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -34,6 +36,7 @@
     <include refid="Base_Column_List" />
     from t_smart_module
     where module_type = #{moduleType,jdbcType=VARCHAR} AND is_Visible = 1 AND is_Del = 0
+    order by position ASC
   </select>
 
   <select id="selectAllModuleNormal" resultMap="BaseResultMap">
@@ -46,7 +49,7 @@
        select action_id from `t_smart_role_permission` rp where rp.relation_type='m' and
            rp.role_Id in (select role_id from `t_smart_user_role` where user_id = #{userId,jdbcType=BIGINT} )
     )
-    ORDER BY m.parent_Id,m.`POSITION`;
+    ORDER BY m.parent_Id,m.`POSITION` ASC
   </select>
 
   <select id="selectModuleByIds" resultMap="BaseResultMap" >
@@ -64,6 +67,7 @@
     delete from t_smart_module
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
     insert into t_smart_module (id, type_code, module_type, 
       parent_id, module_name, module_Path, 

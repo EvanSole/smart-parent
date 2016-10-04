@@ -3,8 +3,7 @@
 define(['scripts/controller/controller',
     '../../model/system/codeModel'], function(controller,codeModel) {
     "use strict";
-    controller.controller('systemCodeController',
-        ['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
+    controller.controller('codeController', ['$scope', '$rootScope', 'sync', 'url', 'wmsDataSource',
             function($scope, $rootScope, $sync, $url, wmsDataSource) {
                 var codeHeaderUrl = $url.systemCodeHeaderUrl,
                     codeHeaderColumns = [
@@ -51,11 +50,11 @@ define(['scripts/controller/controller',
                     dataBound: function(e){
                       var grid = e.sender,
                           trs = grid.tbody.find(">tr");
-                        _.each(trs, function(tr,i){
-                          var record = grid.dataItem(tr);
-                          if (record.isSystem) {
-                            $(tr).find(".k-button").remove();
-                          }
+                            _.each(trs, function(tr,i){
+                           var record = grid.dataItem(tr);
+                           if (record.isSystem) {
+                              $(tr).find(".k-button").remove();
+                           }
                         });
                     }
                 }, $scope);

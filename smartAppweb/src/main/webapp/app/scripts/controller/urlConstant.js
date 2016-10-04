@@ -7,9 +7,10 @@ define(['app'], function (app) {
             //根据当前登录用户获取按钮操作权限
             permUrl: window.BASEPATH + '/index/perm',
 
-            //租户管理
             systemTenantUrl: window.BASEPATH + '/tenant',
             systemWarehouseUrl: window.BASEPATH + '/warehouse',
+            systemCodeHeaderUrl: window.BASEPATH + '/code/header',
+            systemCodeDetailUrl: window.BASEPATH + '/code/detail',
 
 
 
@@ -22,8 +23,7 @@ define(['app'], function (app) {
             dataWarehouseUrl: window.BASEPATH + '/warehouse',
             getSystemDataWarehouseUrl:window.BASEPATH + "/index/warehouse",
 
-            systemCodeHeaderUrl: window.BASEPATH + '/code/header',
-            systemCodeDetailUrl: window.BASEPATH + '/code/detail',
+
             systemTemplateListUrl: window.BASEPATH + '/report/template',
 
             inventoryCycleHeaderUrl: window.BASEPATH + '/inventory/check',

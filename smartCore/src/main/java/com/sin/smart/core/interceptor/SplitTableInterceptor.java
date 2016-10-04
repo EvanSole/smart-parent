@@ -47,7 +47,7 @@ public class SplitTableInterceptor implements Interceptor {
             //获取到当前StatementHandler的 boundSql，这里不管是调用handler.getBoundSql()还是直接调用delegate.getBoundSql()结果是一样的，因为之前已经说过了
             BoundSql boundSql = delegate.getBoundSql();
             Object parameterObject = boundSql.getParameterObject();
-            if (parameterObject != null && parameterObject instanceof Map){
+            if (parameterObject instanceof Map){
                 Map mapObj = (Map)parameterObject;
                 //判断是否存在分表标示GlobalConstants.SPLIT_TABLE_KEY = "splitTableKey"
                 if(mapObj.containsKey(GlobalConstants.SPLIT_TABLE_KEY)) {

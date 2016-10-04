@@ -13,7 +13,7 @@ define(['app'], function(app) {
       };
       //全局事件响应 登出
       $rootScope.$on('event:loginRequired',function(){
-        window.location='/';
+        window.location='/login';
       });
     }]);
 });

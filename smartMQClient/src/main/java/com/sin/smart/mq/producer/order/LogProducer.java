@@ -1,5 +1,6 @@
 package com.sin.smart.mq.producer.order;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.sin.smart.constants.MqConstants;
 import com.sin.smart.mq.producer.SmartProducer;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-
+@Service
 public class LogProducer {
 
     @Autowired

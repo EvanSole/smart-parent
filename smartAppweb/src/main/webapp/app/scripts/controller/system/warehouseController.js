@@ -115,14 +115,18 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                     for(var i=0;i<selectedData.length;i++){
                         ids += selectedData[i].id+",";
                     }
-                    ids=ids.substring(0,ids.length-1);
+                    ids = ids.substring(0,ids.length-1);
+                    if(ids === ""){
+                        kendo.ui.ExtAlertDialog.showError("请至少选择一条数据.");
+                        return;
+                    }
                     var warehouseId = $scope.warehouseId;
                     var params={warehouseId:warehouseId,userIds:ids};
                     $sync(warehouseUrl+"/"+warehouseId+"/allocatable/user","POST",{data: params}).
                        then(function(){
                           $scope.permissionPopup.close();
                           $scope.gridUUid.dataSource.read();
-                       });
+                       }) ;
                 };
 
                 //批量删除分配用户
@@ -134,6 +138,10 @@ define(['scripts/controller/controller', '../../model/data/warehouseModel'], fun
                     }
                     ids = ids.substring(0,ids.length-1);
                     var warehouseId = e.dataItem.id;
+                    if(ids ===""){
+                        kendo.ui.ExtAlertDialog.showError("请至少选择一条数据.");
+                        return;
+                    }
                     $sync(warehouseUrl +"/"+warehouseId+ "/allocated/user/" + ids, "DELETE")
                         .then(function (xhr) {
                             e.warehouseDetailGrid.dataSource.read({});

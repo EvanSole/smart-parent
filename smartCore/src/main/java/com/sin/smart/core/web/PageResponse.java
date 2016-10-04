@@ -2,7 +2,7 @@ package com.sin.smart.core.web;
 
 import java.io.Serializable;
 
-public class PageResponse<T> implements Serializable {
+public class PageResponse<T> extends ResponseResult implements Serializable {
 
     private T rows;
     private Integer total;

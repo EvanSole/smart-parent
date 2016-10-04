@@ -14,14 +14,155 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, list_name, is_system, is_read_only, description, create_user, create_time, update_user, 
-    update_time
+    id, list_name, is_system, is_read_only, description, create_user, create_time, update_user, update_time
   </sql>
+
+  <!-- query where 子句 -->
+  <sql id="queryWhereClause">
+    <where>
+      <if test="id !=null and id != 0">
+        AND id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="listName != null">
+        AND list_name = #{listName,jdbcType=VARCHAR}
+      </if>
+      <if test="description != null" >
+        AND description = #{description,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <!-- order by 子句 -->
+  <sql id="queryOrderByClause">
+    <if test="orderBy != null">
+      ORDER BY ${orderBy}
+    </if>
+    <if test="orderBy == null">
+      ORDER BY create_time desc
+    </if>
+
+  </sql>
+
+  <!-- query limit 子句 -->
+  <sql id="queryLimitClause">
+    <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
+      LIMIT #{offset}, #{pageSize}
+    </if>
+  </sql>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_smart_code_header
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="queryCodeHeaderPages" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_smart_code_header
+    <include refid="queryWhereClause"/>
+    <include refid="queryOrderByClause"/>
+    <include refid="queryLimitClause" />
+  </select>
+
+  <select id="queryCodeHeaderPageCount" resultType="java.lang.Integer">
+    select count(1) from t_smart_code_header
+    <include refid="queryWhereClause"/>
+    LIMIT 1
+  </select>
+
+  <delete id="deleteCodeHeader" parameterType="java.lang.Long" >
+    delete from t_smart_code_header
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insertCodeHeader" parameterType="com.sin.smart.entity.main.SmartCodeHeaderEntity">
+      insert into t_smart_code_header
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="listName != null" >
+          list_name,
+        </if>
+        <if test="isSystem != null" >
+          is_system,
+        </if>
+        <if test="isReadOnly != null" >
+          is_read_only,
+        </if>
+        <if test="description != null" >
+          description,
+        </if>
+        <if test="createUser != null" >
+          create_user,
+        </if>
+        <if test="createTime != null" >
+          create_time,
+        </if>
+        <if test="updateUser != null" >
+          update_user,
+        </if>
+        <if test="updateTime != null" >
+          update_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="listName != null" >
+          #{listName,jdbcType=VARCHAR},
+        </if>
+        <if test="isSystem != null" >
+          #{isSystem,jdbcType=BIT},
+        </if>
+        <if test="isReadOnly != null" >
+          #{isReadOnly,jdbcType=BIT},
+        </if>
+        <if test="description != null" >
+          #{description,jdbcType=VARCHAR},
+        </if>
+        <if test="createUser != null" >
+          #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null" >
+          #{createTime,jdbcType=BIGINT},
+        </if>
+        <if test="updateUser != null" >
+          #{updateUser,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null" >
+          #{updateTime,jdbcType=BIGINT},
+        </if>
+      </trim>
+    </insert>
+
+  <update id="updateCodeHeader" parameterType="com.sin.smart.entity.main.SmartCodeHeaderEntity" >
+      update t_smart_code_header
+      <set >
+        <if test="listName != null" >
+          list_name = #{listName,jdbcType=VARCHAR},
+        </if>
+        <if test="description != null" >
+          description = #{description,jdbcType=VARCHAR},
+        </if>
+        <if test="isSystem != null" >
+          is_system = #{isSystem,jdbcType=BIT},
+        </if>
+        <if test="isReadOnly != null" >
+          is_read_only = #{isReadOnly,jdbcType=BIT},
+        </if>
+        <if test="createUser != null" >
+          create_user = #{createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null" >
+          create_time = #{createTime,jdbcType=BIGINT},
+        </if>
+        <if test="updateUser != null" >
+          update_user = #{updateUser,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null" >
+          update_time = #{updateTime,jdbcType=BIGINT},
+        </if>
+      </set>
+      where id = #{id,jdbcType=BIGINT}
+    </update>
 
 </mapper>

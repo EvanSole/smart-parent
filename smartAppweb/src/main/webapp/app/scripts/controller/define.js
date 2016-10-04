@@ -2,13 +2,11 @@ define([
 
     './system/tenantController',
     './system/warehouseController',
-
-
-    './system/codeController',
-    './system/versionController',
+    './system/userController',
     './system/moduleController',
     './system/roleController',
-    './system/userController',
+    './system/codeController',
+    './system/versionController',
 
 
     './data/shopController',

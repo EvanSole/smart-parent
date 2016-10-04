@@ -609,7 +609,7 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
         var deleteButton = new customButton("Delete", "<span class='k-icon k-delete'></span><span ng-hide='dataItem.deleteHide'>删除</span></a>", function (grid, data) {
             $.when(kendo.ui.ExtOkCancelDialog.show({
                     title: "确认",
-                    message: "是否确定删除数据",
+                    message: "是否确定删除数据?",
                     icon: 'k-ext-question'})
             ).done(function (resp) {
                     if (resp.button === "OK") {

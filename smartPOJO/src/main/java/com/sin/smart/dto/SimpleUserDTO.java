@@ -2,7 +2,9 @@ package com.sin.smart.dto;
 
 import com.sin.smart.entity.main.SmartUserEntity;
 
-public class SimpleUserDTO extends SmartUserEntity {
+import java.io.Serializable;
+
+public class SimpleUserDTO extends SmartUserEntity implements Serializable {
 
 	/**
 	 * serialVersionUID

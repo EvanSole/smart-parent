@@ -63,6 +63,16 @@ public class WarehouseController extends BaseController {
         return getSucResultData(warehouseService.queryUserByWarehouse(map));
     }
 
+    //删除已分配用户
+    @RequestMapping(value = "/{id}/user/{userWarehouseId}", method = RequestMethod.DELETE)
+    public ResponseResult queryUserByWarehouseId(@PathVariable Long id,@PathVariable String userWarehouseId) {
+        Map map = new HashMap();
+        map.put("warehouseId", id);
+        map.put("userWhIds", userWarehouseId);
+        return getMessage(warehouseService.removeAllocatableUser(map));
+    }
+
+
     //查询未分配用户
     @RequestMapping(value = "/{id}/allocatable/user", method = RequestMethod.GET)
     public ResponseResult queryAllocatableUser(@PathVariable Long id,@RequestParam Map map) {
@@ -78,7 +88,7 @@ public class WarehouseController extends BaseController {
         return getMessage(warehouseService.saveAllocatableUser(map));
     }
 
-    //删除分配用户
+    //批量删除分配用户
     @RequestMapping(value = "/{id}/allocated/user/{userWhIds}", method = RequestMethod.DELETE)
     public ResponseResult remaveAllocatableUser(@PathVariable Long id, @PathVariable String userWhIds) {
         Map map = new HashMap();
