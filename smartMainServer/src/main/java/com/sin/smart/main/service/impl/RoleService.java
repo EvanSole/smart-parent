@@ -38,20 +38,23 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public Integer removeByPrimaryKey(Long id) {
-        return roleMapper.deleteByPrimaryKey(id);
+    public MessageResult removeByPrimaryKey(Long id) {
+        roleMapper.deleteByPrimaryKey(id);
+        return MessageResult.getSucMessage();
     }
 
     @Override
-    public Integer createRole(SmartRoleDTO roleDTO) {
+    public MessageResult createRole(SmartRoleDTO roleDTO) {
         SmartRoleEntity roleEntity = BeanUtils.copyBeanPropertyUtils(roleDTO,SmartRoleEntity.class);
-        return roleMapper.insertRole(roleEntity);
+        roleMapper.insertRole(roleEntity);
+        return MessageResult.getSucMessage();
     }
 
     @Override
-    public Integer modifyRole(SmartRoleDTO roleDTO) {
+    public MessageResult modifyRole(SmartRoleDTO roleDTO) {
         SmartRoleEntity roleEntity = BeanUtils.copyBeanPropertyUtils(roleDTO,SmartRoleEntity.class);
-        return roleMapper.updateRole(roleEntity);
+        roleMapper.updateRole(roleEntity);
+        return MessageResult.getSucMessage();
     }
 
     @Override

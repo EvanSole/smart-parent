@@ -120,7 +120,7 @@ public class WarehouseService implements IWarehouseService {
     public MessageResult saveAllocatableUser(Map map) {
         String createUser = MapUtils.getString(map, "createUser");
         Long warehouseId = MapUtils.getLong(map, "warehouseId");
-        String ids = MapUtils.getString(map, "roleIds");
+        String ids = MapUtils.getString(map, "userIds");
         if (warehouseId != null && StringUtils.isNotBlank(ids)) {
             Long[] userIds = ArrayUtil.toLongArray(ids.split(","));
             List<SmartUserWarehouseDTO> userWarehouseDTOList = new ArrayList<>();

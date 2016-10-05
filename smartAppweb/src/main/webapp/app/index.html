@@ -81,30 +81,10 @@
             <button type='submit' class="k-button k-button-icontext k-primary k-grid-update" style="margin-right:8px;">
               <i class="fa fa-check-circle"></i>保存
             </button>
-
             <button id="pwdCloseBtn" type="button" class="k-button"><i class="fa fa-times-circle"></i>取消</button>
-
           </div>
         </div>
       </form>
-    </div>
-    <div class="warehouse">
-      <div kendo-window="switchWarehouseWin" id="switchWarehouseWin" k-visible="false">
-        <div class="warehouse-content">
-          <table>
-            <tr>
-              <td width="250" ng-repeat="warehouse in warehouseList" ng-click="switchWarehouse(warehouse)">
-                <div class="warehouse-list">
-                  <div class="warehouse-box">
-                    <i></i>
-                    <p title="{{warehouse.key}}">{{warehouse.key}}</p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
     </div>
   </div>
 </div>

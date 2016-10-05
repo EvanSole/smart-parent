@@ -43,7 +43,7 @@ define(['scripts/controller/controller','../../model/system/roleModel'], functio
                     var defaultOptions = {
                         dataSource: wmsDataSource({
                             url: roleUrl + "/" + dataItem.id + "/user",
-                            pageSize: 100
+                            pageSize: 30
                         }),
                         columns: detailColumns
                     };
@@ -87,7 +87,7 @@ define(['scripts/controller/controller','../../model/system/roleModel'], functio
                        $scope.treeData = kendo.observableHierarchy(WMS.UTILS.processTreeData(data.result.rows, "id", "parentId", 0, true));
                    }
                }).then(function(data){
-                   console.log("load file " + authorModuleUrl + " fail : " + e);
+                   console.log("loading file fail : " + e);
                });
 
                 $scope.saveRoleAction = function(){
@@ -96,7 +96,6 @@ define(['scripts/controller/controller','../../model/system/roleModel'], functio
                     $scope.selData=[];
                     $scope.getCheckedNode(data);
                     var authorModuleUrl = $url.authorRoleUrl;
-                    var roleId;
                     $sync(authorModuleUrl+"/"+roleId+"/module","POST",{
                             data: {
                                 roleId:$scope.model.id,

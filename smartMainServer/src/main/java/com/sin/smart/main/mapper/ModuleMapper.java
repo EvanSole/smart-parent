@@ -4,6 +4,7 @@ import com.sin.smart.entity.main.SmartModuleEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ModuleMapper {
 
@@ -14,4 +15,15 @@ public interface ModuleMapper {
     List<SmartModuleEntity> selectAllModuleNormal(@Param("userId") Long userId, @Param("moduleType")String moduleType);
 
     List<SmartModuleEntity> selectModuleByIds(List moduleIdList);
+
+    Integer deleteByPrimaryKey(Long id);
+
+    SmartModuleEntity selectByPrimaryKey(Long id);
+
+    Integer insertModule(SmartModuleEntity moduleEntity);
+
+    Integer updateModule(SmartModuleEntity moduleEntity);
+
+    List<SmartModuleEntity> selectAllModules(Map paramsMap);
+
 }

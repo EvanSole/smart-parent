@@ -7,6 +7,7 @@
     <result column="module_type" property="moduleType" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="module_Path" property="modulePath" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="position" property="position" jdbcType="INTEGER" />
@@ -19,8 +20,26 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, type_code, module_type, parent_id, module_name, module_Path, description, `position`,
+    id, type_code, module_type, parent_id, module_name, module_Path,`image_url`, description, `position`,
     is_visible, create_user, create_time, update_user, update_time, is_del
+  </sql>
+
+  <!-- query where 子句 -->
+  <sql id="queryWhereClause">
+    <where>
+      <if test="id !=null and id != 0">
+        AND id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="isVisible != null" >
+        AND is_visible = #{isVisible,jdbcType=BIT}
+      </if>
+      <if test="moduleName != null" >
+        AND module_name = #{moduleName,jdbcType=VARCHAR}
+      </if>
+      <if test="moduleType != null" >
+        AND module_type = #{moduleType,jdbcType=VARCHAR}
+      </if>
+    </where>
   </sql>
 
 
@@ -29,6 +48,13 @@
     <include refid="Base_Column_List" />
     from t_smart_module
     where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAllModules" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_smart_module
+    <include refid="queryWhereClause"/>
   </select>
 
   <select id="selectAllModulesAdmin" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -68,33 +94,135 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
-    insert into t_smart_module (id, type_code, module_type, 
-      parent_id, module_name, module_Path, 
-      description, position, is_visible, 
-      create_user, create_time, update_user, 
-      update_time, is_del)
-    values (#{id,jdbcType=BIGINT}, #{typeCode,jdbcType=VARCHAR}, #{moduleType,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=BIGINT}, #{moduleName,jdbcType=VARCHAR}, #{modulePath,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{position,jdbcType=INTEGER}, #{isVisible,jdbcType=BIT}, 
-      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateUser,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=BIGINT}, #{isDel,jdbcType=BIT})
+  <insert id="insertModule" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
+    insert into t_smart_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeCode != null" >
+        type_code,
+      </if>
+      <if test="moduleType != null" >
+        module_type,
+      </if>
+      <if test="parentId != null and parentId !=0 " >
+        parent_id,
+      </if>
+      <if test="moduleName != null" >
+        module_name,
+      </if>
+      <if test="modulePath != null" >
+        module_Path,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="isVisible != null" >
+        is_visible,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleType != null" >
+        #{moduleType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null and parentId !=0 " >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="modulePath != null" >
+        #{modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
+
+  <update id="updateModule" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
     update t_smart_module
-    set type_code = #{typeCode,jdbcType=VARCHAR},
+    <set>
+      <if test="typeCode != null">
+       type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleType != null">
       module_type = #{moduleType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null and parentId !=0 ">
       parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="moduleName != null">
       module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
       module_Path = #{modulePath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
       description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
       position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null">
       is_visible = #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="createUser != null">
       create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
       create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null">
       update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
       update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="isDel != null">
       is_del = #{isDel,jdbcType=BIT}
+      </if>
+    </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

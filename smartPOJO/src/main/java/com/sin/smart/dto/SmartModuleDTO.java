@@ -32,6 +32,8 @@ public class SmartModuleDTO extends BasePO implements Serializable {
 
     private Long updateTime;
 
+    private String imageUrl;
+
     public Long getId() {
         return id;
     }
@@ -134,5 +136,13 @@ public class SmartModuleDTO extends BasePO implements Serializable {
 
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -43,22 +43,15 @@ public class TenantService implements ITenantService {
     @Override
     public MessageResult createTenant(SmartTenantDTO tenantDTO) {
         SmartTenantEntity entity = BeanUtils.copyBeanPropertyUtils(tenantDTO,SmartTenantEntity.class);
-        Integer number = tenantMapper.insertTenant(entity);
-        if(number>0)
-            return MessageResult.getSucMessage();
-        else
-            return MessageResult.getFailMessage();
+        tenantMapper.insertTenant(entity);
+        return MessageResult.getSucMessage();
     }
 
     @Override
     public MessageResult modifyTenant(SmartTenantDTO tenantDTO) {
         SmartTenantEntity entity = BeanUtils.copyBeanPropertyUtils(tenantDTO,SmartTenantEntity.class);
-        Integer number = tenantMapper.updateTenant(entity);
-        if(number>0)
-            return MessageResult.getSucMessage();
-        else
-            return MessageResult.getFailMessage();
-
+        tenantMapper.updateTenant(entity);
+        return MessageResult.getSucMessage();
     }
 
 }

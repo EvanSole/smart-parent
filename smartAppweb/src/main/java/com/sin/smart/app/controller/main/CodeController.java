@@ -40,19 +40,19 @@ public class CodeController extends BaseController {
         codeHeaderDTO.setCreateTime(new Date().getTime());
         codeHeaderDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         codeHeaderDTO.setUpdateTime(new Date().getTime());
-        return getSucResultData(codeService.createCodeHeader(codeHeaderDTO));
+        return getMessage(codeService.createCodeHeader(codeHeaderDTO));
     }
 
     @RequestMapping(value = "/header/{id}", method = RequestMethod.PUT)
     public ResponseResult modifyCodeHeader(@PathVariable Long id,@RequestBody SmartCodeHeaderDTO codeHeaderDTO) throws Exception {
         codeHeaderDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         codeHeaderDTO.setUpdateTime(new Date().getTime());
-        return getSucResultData(codeService.modifyCodeHeader(codeHeaderDTO));
+        return getMessage(codeService.modifyCodeHeader(codeHeaderDTO));
     }
 
     @RequestMapping(value = "/header/{id}", method = RequestMethod.DELETE)
     public ResponseResult removeCodeHeader(@PathVariable Long id) throws Exception {
-        return getSucResultData(codeService.removeCodeHeader(id));
+        return getMessage(codeService.removeCodeHeader(id));
     }
 
 
@@ -63,12 +63,12 @@ public class CodeController extends BaseController {
         codeDetailDTO.setCreateTime(new Date().getTime());
         codeDetailDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         codeDetailDTO.setUpdateTime(new Date().getTime());
-        return getSucResultData(codeService.createCodeDetail(codeDetailDTO));
+        return getMessage(codeService.createCodeDetail(codeDetailDTO));
     }
 
     @RequestMapping(value = "/header/{id}/detail/{detailId}", method = RequestMethod.DELETE)
     public ResponseResult removeCodeDetail(@PathVariable Long id,@PathVariable Long detailId) throws Exception {
-        return getSucResultData(codeService.removeCodeDetail(detailId));
+        return getMessage(codeService.removeCodeDetail(detailId));
     }
 
     @RequestMapping(value = "/header/{id}/detail/{detailId}", method = RequestMethod.PUT)
@@ -77,7 +77,7 @@ public class CodeController extends BaseController {
         codeDetailDTO.setId(detailId);
         codeDetailDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         codeDetailDTO.setUpdateTime(new Date().getTime());
-        return getSucResultData(codeService.modifyCodeDetail(codeDetailDTO));
+        return getMessage(codeService.modifyCodeDetail(codeDetailDTO));
     }
 
 

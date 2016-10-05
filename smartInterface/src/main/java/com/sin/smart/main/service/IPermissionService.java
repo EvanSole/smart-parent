@@ -1,6 +1,7 @@
 package com.sin.smart.main.service;
 
-import com.sin.smart.core.web.PageResponse;
+import com.sin.smart.core.web.MessageResult;
+import com.sin.smart.dto.SmartPermissionDTO;
 import com.sin.smart.entity.main.SmartPermissionEntity;
 
 import java.util.List;
@@ -8,21 +9,21 @@ import java.util.Map;
 
 public interface IPermissionService {
 
-    Integer removeByPrimaryKey(Long id);
+    MessageResult removeByPrimaryKey(Long id);
 
-    Integer createPermission(SmartPermissionEntity permissionEntity);
+    MessageResult createPermission(SmartPermissionDTO permissionDTO);
 
-    Integer modifyPermissionEntity(SmartPermissionEntity permissionEntity);
-
-    List<SmartPermissionEntity> findByPermissionEntity(SmartPermissionEntity permissionEntity);
+    MessageResult modifyPermissionEntity(SmartPermissionDTO permissionDTO);
 
     SmartPermissionEntity findByPrimaryKey(Long id);
 
-    PageResponse queryPermissionPages(SmartPermissionEntity permissionEntity);
-
-    Integer queryPermissionPageCount(SmartPermissionEntity permissionEntity);
-
-    List<Map<String,Object>> findPermissionMapperByUserId(Long id);
+    List<Map<String,Object>> findPermissionByUserId(Long id);
 
     Map queryPermModuleByRoles(Map searchMap);
+
+    List<SmartPermissionEntity> findPermissionByModuleId(Long moduleId);
+
+    MessageResult saveRoleActionPermission(Map map);
+
+    List<SmartPermissionEntity> selectPermissions(Boolean flag);
 }

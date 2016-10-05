@@ -1,6 +1,8 @@
 package com.sin.smart.main.service;
 
-import com.sin.smart.core.web.PageResponse;
+import com.sin.smart.core.web.MessageResult;
+import com.sin.smart.dto.SmartModuleDTO;
+import com.sin.smart.dto.SmartPermissionDTO;
 import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.entity.main.SmartModuleEntity;
 
@@ -23,19 +25,28 @@ public interface IModuleService {
      */
     Map getAllModuleActionByUser(CurrentUserEntity sessionCurrentUser);
 
-    Integer removeByPrimaryKey(Long id);
+    /***
+     * 查询所以模块菜单
+     * @return
+     */
+    Map queryAllMenus();
 
-    Integer createModule(SmartModuleEntity moduleEntity);
+    List getAllModuleAction();
 
-    Integer modifyModuleEntity(SmartModuleEntity moduleEntity);
+    MessageResult removeByPrimaryKey(Long id);
 
-    List<SmartModuleEntity> findByModuleEntity(SmartModuleEntity moduleEntity);
+    MessageResult createModule(SmartModuleDTO moduleDTO);
+
+    MessageResult modifyModule(Map map);
 
     SmartModuleEntity findByPrimaryKey(Long id);
 
-    PageResponse queryModulePages(SmartModuleEntity moduleEntity);
+    Map queryModuleActions(Map searchMap);
 
-    Integer queryModulePageCount(SmartModuleEntity moduleEntity);
+    MessageResult createModuleActions(SmartPermissionDTO permissionDTO);
 
+    MessageResult modifyModuleActions(SmartPermissionDTO permissionDTO);
+
+    MessageResult removeModuleActions(Long id);
 
 }

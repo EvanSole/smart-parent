@@ -17,6 +17,8 @@ define(['app'], function (app) {
 
 
 
+
+
             //根据登录用户当前租户查询所有仓库
             getWarehouseUrl: window.BASEPATH + '/index/warehouse/combox',
             //选择设置当前仓库

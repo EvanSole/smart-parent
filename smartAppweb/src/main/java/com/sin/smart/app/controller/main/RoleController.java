@@ -45,33 +45,38 @@ public class RoleController extends BaseController {
         roleDTO.setCreateTime(new Date().getTime());
         roleDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         roleDTO.setUpdateTime(new Date().getTime());
-        return new ResponseResult(roleService.createRole(roleDTO));
+        return getMessage(roleService.createRole(roleDTO));
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseResult modifyRoles(@PathVariable Long id,@RequestBody SmartRoleDTO roleDTO){
         roleDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         roleDTO.setUpdateTime(new Date().getTime());
-        return new ResponseResult(roleService.modifyRole(roleDTO));
+        return getMessage(roleService.modifyRole(roleDTO));
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public ResponseResult modifyRoles(@PathVariable Long id){
-        return new ResponseResult(roleService.removeByPrimaryKey(id));
+    public ResponseResult removeRoles(@PathVariable Long id){
+        return getMessage(roleService.removeByPrimaryKey(id));
     }
 
     @RequestMapping(value = "{id}/user", method = RequestMethod.GET)
     public ResponseResult queryUserByRoles(@PathVariable Long id,@RequestParam Map searchMap){
         searchMap.put("roleId",id);
         searchMap.put("tenantId",getSessionCurrentUser().getTenantId());
-        return new ResponseResult(userService.queryUserByRoles(searchMap));
+        return getSucResultData(userService.queryUserByRoles(searchMap));
     }
 
     @RequestMapping(value = "{id}/module", method = RequestMethod.GET)
     public ResponseResult queryModuleByRoles(@PathVariable Long id,@RequestParam Map searchMap){
         searchMap.put("roleId",id);
-        searchMap.put("tenantId",getSessionCurrentUser().getTenantId());
-        return new ResponseResult(permissionService.queryPermModuleByRoles(searchMap));
+        return getSucResultData(permissionService.queryPermModuleByRoles(searchMap));
+    }
+
+    @RequestMapping(value = "/{id}/module",method = RequestMethod.POST)
+    public ResponseResult saveRoleActionPermission(@PathVariable Long id,@RequestBody Map map) throws Exception {
+        map.put("roleId",id);
+        return getMessage(permissionService.saveRoleActionPermission(map));
     }
 
 }

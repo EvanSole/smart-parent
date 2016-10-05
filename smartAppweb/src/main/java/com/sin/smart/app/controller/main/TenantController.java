@@ -32,7 +32,7 @@ public class TenantController extends BaseController {
     public ResponseResult modifyTenant(@RequestBody SmartTenantDTO tenantDTO) throws Exception {
         tenantDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         tenantDTO.setUpdateTime(new Date().getTime());
-        return this.getSucResultData(tenantService.modifyTenant(tenantDTO));
+        return getMessage(tenantService.modifyTenant(tenantDTO));
     }
 
     @RequestMapping(value = "",method = RequestMethod.POST)
@@ -42,12 +42,12 @@ public class TenantController extends BaseController {
         tenantDTO.setCreateTime(new Date().getTime());
         tenantDTO.setUpdateUser(this.getSessionCurrentUser().getUserName());
         tenantDTO.setUpdateTime(new Date().getTime());
-        return this.getSucResultData(tenantService.createTenant(tenantDTO));
+        return getMessage(tenantService.createTenant(tenantDTO));
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     public ResponseResult removeTenant(@PathVariable Long id) throws Exception {
-        return this.getSucResultData(tenantService.removeByPrimaryKey(id));
+        return getMessage(tenantService.removeByPrimaryKey(id));
     }
 
 }

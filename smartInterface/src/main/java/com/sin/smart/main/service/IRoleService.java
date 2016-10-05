@@ -12,11 +12,11 @@ public interface IRoleService {
 
     PageResponse queryRolePages(SmartRoleDTO roleDTO);
 
-    Integer removeByPrimaryKey(Long id);
+    MessageResult removeByPrimaryKey(Long id);
 
-    Integer createRole(SmartRoleDTO roleDTO);
+    MessageResult createRole(SmartRoleDTO roleDTO);
 
-    Integer modifyRole(SmartRoleDTO roleDTO);
+    MessageResult modifyRole(SmartRoleDTO roleDTO);
 
     SmartRoleEntity findByPrimaryKey(Long id);
 
