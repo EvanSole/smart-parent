@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,14 +117,19 @@ public class PermissionService implements IPermissionService {
     public MessageResult saveRoleActionPermission(Map map) {
         Long roleId = MapUtils.getLong(map,"roleId");
         List actionIds = (List) map.get("actions");
+        String createUser = MapUtils.getString(map,"createUser");
         //删除角色对应的权限
-        //permissionMapper.deleteRolePermissionByRoleId(roleId);
+        permissionMapper.deleteRolePermissionByRoleId(roleId);
         List<Long> mList = new ArrayList<>();
         List <SmartRolePermissionDTO>  rolePermissions = new ArrayList();
         for(int i = 0;i < actionIds.size();i++){
             Object objectId = actionIds.get(i);
             SmartRolePermissionDTO rolePermission = new SmartRolePermissionDTO();
             rolePermission.setRoleId(roleId);
+            rolePermission.setCreateUser(createUser);
+            rolePermission.setCreateTime(new Date().getTime());
+            rolePermission.setUpdateUser(createUser);
+            rolePermission.setUpdateTime(new Date().getTime());
             //保存的时候 区分是action / module
             if(objectId instanceof  String){
                 String id = objectId.toString();

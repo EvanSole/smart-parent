@@ -31,7 +31,7 @@ public class SmartModuleEntity extends BasePO {
 
     private Boolean isDel;
 
-    private String imageUrl;
+    private String icons;
 
     public Long getId() {
         return id;
@@ -145,11 +145,11 @@ public class SmartModuleEntity extends BasePO {
         this.isDel = isDel;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getIcons() {
+        return icons;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setIcons(String icons) {
+        this.icons = icons;
     }
 }

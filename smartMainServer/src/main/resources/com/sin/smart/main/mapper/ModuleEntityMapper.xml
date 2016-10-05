@@ -7,7 +7,7 @@
     <result column="module_type" property="moduleType" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
-    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="icons" property="icons" jdbcType="VARCHAR" />
     <result column="module_Path" property="modulePath" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="position" property="position" jdbcType="INTEGER" />
@@ -20,7 +20,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, type_code, module_type, parent_id, module_name, module_Path,`image_url`, description, `position`,
+    id, type_code, module_type, parent_id, module_name, module_Path,`icons`, description, `position`,
     is_visible, create_user, create_time, update_user, update_time, is_del
   </sql>
 
@@ -124,6 +124,9 @@
       <if test="isDel != null" >
         is_del,
       </if>
+      <if test="icons != null">
+        icons,
+      </if>
       <if test="createUser != null" >
         create_user,
       </if>
@@ -164,6 +167,9 @@
       </if>
       <if test="isDel != null" >
         #{isDel,jdbcType=BIT},
+      </if>
+      <if test="icons != null" >
+        #{icons,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null" >
         #{createUser,jdbcType=VARCHAR},
@@ -206,6 +212,9 @@
       </if>
       <if test="isVisible != null">
       is_visible = #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="icons != null">
+        icons = #{icons,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
       create_user = #{createUser,jdbcType=VARCHAR},

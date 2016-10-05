@@ -1,5 +1,6 @@
 package com.sin.smart.main.service.impl;
 
+import com.sin.smart.constants.GlobalConstants;
 import com.sin.smart.convert.ListArraysConvert;
 import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.dto.SmartModuleDTO;
@@ -167,6 +168,7 @@ public class ModuleService implements IModuleService{
         menuTreeNode.setName(moduleEntity.getModuleName());
         menuTreeNode.setParentId(String.valueOf(moduleEntity.getParentId()));
         menuTreeNode.setPath(moduleEntity.getModulePath());
+        menuTreeNode.setIcons(moduleEntity.getIcons());
     }
 
     private void makeMenuTree(MenuTreeNode menuTreeNode,List<SmartModuleEntity> moduleList){
@@ -229,6 +231,9 @@ public class ModuleService implements IModuleService{
         SmartModuleEntity moduleEntity = BeanUtils.copyBeanPropertyUtils(moduleDTO, SmartModuleEntity.class);
         moduleEntity.setTypeCode("WMS");
         moduleEntity.setIsVisible(true);
+        if(StringUtils.isEmpty(moduleDTO.getIcons())) {
+            moduleEntity.setIcons(GlobalConstants.DEFAULT_MENU_ICONS);
+        }
         if (StringUtils.isEmpty(moduleEntity.getModuleType())) {
             moduleEntity.setModuleType("Web");
         }
@@ -248,12 +253,15 @@ public class ModuleService implements IModuleService{
         Integer position = MapUtils.getInteger(map,"position");
         String moduleType = MapUtils.getString(map,"moduleType");
         String description = MapUtils.getString(map,"description");
+        String icons = MapUtils.getString(map,"icons");
+
         SmartModuleEntity moduleEntity = this.findByPrimaryKey(moduleId);
         moduleEntity.setModuleName(moduleName);
         moduleEntity.setModuleType(moduleType);
         moduleEntity.setModulePath(modulePath);
         moduleEntity.setModuleType(moduleType);
         moduleEntity.setPosition(position);
+        moduleEntity.setIcons(StringUtils.isEmpty(icons) ? GlobalConstants.DEFAULT_MENU_ICONS : icons);
         moduleEntity.setDescription(description);
         moduleEntity.setUpdateTime(new java.util.Date().getTime());
         moduleEntity.setUpdateUser(updateUser);

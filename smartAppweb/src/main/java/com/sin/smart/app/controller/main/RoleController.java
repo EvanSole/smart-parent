@@ -76,6 +76,7 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/{id}/module",method = RequestMethod.POST)
     public ResponseResult saveRoleActionPermission(@PathVariable Long id,@RequestBody Map map) throws Exception {
         map.put("roleId",id);
+        map.put("createUser",this.getSessionCurrentUser().getUserName());
         return getMessage(permissionService.saveRoleActionPermission(map));
     }
 

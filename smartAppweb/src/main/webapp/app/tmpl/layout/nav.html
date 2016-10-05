@@ -9,9 +9,9 @@
   <!-- brand -->
   <a href="#/" class="navbar-brand text-lt">
     {{ app.name }}
-    <!--<i class="fa fa-btc"></i>-->
-    <!--<img src="img/logo.png" alt="." width="64" height="64" class="hide">-->
-    <!--<span class="hidden-folded m-l-xs ng-binding"></span>-->
+    <!--<i class="fa fa-btc"></i>
+    <img src="img/logo.png" alt="." width="64" height="64" class="hide">
+    <span class="hidden-folded m-l-xs ng-binding"></span>-->
   </a>
   <!-- / brand -->
 
@@ -33,17 +33,15 @@
       <a href="" ui-sref="{{menuItem.code}}" ui-sref-active="active">{{menuItem.name}}</a>
       <div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>
     </li>
-
   </ul>
-  <!--<ul class="nav navbar-nav h-nav">-->
 
-    <!--<li ng-repeat="menuItem in menu" class="dropdown" data-test="{{$index === naviIndexes.topMenuIndex}}">-->
-      <!--<a href="" ui-sref="{{ menuItem.code }}" ui-sref-active="active" ng-click="changeTopNavi($index)"  ng-class="{true:'active',false:''}[$index === naviIndexes.topMenuIndex]" >{{ menuItem.name }} </a>-->
-      <!--<div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>-->
-      <!--<div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>-->
-    <!--</li>-->
-
-  <!--</ul>-->
+ <!-- <ul class="nav navbar-nav h-nav">
+    <li ng-repeat="menuItem in menu" class="dropdown" data-test="{{$index === naviIndexes.topMenuIndex}}">
+      <a href="" ui-sref="{{ menuItem.code }}" ui-sref-active="active" ng-click="changeTopNavi($index)"  ng-class="{true:'active',false:''}[$index === naviIndexes.topMenuIndex]" >{{ menuItem.name }} </a>
+      <div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>
+      <div class="nav-bottom-bar"><i class="fa fa-caret-up"></i></div>
+    </li>
+  </ul>-->
 
     <!-- / link and dropdown -->
 
@@ -79,10 +77,9 @@
                         <li>
                             <span>姓名</span>{{ user.userName }}
                         </li>
-
-                        <!--<li>-->
-                            <!--<span>角色</span>{{ user.roleName }}-->
-                        <!--</li>-->
+                        <!--<li>
+                            <span>角色</span>{{ user.roleName }}
+                        </li>-->
                     </ol>
                 </div>
                 <div class="user-self">

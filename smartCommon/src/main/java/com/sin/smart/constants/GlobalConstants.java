@@ -9,6 +9,9 @@ public class GlobalConstants {
     public final static String ROLE_IDS = "roles";
     public static final String DEFAULT_TENANT_TYPE = "WMS";
 
+    //菜单默认图标 font-awesome 图标库 V.4.3
+    public static final String  DEFAULT_MENU_ICONS = "fa fa-file-text";
+
     public static final String SPLIT_TABLE_KEY = "splitTableKey"; //分表标志
 
     public static final String DEFAULT_PASSWORD =  "123456";
@@ -21,5 +24,6 @@ public class GlobalConstants {
     public static final String MSG_E00111 = "E00111";
     public static final String MSG_E00112 = "E00112";
     public static final String MSG_E00113 = "E00004";
+
 
 }

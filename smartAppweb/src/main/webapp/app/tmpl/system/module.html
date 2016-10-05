@@ -47,8 +47,8 @@
                 <script type="text/ng-template"  id="tree_item_renderer.html">
                     <a href="javascript:;" ng-if="nodes.length > 0" ng-click="toggleView($event,data)"  class="fa fa-caret-right" ng-class="{'fa-caret-down': data.nodes.length>0 }"></a>
                     <span ng-click="selected($event,data)">{{data.name}}</span>
-                    <a ng-click="add(data)" href="javascript:;" class="region-options"><i class="fa fa-plus"></i></a>
-                    <a ng-click="delete($event, data, parent, $index)" href="javascript:;" class="region-options" ng-show="nodes.length <= 0"><i class="fa fa-minus"></i></a>
+                    <a ng-click="add(data)" href="javascript:;" class="region-options"><i class="fa fa fa-plus-square-o fa-fw"></i></a>
+                    <a ng-click="delete($event, data, parent, $index)" href="javascript:;" class="region-options" ng-show="nodes.length <= 0"><i class="fa fa-minus-square-o fa-fw"></i></a>
                     <ul ng-show="data.show">
                         <li ng-repeat="data in nodes track by data.id" ng-init="parent = nodes; nodes = data.items" ng-include="'tree_item_renderer.html'"></li>
                     </ul>
@@ -76,6 +76,12 @@
                     </div>
                     <div class="k-edit-field">
                         <input id="modulePath" kendo-text ng-model="module.modulePath" name="modulePath"  placeholder="文件存放路径" required/>
+                    </div>
+                    <div class="k-edit-label">
+                        <label for="icons">图标</label>
+                    </div>
+                    <div class="k-edit-field">
+                        <input id="icons" kendo-text ng-model="module.icons" name="icons" placeholder="font-awesome"/>
                     </div>
                     <div class="k-edit-label">
                         <label for="position">显示顺序</label>

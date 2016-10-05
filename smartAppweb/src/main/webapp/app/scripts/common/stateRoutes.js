@@ -91,7 +91,7 @@ define(['app'], function (app) {
                     $urlRouter.listen();
                     $rootScope.menu = menu;
                     $rootScope.navList = $rootScope.menu[0].children;
-                    kendo.ui.ExtWaitDialog.hide();
+                     kendo.ui.ExtWaitDialog.hide();
                   }
               });
            });
