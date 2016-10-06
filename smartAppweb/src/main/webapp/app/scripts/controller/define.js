@@ -7,6 +7,7 @@ define([
     './system/roleController',
     './system/codeController',
     './system/versionController',
+    './system/portletController',
 
 
 
