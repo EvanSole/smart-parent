@@ -69,7 +69,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setWarehouseNo(String warehouseNo) {
-        this.warehouseNo = warehouseNo == null ? null : warehouseNo.trim();
+        this.warehouseNo = warehouseNo;
     }
 
     public String getWarehouseName() {
@@ -77,7 +77,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setWarehouseName(String warehouseName) {
-        this.warehouseName = warehouseName == null ? null : warehouseName.trim();
+        this.warehouseName = warehouseName;
     }
 
     public Byte getIsActive() {
@@ -93,7 +93,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setTypeCode(String typeCode) {
-        this.typeCode = typeCode == null ? null : typeCode.trim();
+        this.typeCode = typeCode;
     }
 
     public String getCountry() {
@@ -101,7 +101,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
+        this.country = country;
     }
 
     public String getProvince() {
@@ -109,7 +109,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+        this.province = province;
     }
 
     public String getCity() {
@@ -117,7 +117,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
+        this.city = city;
     }
 
     public String getDistrict() {
@@ -125,7 +125,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setDistrict(String district) {
-        this.district = district == null ? null : district.trim();
+        this.district = district;
     }
 
     public String getZip() {
@@ -133,7 +133,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setZip(String zip) {
-        this.zip = zip == null ? null : zip.trim();
+        this.zip = zip;
     }
 
     public String getAddress() {
@@ -141,7 +141,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public String getContact() {
@@ -149,7 +149,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setContact(String contact) {
-        this.contact = contact == null ? null : contact.trim();
+        this.contact = contact;
     }
 
     public String getTelephone() {
@@ -157,7 +157,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone == null ? null : telephone.trim();
+        this.telephone = telephone;
     }
 
     public String getFax() {
@@ -165,7 +165,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setFax(String fax) {
-        this.fax = fax == null ? null : fax.trim();
+        this.fax = fax;
     }
 
     public String getEmail() {
@@ -173,7 +173,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public String getDescription() {
@@ -181,7 +181,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Byte getIsDel() {
@@ -197,7 +197,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setCreateUser(String createUser) {
-        this.createUser = createUser == null ? null : createUser.trim();
+        this.createUser = createUser;
     }
 
     public Long getCreateTime() {
@@ -213,7 +213,7 @@ public class SmartWarehouseEntity extends BasePO {
     }
 
     public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser == null ? null : updateUser.trim();
+        this.updateUser = updateUser;
     }
 
     public Long getUpdateTime() {

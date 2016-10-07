@@ -1,5 +1,6 @@
 package com.sin.smart.main.service.impl;
 
+import com.sin.smart.constants.GlobalConstants;
 import com.sin.smart.convert.ListArraysConvert;
 import com.sin.smart.core.web.MessageResult;
 import com.sin.smart.core.web.PageResponse;
@@ -63,6 +64,9 @@ public class WarehouseService implements IWarehouseService {
     @Override
     public MessageResult createWarehouse(SmartWarehouseDTO warehouseDTO) {
         SmartWarehouseEntity warehouseEntity = BeanUtils.copyBeanPropertyUtils(warehouseDTO,SmartWarehouseEntity.class);
+        if(warehouseEntity.getTenantId() == 0 ) {
+            warehouseEntity.setTenantId(GlobalConstants.DEFAULT_TENANT_ID);
+        }
         warehouseMapper.insertWarehouse(warehouseEntity);
         return MessageResult.getSucMessage();
     }

@@ -80,6 +80,12 @@ public class CodeController extends BaseController {
         return getMessage(codeService.modifyCodeDetail(codeDetailDTO));
     }
 
+    @RequestMapping(value = "/all/details", method = RequestMethod.GET)
+    public ResponseResult getAllCodeLists(@RequestParam Map searchMap) throws Exception {
+        return getSucResultData(codeService.getAllCodeDatas(searchMap));
+    }
+
+
 
 
 }

@@ -82,6 +82,13 @@
     LIMIT 1
   </select>
 
+  <select id="selectAllCodeDetails" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    id, code_id, code_value, code_name, is_default, is_active, is_system
+    from t_smart_code_detail
+    WHERE  is_active = 1 AND code_id = #{codeId,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_smart_code_detail
     where id = #{id,jdbcType=BIGINT}

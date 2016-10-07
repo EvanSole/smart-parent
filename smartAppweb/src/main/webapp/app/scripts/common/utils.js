@@ -1,7 +1,4 @@
 define(['jquery', 'underscore', 'kendo'], function ($, _) {
-    /**
-     * Created by HMT on 15/3/5.
-     */
     "use strict";
     var HMT = HMT === undefined ? {} : HMT;
     HMT.WMS = HMT.WMS === undefined ? {} : HMT.WMS;
@@ -34,12 +31,6 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
                 { editor: columnEditor.hidden, filterable: false, title: '修改时间', field: 'updateTime', align: 'left', width: "150px", template: timestampFormat("updateTime")}
             ]
         };
-
-        function setValueInModel(model, key, value) {
-            $("#" + key).val(value);
-            $("#" + key).trigger("mls:setValue");
-            model.set(key, value);
-        }
 
         function tooLongContentFormat(dataItem, value) {
             if (dataItem[value] === undefined || dataItem[value] === null) {
@@ -171,6 +162,7 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
             }
             return '<input disabled="disabled" type="checkbox" #= ' + field + ' != "" ? "checked=checked" : "" # format="|' + format + '"></input>';
         }
+
 
         function processTreeData(data, idField, foreignKey, rootLevel, isKendoTree) {
             var hash = {};
@@ -326,12 +318,12 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
             checkboxAuthTmp: checkboxAuthTmp,
             shopFormat: shopFormat,
             carrierFormat: carrierFormat,
-            setValueInModel: setValueInModel,
             columnEditor: columnEditor,
             CommonColumns: CommonColumns
         };
 
     }());
+
     function getButtonIds(userInfo, pagePath) {
         var isAdmin = userInfo.authority.isAdmin,
             perm = userInfo.authority.perm,
@@ -431,6 +423,7 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
 //      removeBtn(userInfo, path, grid.element);
         }
     };
+
     HMT.WMS.GRIDUTILS = (function () {
         /**
          * 获得grid中行记录
@@ -679,7 +672,6 @@ define(['jquery', 'underscore', 'kendo'], function ($, _) {
             selectAllRow: selectAllRow
         };
     }());
-
 
     window.WMS = HMT.WMS;
 });

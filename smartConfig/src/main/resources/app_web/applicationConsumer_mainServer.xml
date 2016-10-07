@@ -14,6 +14,8 @@
     <dubbo:reference id="warehouseService" interface="com.sin.smart.main.service.IWarehouseService" />
     <dubbo:reference id="moduleService" interface="com.sin.smart.main.service.IModuleService" />
     <dubbo:reference id="tenantService" interface="com.sin.smart.main.service.ITenantService" />
-    <dubbo:reference id="codeService" interface="com.sin.smart.main.service.ICodeService" />
+    <dubbo:reference id="codeService" interface="com.sin.smart.main.service.ICodeService" >
+        <dubbo:method name="getAllCodeDatas" timeout="80000"></dubbo:method>
+    </dubbo:reference>
 
 </beans>

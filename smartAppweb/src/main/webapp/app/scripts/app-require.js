@@ -96,6 +96,7 @@ define([
     'app',
     'scripts/common/kendo.web.ext',
     'scripts/common/kendo.validator',
+    'scripts/common/codeData',
     'scripts/common/const',
     'scripts/controller/urlConstant',
     'scripts/common/config.base',

@@ -1,6 +1,4 @@
-/**
- * Created by MLS on 15/4/22.
- */
+
 define(['kendo','jquery'], function (kendo, $) {
     "use strict";
     kendo.ui.validator.rules = {

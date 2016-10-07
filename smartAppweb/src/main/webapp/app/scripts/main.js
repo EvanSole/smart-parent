@@ -9,26 +9,14 @@ define([
         $rootScope.location = $location;
 
         //加载版本信息
-        // $.getJSON(window.BASEPATH + "/app/data/basic/version.json", function (data) {
-        //     var versionDes = data.mlsVersion;
-        //     //排序
-        //     versionDes.sort(function (m, n) {
-        //         var s = m.releasedTime;
-        //         var e = n.releasedTime;
-        //         if (s > e) {
-        //             return -1;
-        //         } else if (s < e) {
-        //             return 1;
-        //         } else {
-        //             return 0;
-        //         }
-        //     });
-        //     //版本号设置
-        //     $rootScope.versionNo = versionDes[0].versionNo;
-        //     $rootScope.versionDes = versionDes;
-        // }, function (data) {
-        //
-        // });
+        $.getJSON(window.BASEPATH + "/app/data/basic/version.json", function (data) {
+            var versionDes = data.smartVersion;
+            //版本号设置
+            $rootScope.versionNo = versionDes[0].versionNo;
+            $rootScope.versionDes = versionDes;
+        }, function (data) {
+
+        });
 
         var path = '';
         $rootScope.$on("kendoWidgetCreated", function (event, widget) {
@@ -46,9 +34,6 @@ define([
             var grid = $(e.target).parents('[kendo-grid]').eq(0).data("kendoGrid"),
                 url = grid.dataSource.options.url,
                 paras = commonService.exportOperator.makePara(grid, url, $rootScope.title + '.xlsx');
-
-            //console.log("导出行数:"+grid.options.exportRows);
-            //console.log(paras);
             sync(window.BASEPATH + "/excel/all", "POST", {
                 data: paras,
                 responseType: 'arraybuffer',

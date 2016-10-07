@@ -165,4 +165,11 @@
       where id = #{id,jdbcType=BIGINT}
     </update>
 
+  <select id="selectAllCodeHeaders" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_smart_code_header
+    <include refid="queryWhereClause"/>
+  </select>
+
 </mapper>

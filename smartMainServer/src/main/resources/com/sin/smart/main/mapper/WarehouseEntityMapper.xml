@@ -102,7 +102,7 @@
 
   <select id="selectWarehouseLists" resultMap="BaseResultMap"  >
      SELECT
-     warehouse_no, warehouse_name, type_code
+     id,warehouse_no, warehouse_name, type_code
      FROM t_smart_warehouse tb_a
      WHERE
      EXISTS ( SELECT 1 FROM t_smart_user_warehouse tb_b WHERE tb_b.user_id = tb_a.id

@@ -55,11 +55,11 @@
             </div>
             <div class="pure-control-group p-b-5 pure-5">
                 <label>仓库类型</label>
-                <select class="panel-select" name="typeCode" id="typeCode">
-                    <option value="1">RDC</option>
-                    <option value="2">ADC</option>
-                    <option value="3">DC</option>
-                </select>
+                <div class="select-wrapper">
+                    <div class="select-border"></div>
+                    <!-- ng指令 l-selsct ，详查 directive.js 文件  -->
+                    <l-select src="WarehouseType" name="typeCode" id="typeCode" required></l-select>
+                </div>
             </div>
             <div class="pure-control-group p-b-5 pure-5">
                 <label>地址</label>

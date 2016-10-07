@@ -8,7 +8,7 @@ define(['scripts/controller/controller', '../../model/system/warehouseModel'], f
                         WMS.GRIDUTILS.CommonOptionButton(),
                         { filterable: false, title: '仓库编号', field: 'warehouseNo', align: 'left', width: "120px"},
                         { filterable: false, title: '仓库名称', field: 'warehouseName', align: 'left', width: "120px"},
-                        { filterable: false, title: '仓库类型', field: 'typeCode', align: 'left', width: "120px"},
+                        { filterable: false, title: '仓库类型', field: 'typeCode', align: 'left', width: "120px" ,template: WMS.UTILS.codeFormat('typeCode', 'WarehouseType')},
                         { filterable: false, title: '是否可用', field: 'isActive', align: 'left', width: "150px", template: WMS.UTILS.checkboxDisabledTmp("isActive")}
 
                     ],
@@ -29,7 +29,6 @@ define(['scripts/controller/controller', '../../model/system/warehouseModel'], f
                         }
                     });
 
-                //allocatAbleUserColumns = allocatAbleUserColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);
                 allocatAbleUserColumns.splice(0, 0, WMS.UTILS.CommonColumns.checkboxColumn);
 
                 warehouseColumns = warehouseColumns.concat(WMS.UTILS.CommonColumns.defaultColumns);

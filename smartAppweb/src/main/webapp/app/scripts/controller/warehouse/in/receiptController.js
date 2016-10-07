@@ -1,6 +1,3 @@
-/**
- * Created by MLS on 15/3/31.
- */
 
 define(['scripts/controller/controller', '../../../model/warehouse/in/receiptModel'], function (controller, receiptModel) {
     "use strict";

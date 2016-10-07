@@ -27,4 +27,6 @@ public interface ICodeService {
      MessageResult createCodeDetail(SmartCodeDetailDTO codeDetailDTO);
 
      MessageResult modifyCodeDetail(SmartCodeDetailDTO codeDetailDTO);
+
+     Map getAllCodeDatas(Map searchMap);
 }

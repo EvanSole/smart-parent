@@ -1,6 +1,4 @@
-/**
- * Created by MLS on 15/9/8.
- */
+
 (function (kendo, $) {
     kendo.arrays = {
         /// <signature>

@@ -2,6 +2,7 @@ package com.sin.smart.main.mapper;
 
 
 import com.sin.smart.entity.main.SmartCodeDetailEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,5 +18,7 @@ public interface CodeDetailMapper {
     Integer insertCodeDetail(SmartCodeDetailEntity codeDetailEntity);
 
     Integer updateCodeDetail(SmartCodeDetailEntity codeDetailEntity);
+
+    List<SmartCodeDetailEntity> selectAllCodeDetails(@Param("codeId") Long codeId);
 }
 

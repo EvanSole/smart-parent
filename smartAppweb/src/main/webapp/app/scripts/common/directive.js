@@ -1,19 +1,25 @@
+/****
+ * 自定义指令库
+ * rSelect :远程获取keyValues，数据来源于基础数据表,使用时先在urlMap里添加查询url
+ * lSelect :本地获取keyValues,数据来源于数据字典表
+ * wmsSelect :级联获取keyValues
+ * wmsUiSelect :查询获取keyValues
+ * wmsSearchButton
+ * wmsResetButton
+ * panelHeadingSearch
+ * wmsDateTimePicker
+ * wmsLabel
+ * enterInput
+ * wmsImport
+ * jsWmsNumber
+ */
 define(['app', 'scripts/common/sync'], function (app) {
     "use strict";
     var urlMap = {
-        storer: "index/storer/1",
         warehouse: "index/warehouse",
         shop: "index/shop",
         zone: "index/zone/",
-        location: "index/location",
-        outboundStrategy: "strategy/outbound/allOutboundStrategy",
-        allocationStrategy: "strategy/allocation/allAllocationStrategy",
-        carrier: "index/carrier",
-        report: "report/allReports",
-        supplier: "index/supplier",
-        zoneTypeCode: "code/codeDetails/ZoneType",
-        expressReport: "baseData/print/kv/temps/",
-        commodityTypeStrategy :"/commodityType/strategy/"
+        location: "index/location"
     };
     app.directive('rSelect', ['sync', function ($sync) {
         var suffix = "_Scope";
@@ -162,7 +168,6 @@ define(['app', 'scripts/common/sync'], function (app) {
             },
             replace: true,
             template: function (tE, tA) {
-//                console.log(tA);
                 var selectDatas = tA.src + suffix;
                 var name = tA.name;
                 var id = tA.id;
@@ -194,195 +199,7 @@ define(['app', 'scripts/common/sync'], function (app) {
                 return "<select  disabled＝'" + disableFlag + "' id='" + id + "' " + ngInit + "  name='" + name + "' " + ngModel + " ng-options='d.key for d in " + selectDatas + " track by d.value' >" + noheader + "</select>";
             }
         };
-    }).directive('wmsUiSelect', ['sync', function ($sync)  {
-        var suffix = "_Scope";
-        return {
-            restrict: 'EA',
-            scope: false,
-            transclude: true,
-            controller: function ($scope, $element) {
-                var src = $element[0].attributes.src.value;
-                var name = $element[0].attributes.getNamedItem("ui-select-name").value;
-                var id = $element[0].attributes.getNamedItem("ui-select-id").value;
-                var zero = $element[0].attributes.zero;
-                var father = $element[0].attributes.father;
-                var url = urlMap[src];
-                var selectDatas = src + suffix;
-
-                //选择事件
-                $scope.$parent[name + "Change"] = function ($item,$model) {
-                    if($item === undefined)
-                        return;
-                    $scope.dataItem[name] = $item.value;
-                    $scope.dataItem.set("dirty",true);
-                    //TODO......由于不明storerId的绑定方式，暂时使用onSelect事件绑定
-                    if (name && name.indexOf("query.") === 0) {
-                    }
-                    else{
-                        $scope.$parent[name]=$item.value;
-                    }
-                };
-
-                //暂时保留R-SELECT功能
-                $scope.selectChange = function (curId, toId) {
-                    var fatherId = $("#" + curId)[0].attributes.value.value;
-                    var toObj = $("#" + toId);
-                    if (!toObj || !toObj.attr("option")) {
-                        toObj = $("[name='" + toId + "']");
-                    }
-                    var ngModel = toObj.attr("ng-model");
-                    var option = toObj.attr("option");
-                    var childSrc = toObj.attr("src");
-                    var nextToId = toObj.attr("toid");
-                    toObj.val("");
-                    $scope.$parent.$$nextSibling[ngModel] = "";
-                    if (fatherId === '') {
-                        $scope.$parent[option] = null;
-                        if (nextToId) {
-                            $scope.selectChange(toId, nextToId);
-                        }
-
-                    } else {
-                        $sync(window.BASEPATH + "/" + urlMap[childSrc] + "/" + fatherId, "GET", {wait: false})
-                            .then(function (xhr) {
-                                $scope.$parent[option] = xhr.result;
-                            });
-                        if (nextToId) {
-                            $scope.selectChange(toId, nextToId);
-                        }
-                        // $scope.$parent[option] = [{"key":"naimei","value":"1"},{"key":"naimei2","value":"2"},{"key":"naimei3","value":"3"}];
-                    }
-//
-                };
-                //检测是否存在
-                var isHas = false;
-                if ($scope.$parent.dataItem && typeof $scope.$parent.dataItem !== "string") {
-                    if (name.indexOf(".") > 0) {
-                        var nas = name.split(".");
-                        isHas = $scope.$parent.dataItem[nas[0]][nas[1]];
-                    } else {
-                        isHas = $scope.$parent.dataItem[name];
-                    }
-                }
-
-                if (!zero || ($scope.$parent.dataItem && isHas)) {
-                    if (father) {
-                        url = url + "/" + $scope.$parent.dataItem[father.value];
-                    }
-                    $sync(window.BASEPATH    + "/" + url, "GET", {wait: false})
-                        .then(function (xhr) {
-                            if (_.isEmpty(xhr) || _.isEmpty(xhr.result)) {
-                                return;
-                            }
-                            //$scope.$apply(function () {
-                            var selectDatas = src;
-                            var copyId = "";
-                            if (id) {
-                                copyId = id.replace(".", "_");
-                                selectDatas += copyId + suffix;
-                            } else {
-                                selectDatas += suffix;
-                            }
-                            $scope.$parent[selectDatas] = xhr.result;
-                            var nullData = { "key":"-- 请选择 --","value" :""};
-                            xhr = xhr.result;
-                            xhr.unshift(nullData);
-                            if ($scope.dataItem) {
-                                name = name.split(".");
-                                for (var i = 0; i < xhr.length; i++) {
-                                    if (name.length > 1) {
-                                        if ($scope.dataItem[name[0]] && $scope.dataItem[name[0]][name[1]]) {
-                                            if (xhr[i].value == $scope.$parent.dataItem[name[0]][name[1]]) {
-                                                if (name[0] === 'query') {
-                                                    $scope.$parent[name[0]][name[1]] = xhr[i].value;
-                                                } else {
-                                                    $scope["has_selected_" + src + copyId] = xhr[i];
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    } else {
-//                                        console.log("bbbbbbb"+$scope.$parent.dataItem[name]+"--"+xhr[i].value);
-                                        if (xhr[i].value == $scope.dataItem[name]) {
-////                                            $scope["has_selected_" + src + copyId] = xhr[i];
-                                            $scope["has_selected_" + src + copyId] = xhr[i];
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            //});
-                        });
-                }
-            },
-
-            replace: true,
-            template: function (tE, tA) {
-                var selectDatas = tA.src;
-                var copyId = "";
-                var id = tA.uiSelectId;
-                if (id) {
-                    copyId = (id).replace(".", "_");
-                    selectDatas += copyId + suffix;
-                } else {
-                    selectDatas += suffix;
-                }
-                var name = tA.uiSelectName;
-                var onSelect = tA.onSelect;
-                var ngModel = "";
-                if (onSelect) {
-                    onSelect = "on-select='" + onSelect + "'";
-                } else {
-                    onSelect = "";
-                }
-                var ngChange = tA.ngChange;
-                if (ngChange) {
-                    ngChange = "ng-change='" + ngChange + "' ";
-                } else if (tA.toid) {
-                    ngChange = "ng-change=selectChange('" + id+ "','" + tA.toid + "','" + selectDatas + "') ";
-                } else {
-                    ngChange = "";
-                }
-                if (name && name.indexOf("query.") === 0) {
-                    ngModel = "$parent." + id;
-                }
-                else {
-                    //TODO.....此处DATA-BIND没有实际作用  以后考虑改为KENDO UI的方式来绑定
-                    ngModel = "has_selected_" + tA.src + copyId + "' data-bind='value:" + id  +" ";
-                }
-                var ngDisabled = "";
-                if (tA.ngDisabled && (tA.ngDisabled !== "")) {
-                    ngDisabled = "ng-disabled='" + tA.ngDisabled + "'";
-                }
-
-                var header = "<span class='ng-pristine ng-valid' style='float: left'> ";
-                var element = "";
-                var footer = "<ui-select-match allow-clear placeholder='--请选择--' value={{$select.select.value}}>{{$select.selected.key}} " +
-//                    "<input type='hidden' name='"+name + "' id='" + id +"' value='{{ $select.selected.value }}' /> " +
-                    " </ui-select-match> " +
-                    "<ui-select-choices repeat='wh.value as wh in $parent.$parent." + selectDatas + " | filter: $select.search'> " +
-                    "<span ng-bind-html='wh.key | highlight: $select.search'></span> " +
-                    "</ui-select-choices> " +
-                    "</ui-select> " +
-                    "</span>";
-
-                element = "<ui-select value={{$select.selected.value}} " + ngDisabled + ngChange + onSelect+" id = '" + id + "' name='" + name + "' src='" + tA.src +"' ng-model ='"+ngModel +"' theme='select2'  class='ulSelectedW ng-isolate-scope ng-pristine' > ";//ng-options='wh.key for wh in $parent." + selectDatas + " track by wh.value'
-                return header + element + footer;
-            }
-        };
-    }]).directive('a', function () {
-        return {
-            restrict: 'EA',
-            link: function (scope, elem, attrs) {
-                if (attrs['ng-click'] || attrs.href === '' || attrs.href === '#') {
-                    elem.on('click', function (e) {
-                        e.preventDefault();
-                    });
-                }
-            }
-        };
     }).directive('wmsSelect', ['sync', function ($sync) {
-        var suffix = "_Scope";
         return {
             restrict: 'EA',
             scope: {},
@@ -452,13 +269,9 @@ define(['app', 'scripts/common/sync'], function (app) {
                             }
                         })
                     };
-//              $("#"+attr.id).click(function(e){
-//                changeDataSource(url, false);
-//              });
                 } else {
                     changeDataSource(url, false);
                 }
-
             },
             replace: true,
             template: function (tE, tA) {
@@ -470,7 +283,178 @@ define(['app', 'scripts/common/sync'], function (app) {
                 return "<select id='" + id + "' name='" + name + "'></select>";
             }
         };
-    }]).directive('wmsSearchButton', function () {
+    }]).directive('wmsUiSelect', ['sync', function ($sync)  {
+        var suffix = "_Scope";
+        return {
+            restrict: 'EA',
+            scope: false,
+            transclude: true,
+            controller: function ($scope, $element) {
+                var src = $element[0].attributes.src.value;
+                var name = $element[0].attributes.getNamedItem("ui-select-name").value;
+                var id = $element[0].attributes.getNamedItem("ui-select-id").value;
+                var zero = $element[0].attributes.zero;
+                var father = $element[0].attributes.father;
+                var url = urlMap[src];
+                //选择事件
+                $scope.$parent[name + "Change"] = function ($item,$model) {
+                    if($item === undefined)
+                        return;
+                    $scope.dataItem[name] = $item.value;
+                    $scope.dataItem.set("dirty",true);
+                    if (name && name.indexOf("query.") === 0) {}
+                    else{ $scope.$parent[name]=$item.value;}
+                };
+                $scope.selectChange = function (curId, toId) {
+                    var fatherId = $("#" + curId)[0].attributes.value.value;
+                    var toObj = $("#" + toId);
+                    if (!toObj || !toObj.attr("option")) {
+                        toObj = $("[name='" + toId + "']");
+                    }
+                    var ngModel = toObj.attr("ng-model");
+                    var option = toObj.attr("option");
+                    var childSrc = toObj.attr("src");
+                    var nextToId = toObj.attr("toid");
+                    toObj.val("");
+                    $scope.$parent.$$nextSibling[ngModel] = "";
+                    if (fatherId === '') {
+                        $scope.$parent[option] = null;
+                        if (nextToId) {
+                            $scope.selectChange(toId, nextToId);
+                        }
+                    } else {
+                        $sync(window.BASEPATH + "/" + urlMap[childSrc] + "/" + fatherId, "GET", {wait: false})
+                            .then(function (xhr) {
+                                $scope.$parent[option] = xhr.result;
+                            });
+                        if (nextToId) {
+                            $scope.selectChange(toId, nextToId);
+                        }
+                    }
+                };
+                //check exists
+                var isHas = false;
+                if ($scope.$parent.dataItem && typeof $scope.$parent.dataItem !== "string") {
+                    if (name.indexOf(".") > 0) {
+                        var nas = name.split(".");
+                        isHas = $scope.$parent.dataItem[nas[0]][nas[1]];
+                    } else {
+                        isHas = $scope.$parent.dataItem[name];
+                    }
+                }
+                if (!zero || ($scope.$parent.dataItem && isHas)) {
+                    if (father) {
+                        url = url + "/" + $scope.$parent.dataItem[father.value];
+                    }
+                    $sync(window.BASEPATH    + "/" + url, "GET", {wait: false})
+                        .then(function (xhr) {
+                            if (_.isEmpty(xhr) || _.isEmpty(xhr.result)) {
+                                return;
+                            }
+                            //$scope.$apply(function () {
+                                var selectDatas = src;
+                                var copyId = "";
+                                if (id) {
+                                    copyId = id.replace(".", "_");
+                                    selectDatas += copyId + suffix;
+                                } else {
+                                    selectDatas += suffix;
+                                }
+                                $scope.$parent[selectDatas] = xhr.result;
+                                var nullData = {"key": "-- 请选择 --", "value": ""};
+                                xhr = xhr.result;
+                                xhr.unshift(nullData);
+                                if ($scope.dataItem) {
+                                    name = name.split(".");
+                                    for (var i = 0; i < xhr.length; i++) {
+                                        if (name.length > 1) {
+                                            if ($scope.dataItem[name[0]] && $scope.dataItem[name[0]][name[1]]) {
+                                                if (xhr[i].value == $scope.$parent.dataItem[name[0]][name[1]]) {
+                                                    if (name[0] === 'query') {
+                                                        $scope.$parent[name[0]][name[1]] = xhr[i].value;
+                                                    } else {
+                                                        $scope["has_selected_" + src + copyId] = xhr[i];
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            if (xhr[i].value == $scope.dataItem[name]) {
+                                                $scope["has_selected_" + src + copyId] = xhr[i];
+                                                break;
+                                            }
+                                        }
+                                    }
+                              }
+                          //}
+                        });
+                }
+            },
+
+            replace: true,
+            template: function (tE, tA) {
+                var selectDatas = tA.src;
+                var copyId = "";
+                var id = tA.uiSelectId;
+                if (id) {
+                    copyId = (id).replace(".", "_");
+                    selectDatas += copyId + suffix;
+                } else {
+                    selectDatas += suffix;
+                }
+                var name = tA.uiSelectName;
+                var onSelect = tA.onSelect;
+                var ngModel = "";
+                if (onSelect) {
+                    onSelect = "on-select='" + onSelect + "'";
+                } else {
+                    onSelect = "";
+                }
+                var ngChange = tA.ngChange;
+                if (ngChange) {
+                    ngChange = "ng-change='" + ngChange + "' ";
+                } else if (tA.toid) {
+                    ngChange = "ng-change=selectChange('" + id+ "','" + tA.toid + "','" + selectDatas + "') ";
+                } else {
+                    ngChange = "";
+                }
+                if (name && name.indexOf("query.") === 0) {
+                    ngModel = "$parent." + id;
+                }
+                else {
+                    //TODO.此处DATA-BIND没有实际作用,以后考虑改为KENDO UI的方式来绑定
+                    ngModel = "has_selected_" + tA.src + copyId + "' data-bind='value:" + id  +" ";
+                }
+                var ngDisabled = "";
+                if (tA.ngDisabled && (tA.ngDisabled !== "")) {
+                    ngDisabled = "ng-disabled='" + tA.ngDisabled + "'";
+                }
+                var header = "<span class='ng-pristine ng-valid' style='float: left'> ";
+                var element = "";
+                var footer = "<ui-select-match allow-clear placeholder='--请选择--' value={{$select.select.value}}>{{$select.selected.key}} " +
+                    " </ui-select-match> " +
+                    "<ui-select-choices repeat='wh.value as wh in $parent.$parent." + selectDatas + " | filter: $select.search'> " +
+                    "<span ng-bind-html='wh.key | highlight: $select.search'></span> " +
+                    "</ui-select-choices> " +
+                    "</ui-select> " +
+                    "</span>";
+                element = "<ui-select value={{$select.selected.value}} " + ngDisabled + ngChange + onSelect+" id = '" + id + "' name='" + name + "' src='" + tA.src +"' ng-model ='"+ngModel +"' theme='select2'  class='ulSelectedW ng-isolate-scope ng-pristine' > ";
+
+                return header + element + footer;
+            }
+        };
+    }]).directive('a', function () {
+        return {
+            restrict: 'EA',
+            link: function (scope, elem, attrs) {
+                if (attrs['ng-click'] || attrs.href === '' || attrs.href === '#') {
+                    elem.on('click', function (e) {
+                        e.preventDefault();
+                    });
+                }
+            }
+        };
+    }).directive('wmsSearchButton', function () {
         return {
             restrict: 'EA',
             scope: {},
@@ -596,297 +580,7 @@ define(['app', 'scripts/common/sync'], function (app) {
 
             }
         };
-    }).directive('wmsPopupInput', ['url', 'sync', function ($url, sync) {
-        var locationConfig = function () {
-            this.divId = "locationDiv";
-            this.field = ['locationNo', 'zoneId', 'locationId'];
-            this.valueField = ['locationNo', 'zoneId', 'id'];
-            return {
-                url: $url.validLocationUrl + "?locationNo=",
-                field: this.field,
-                divId: this.divId,
-                valueField: this.valueField,
-                template: function (tE, tA) {
-                    if (tA.prefix) {
-                        this.divId = tA.prefix + "LocationDiv";
-                        this.field = [tA.prefix + 'LocationNo', tA.prefix + 'ZoneId', tA.prefix + 'LocationId'];
-                    }
-                    if (tA.required === undefined) {
-                        tA.required = "";
-                    }
-                    return '<div id="'+this.divId+'" class="pure-control-group p-b-5 pure-5 pos-r">' +
-                        '<label>' + tA.label + '</label>' +
-                        '<input type="text" class="JS_primary_value" id="' + this.field[0] + '" value="{{dataItem.' + this.field[2] + '|locationFormat}}"/>' +
-                        '<input type="hidden" id="' + this.field[1] + '" name="' + this.field[1] + '" />' +
-                        '<input type="hidden" id="' + this.field[2] + '" name="' + this.field[2] + '"' + tA.required + '/>' +
-                        '<i class="fa fa-bars fa-click"></i>' +
-                        '<i class="fa fa-times-circle fa-clear"></i>' +
-                        '</div>';
-                }
-            };
-        };
-        var skuConfig = function () {
-            this.divId = "skuDiv";
-            this.field = ['skuBarcode', 'skuId', 'skuItemName', 'skuSizeCode', 'skuColorCode'];
-            this.valueField = ['barcode', 'id', 'itemName', 'sizeCode', 'colorCode'];
-            return {
-                url: $url.validSkuUrl,
-                field: this.field,
-                divId: this.divId,
-                valueField: this.valueField,
-                template: function (tE, tA) {
-                    if (tA.prefix) {
-                        this.divId = tA.prefix + "SkuDiv";
-                        this.field = [tA.prefix + 'SkuBarcode', tA.prefix + 'SkuId', tA.prefix + 'SkuItemName'];
-                    }
-                    if (tA.required === undefined) {
-                        tA.required = "";
-                    }
-                    return '<div id="'+this.divId+'" class="pure-control-group p-b-5 pure-5 pos-r">' +
-                        '<label>' + tA.label + '</label>' +
-                        '<input type="text" class="JS_primary_value" id="' + this.field[0] + '" name="' + this.field[0] + '"' + tA.required + ' />' +
-                        '<input type="hidden" id="' + this.field[1] + '" name="' + this.field[1] + '"/>' +
-                        '<i class="fa fa-bars fa-click"></i>' +
-                        '<i class="fa fa-times-circle fa-clear"></i>' +
-                        '</div>';
-                }
-            };
-        };
-        var inventorySkuConfig = function () {
-            this.divId = "inventorySkuDiv";
-            this.field = ['skuBarcode', 'skuId', 'skuItemName', 'maxOnHandQty', 'movedQty'];
-            this.valueField = ['skuBarcode', 'skuId', 'skuItemName', 'onhandQty', 'onhandQty'];
-            return {
-                url: $url.dataInventoryUrl,
-                field: this.field,
-                divId: this.divId,
-                valueField: this.valueField,
-                template: function (tE, tA) {
-                    if (tA.prefix) {
-                        this.divId = tA.prefix + "InventorySkuDiv";
-                        this.field = [tA.prefix + 'SkuBarcode', tA.prefix + 'SkuId', tA.prefix + 'SkuItemName', tA.prefix + 'MaxOnHandQty', tA.prefix + 'MovedQty'];
-                    }
-                    if (tA.required === undefined) {
-                        tA.required = "";
-                    }
-                    return '<div id="'+this.divId+'" class="pure-control-group p-b-5 pure-5 pos-r">' +
-                        '<label>' + tA.label + '</label>' +
-                        '<input type="text" class="JS_primary_value" id="' + this.field[0] + '" name="' + this.field[0] + '"' + tA.required + ' />' +
-                        '<input type="hidden" id="' + this.field[1] + '" name="' + this.field[1] + '"/>' +
-                        '<i class="fa fa-bars fa-click"></i>' +
-                        '<i class="fa fa-times-circle fa-clear"></i>' +
-                        '</div>';
-                }
-            };
-        };
-        var popUpConfig = {
-            'location': locationConfig,
-            'sku': skuConfig,
-            'inventorySku': inventorySkuConfig
-        };
-        return {
-            restrict: 'EA',
-            replace: true,
-            scope: {
-                dataItem: '=item',
-                popup: '=',
-                windowOpenFn: '&windowOpenFn',
-                clearValueFn: '&clearValueFn',
-                validateValueFn: '&validateValueFn'
-            },
-            template: function (tE, tA) {
-                tA.config = popUpConfig[tA.type]();
-                return tA.config.template(tE, tA);
-            },
-            link: function ($scope, $element, attr) {
-                var config = attr.config,
-                    fields = config.field,
-                    valueFields = config.valueField,
-                    windowOpenFn = attr.windowOpenFn,
-                    clearValueFn = attr.clearValueFn,
-                    validateValueFn = attr.validateValueFn;
-
-                // 弹窗
-                if (windowOpenFn === undefined) {
-                    $element.on('click', '.fa-bars', function (event) {
-                        event.preventDefault();
-                        var dataItem = $scope.dataItem;
-
-                        if (attr.type === "sku") {
-                            $scope.popup.initParam = function (subScope) {
-                                subScope.param = dataItem.storerId;
-                            };
-                        } else if (attr.type === "inventorySku") {
-                            if (!dataItem.storerId) {
-                                $.when(kendo.ui.ExtAlertDialog.showError("请先选择货主")).done(function () {
-                                    setTimeout(function () {
-                                        $("#storerId").focus();
-                                    }, 500);
-                                });
-                                return;
-                            }
-                            if (!dataItem.locationId) {
-                                $.when(kendo.ui.ExtAlertDialog.showError("请先选择货位")).done(function () {
-                                    setTimeout(function () {
-                                        $("#locationId").focus();
-                                    }, 500);
-                                });
-                                return;
-                            }
-                            $scope.popup.initParam = function (subScope) {
-                                subScope.selectable = "row";
-//                                subScope.hideSkuPopupCondition = true;
-                                subScope.type = "move";
-                                subScope.url = config.url + "/storer/" + dataItem.storerId +
-                                    "/location/" + dataItem.locationId;
-                            };
-                        }
-                        $scope.popup.setReturnData = function (returnData) {
-                            if (_.isEmpty(returnData)) {
-                                return;
-                            }
-                            _.each(fields, function (field, index) {
-                                WMS.UTILS.setValueInModel(dataItem, field, returnData[valueFields[index]]);
-                            });
-                        };
-                        $scope.popup.refresh().open().center();
-                    });
-                } else {
-                    $element.on('click', '.fa-bars', $scope.windowOpenFn);
-                }
-
-                // 清空选中值
-                if (clearValueFn === undefined) {
-                    $element.on('click', '.fa-times-circle', function (event) {
-                        event.preventDefault();
-                        var dataItem = $scope.dataItem;
-                        _.each(fields, function (field, index) {
-                            WMS.UTILS.setValueInModel(dataItem, field, "");
-                        });
-                    });
-                } else {
-                    $element.on('click', '.fa-times-circle', $scope.clearValueFn);
-                }
-
-                // 手动输入值校验
-                if (validateValueFn === undefined) {
-                    $element.on('blur', '.JS_primary_value', function (event) {
-                        event.preventDefault();
-                        var dataItem = $scope.dataItem,
-                            targetEl = $(event.target);
-                        if (targetEl.val() === "") {
-                            _.each(fields, function (field, index) {
-                                WMS.UTILS.setValueInModel(dataItem, field, "");
-                            });
-                            return;
-                        }
-
-                        var url = config.url;
-                        if (attr.type === "inventorySku") {
-                            if (!dataItem.storerId) {
-//                              $.when(kendo.ui.ExtAlertDialog.showError("请先选择货主")).done(function () {
-//                                setTimeout(function () {
-//                                  $("#storerId").focus();
-//                                }, 500);
-//                              });
-                              return;
-                            }
-                            if (!dataItem.locationId) {
-//                              $.when(kendo.ui.ExtAlertDialog.showError("请先选择货位")).done(function () {
-//                                setTimeout(function () {
-//                                  $("#locationId").focus();
-//                                }, 500);
-//                              });
-                              return;
-                            }
-                            url += "/storer/" + dataItem.storerId +
-                                "/location/" + dataItem.locationId;
-                            sync(url, "GET", {wait: false}).then(function (resp) {
-                                var checkResult = true;
-                                if (_.isEmpty(resp.result) || _.isEmpty(resp.result.rows)) {
-                                    checkResult = false;
-                                } else {
-
-                                    var inventoryList = resp.result.rows,
-                                        skuIds = _.map(inventoryList, function(record){
-                                          return record.skuId;
-                                        });
-                                    sync($url.dataGoodsUrl+"/ids/"+_.uniq(skuIds).join(","), "GET", {wait:false})
-                                      .then(function(resp) {
-                                        var sku = _.find(resp.result.rows, function(sku) {
-                                          return sku.barcode === targetEl.val();
-                                        });
-                                        if (sku === undefined) {
-                                          _.each(fields, function (field, index) {
-                                            WMS.UTILS.setValueInModel(dataItem, field, "");
-                                          });
-                                          $.when(kendo.ui.ExtAlertDialog.showError(attr.errormsg)).done(function () {
-                                            setTimeout(function () {
-                                              targetEl.focus();
-                                            }, 500);
-                                          });
-                                        } else {
-                                          var record = _.find(inventoryList, function(record){
-                                            return record.skuId === sku.id;
-                                          });
-                                          record.skuBarcode = sku.barcode;
-                                          record.skuItemName = sku.itemName;
-                                          _.each(fields, function (field, index) {
-                                            WMS.UTILS.setValueInModel(dataItem, field, record[valueFields[index]]);
-                                          });
-                                        }
-                                      });
-                                }
-                                if (!checkResult) {
-                                    _.each(fields, function (field, index) {
-                                        WMS.UTILS.setValueInModel(dataItem, field, "");
-                                    });
-                                    $.when(kendo.ui.ExtAlertDialog.showError(attr.errormsg)).done(function () {
-                                        setTimeout(function () {
-                                            targetEl.focus();
-                                        }, 500);
-                                    });
-                                }
-                            });
-                        } else {
-                            if (!dataItem.storerId) {
-  //                              $.when(kendo.ui.ExtAlertDialog.showError("请先选择货主")).done(function () {
-  //                                setTimeout(function () {
-  //                                  $("#storerId").focus();
-  //                                }, 500);
-  //                              });
-                              return;
-                            }
-                            if (attr.type === "sku") {
-                                url += '/storer/'+ dataItem.storerId+'/barcode/'+ targetEl.val();
-                            } else {
-                                url += targetEl.val();
-                            }
-                            sync(url, "GET", {wait: false}).then(function (resp) {
-                                if (_.isEmpty(resp.result)) {
-                                    _.each(fields, function (field, index) {
-                                        WMS.UTILS.setValueInModel(dataItem, field, "");
-                                    });
-                                    $.when(kendo.ui.ExtAlertDialog.showError(attr.errormsg)).done(function () {
-                                        setTimeout(function () {
-                                            targetEl.focus();
-                                        }, 500);
-                                    });
-                                } else {
-                                    _.each(fields, function (field, index) {
-                                        WMS.UTILS.setValueInModel(dataItem, field, resp.result[valueFields[index]]);
-                                    });
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    $element.on('blur', '.JS_primary_value', $scope.validateValueFn);
-                }
-
-            }
-        };
-    }]).directive('panelHeadingSearch', function () {
+    }).directive('panelHeadingSearch', function () {
         return {
             restrict: 'EA',
             transclude: true,

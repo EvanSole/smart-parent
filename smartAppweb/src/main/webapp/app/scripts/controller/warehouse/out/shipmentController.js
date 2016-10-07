@@ -8,36 +8,6 @@ define(['scripts/controller/controller'], function (controller) {
                 $scope.invoice = {};
                 $scope.selectData = [];
 
-                $scope.clearLocationInfo = function () {
-                    var currentDataItem = this.dataItem;
-                    WMS.UTILS.setValueInModel(currentDataItem, "locationId", "");
-                    WMS.UTILS.setValueInModel(currentDataItem, "zoneId", "");
-                };
-                $scope.validateLocationValue = function (e) {
-                    var evt = e || event;
-                    var dataItem = this.dataItem,
-                        targetEl = $(evt.target);
-                    if (targetEl.val() === "") {
-                        $scope.clearLocationInfo.apply(this);
-                        return;
-                    }
-                    var locationNo = targetEl.val();
-                    var locationUrl = $url.dataLocationUrl + "/locationInfo?locationNo=" + locationNo;
-                    $sync(locationUrl, "GET", {wait: false}).then(function (resp) {
-                        var result = resp.result;
-                        if (result === null) {
-                            WMS.UTILS.setValueInModel(dataItem, "locationId", "");
-                            WMS.UTILS.setValueInModel(dataItem, "zoneId", "");
-                            targetEl.val("");
-                            kendo.ui.ExtAlertDialog.showError("请输入正确的货位!");
-                            return;
-                        } else {
-                            WMS.UTILS.setValueInModel(dataItem, "locationId", result.id);
-                            WMS.UTILS.setValueInModel(dataItem, "zoneId", result.zoneId);
-                        }
-                    });
-                };
-
                 //新增按钮
                 var commonOptButton = $.extend(true, {}, WMS.GRIDUTILS.CommonOptionButton());
                 commonOptButton.command.push({ name: " updateLogistics", width: "200px", className: "btn-auth-logistics",

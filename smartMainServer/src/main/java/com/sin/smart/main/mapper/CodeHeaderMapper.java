@@ -18,4 +18,6 @@ public interface CodeHeaderMapper {
     Integer updateCodeHeader(SmartCodeHeaderEntity codeHeaderEntity);
 
     Integer deleteCodeHeader(Long id);
+
+    List<SmartCodeHeaderEntity> selectAllCodeHeaders(Map searchMap);
 }

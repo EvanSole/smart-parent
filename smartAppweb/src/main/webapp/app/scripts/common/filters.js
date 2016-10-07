@@ -1,10 +1,15 @@
+/***
+ * 过滤器,用来处理Grid中列表格式化数据
+ * 通过codeData.js 初始化数据，使用时先加载数据
+ * codeFormat 为数据字典里面的keyVals
+ * whFormat 仓库
+ */
 define(['app'], function (app) {
     'use strict';
     app.filter('codeFormat', function () {
         return function (input, codeType) {
             var codeArr = window.WMS.CODE_SELECT_DATA[codeType];
             var txt = '';
-
             if (codeArr !== undefined) {
                 for (var i = 0; i < codeArr.length; i++) {
                     var data = codeArr[i];
@@ -32,88 +37,9 @@ define(['app'], function (app) {
         };
     });
 
-
-    app.filter('storerFormat', function () {
+    app.filter('locationFormat', function () {
         return function (input) {
-            var stArr = window.WMS.STORER_DATA;
-            var txt = input;
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-
-    app.filter('shopFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.SHOP_DATA;
-            var txt = input;
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-
-    app.filter('receiptStrategyFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.RECEIPT_STRATEGY_DATA;
-            var txt = input;
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-
-    app.filter('commodityTypeFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.COMMODITY_TYPE_DATA;
-            var txt = input;
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-
-
-    app.filter('qcStrategyFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.QC_STRATEGY_DATA;
-            var txt = input;
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-
-
-
-    app.filter('vendorFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.SUPPLIER_DATA;
+            var stArr = window.WMS.LOCATION_DATA;
             var txt = input;
 
             if (stArr !== undefined) {
@@ -132,73 +58,9 @@ define(['app'], function (app) {
             if(input == 0){
                 return null;
             }
-
             return input;
         };
     });
-
-    app.filter('locationFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.LOCATION_DATA;
-            var txt = input;
-
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-    app.filter('carrierFormat', function () {
-        return function (input) {
-            var stArr = window.WMS.CARRIER_DATA;
-            var txt = input;
-
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].value == input) {
-                        txt = stArr[i].key;
-                    }
-                }
-            }
-            return txt;
-        };
-    });
-    app.filter('zoneTypeFormat', ['$filter', function ($filter) {
-        return function (input) {
-            var stArr = window.WMS.ZONE_DATA;
-            var txt = input;
-
-
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].id == input) {
-                        txt = stArr[i].typeCode;
-                    }
-                }
-            }
-            return $filter('codeFormat')(txt, 'ZoneType');
-        };
-    }]);
-
-    app.filter('zoneNoFormat', ['$filter', function ($filter) {
-        return function (input) {
-            var stArr = window.WMS.ZONE_DATA;
-            var txt = input;
-
-            if (stArr !== undefined) {
-                for (var i = 0; i < stArr.length; i++) {
-                    if (stArr[i].id == input) {
-                        txt = stArr[i].zoneNo;
-                    }
-                }
-            }
-            return txt;
-        };
-    }]);
 
     app.filter('yesOrNoFormat', ['$filter', function ($filter) {
         return function (input) {

@@ -36,8 +36,8 @@ define(['app'], function (app) {
           WMS.UTILS.headerTap();
         });
     }]);
-  app.run(['$q', '$rootScope','$http', '$urlRouter', 'url', 'sync',
-    function ($q, $rootScope, $http, $urlRouter, url , sync)
+  app.run(['$q', '$rootScope','$http', '$urlRouter', 'url','initializeData', 'sync',
+    function ($q, $rootScope, $http, $urlRouter, url ,initializeData, sync)
     {
       var menu_url = url.menu;
       function addState(states) {
@@ -63,38 +63,40 @@ define(['app'], function (app) {
       kendo.ui.ExtWaitDialog.show({
         title: "处理中",
         message: "数据加载中,请稍后..." });
-        if ($rootScope.user === undefined || $rootScope.user.authority === undefined) {
-           $rootScope.user = {
-              authority: {},
-              roleName :"",
-              userName:""
-            };
-           //初始化权限
-           sync(url.permUrl, 'GET',{wait:false}).then(function (resp) {
-              $rootScope.user.authority = resp.result;
-              $rootScope.user.roleName = resp.result.roleName;
-              $rootScope.user.userName = resp.result.userName;
-              //初始化菜单
-              sync(url.naviUrl, 'GET',{wait:false}).then(function (resp) {
-                  var menu = resp.result;
-                  if (_.isArray(menu) && menu.length > 0) {
-                    //添加module元素
-                    addState(menu);
-                    // 版本更新LINK补充
-                    $stateProviderRef.state("version", {
-                      "code":"system.version",
-                      "url": "^/system/version",
-                      "title": "更新历史",
-                      "templateUrl": "/app/tmpl/system/version.html"
+        initializeData.init(function () {
+            if ($rootScope.user === undefined || $rootScope.user.authority === undefined) {
+                $rootScope.user = {
+                    authority: {},
+                    roleName: "",
+                    userName: ""
+                };
+                //初始化权限
+                sync(url.permUrl, 'GET', {wait: false}).then(function (resp) {
+                    $rootScope.user.authority = resp.result;
+                    $rootScope.user.roleName = resp.result.roleName;
+                    $rootScope.user.userName = resp.result.userName;
+                    //初始化菜单
+                    sync(url.naviUrl, 'GET', {wait: false}).then(function (resp) {
+                        var menu = resp.result;
+                        if (_.isArray(menu) && menu.length > 0) {
+                            //添加module元素
+                            addState(menu);
+                            // 版本更新LINK补充
+                            $stateProviderRef.state("version", {
+                                "code": "system.version",
+                                "url": "^/system/version",
+                                "title": "更新历史",
+                                "templateUrl": "/app/tmpl/system/version.html"
+                            });
+                            $urlRouter.sync();
+                            $urlRouter.listen();
+                            $rootScope.menu = menu;
+                            $rootScope.navList = $rootScope.menu[0].children;
+                            kendo.ui.ExtWaitDialog.hide();
+                        }
                     });
-                    $urlRouter.sync();
-                    $urlRouter.listen();
-                    $rootScope.menu = menu;
-                    $rootScope.navList = $rootScope.menu[0].children;
-                     kendo.ui.ExtWaitDialog.hide();
-                  }
-              });
-           });
-        }
+                });
+            }
+        });
     }]);
 });

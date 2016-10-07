@@ -1,6 +1,4 @@
-/**
- * Created by xiagn on 15/4/1.
- */
+
 define(['scripts/controller/controller',
     '../../model/data/skuModel'], function(controller, skuModel) {
     "use strict";
