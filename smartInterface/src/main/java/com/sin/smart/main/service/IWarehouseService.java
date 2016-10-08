@@ -25,7 +25,7 @@ public interface IWarehouseService {
 
     MessageResult removeWarehouse(Long id);
 
-    PageResponse<List> queryUserByWarehouse(Map searchMap);
+    PageResponse<List> queryUserByWarehousePage(Map searchMap);
 
     Map queryAllocatableUser(Map map);
 
@@ -33,5 +33,5 @@ public interface IWarehouseService {
 
     MessageResult removeAllocatableUser(Map map);
 
-    PageResponse<List> findWarehouseByUser(Map searchMap);
+    PageResponse<List> findWarehouseByUserPage(Map searchMap);
 }

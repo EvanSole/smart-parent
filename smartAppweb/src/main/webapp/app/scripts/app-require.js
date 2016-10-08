@@ -13,7 +13,6 @@ require.config({
         'angular-animate': 'bower_components/angular-animate/angular-animate.min',
 
         'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
-//      'ui-bootstrap-tpls': 'scripts/directives/ui-bootstrap-tpl.min',
         'ui-bootstrap-tpls': 'scripts/common/ui-bootstrap-tpls',
 
         'ui-utils': 'bower_components/angular-ui-utils/ui-utils.min',

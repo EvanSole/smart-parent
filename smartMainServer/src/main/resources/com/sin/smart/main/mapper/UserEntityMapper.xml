@@ -68,7 +68,7 @@
     <!-- query limit 子句 -->
     <sql id="queryLimitClause">
         <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
-            LIMIT #{offset}, #{pageSize}
+            LIMIT ${offset}, ${pageSize}
         </if>
     </sql>
 

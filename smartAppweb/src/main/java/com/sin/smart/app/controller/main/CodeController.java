@@ -4,7 +4,9 @@ import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
 import com.sin.smart.dto.SmartCodeDetailDTO;
 import com.sin.smart.dto.SmartCodeHeaderDTO;
+import com.sin.smart.entity.main.SmartCodeHeaderEntity;
 import com.sin.smart.main.service.ICodeService;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,14 +26,17 @@ public class CodeController extends BaseController {
     private ICodeService codeService;
 
     @RequestMapping(value = "/header", method = RequestMethod.GET)
-    public ResponseResult getHeaderList(@RequestParam Map searchMap) throws Exception {
-        return getSucResultData(codeService.getCodeHeaderLists(searchMap));
+    public ResponseResult getHeaderList(SmartCodeHeaderDTO codeHeaderDTO) throws Exception {
+        return getSucResultData(codeService.getCodeHeaderLists(codeHeaderDTO));
     }
 
+
+
     @RequestMapping(value = "/header/{id}/detail", method = RequestMethod.GET)
-    public ResponseResult getAllCodeDetailList(@PathVariable Long id, @RequestParam Map searchMap) throws Exception {
-        searchMap.put("codeId",id);
-        return getSucResultData(codeService.getCodeDetailLists(searchMap));
+    public ResponseResult getAllCodeDetailList(@PathVariable Long id,@RequestParam Map map) throws Exception {
+        map.put("codeId",id);
+        map.put("offset",getOffset(MapUtils.getInteger(map,"page"),MapUtils.getInteger(map,"pageSize")));
+        return getSucResultData(codeService.getCodeDetailLists(map));
     }
 
     @RequestMapping(value = "/header", method = RequestMethod.POST)

@@ -29,7 +29,7 @@ public interface IUserService {
 
     List<SmartUserEntity> queryUsersByWarehouse(Map searchMap);
 
-    PageResponse<List> queryUserByRoles(Map searchMap);
+    PageResponse<List> queryUserByRolesPage(Map searchMap);
 
     MessageResult modifyResetUserPwd(Long id,CurrentUserEntity userEntity);
 

@@ -90,7 +90,7 @@ public class WarehouseService implements IWarehouseService {
     }
 
     @Override
-    public PageResponse<List> queryUserByWarehouse(Map searchMap) {
+    public PageResponse<List> queryUserByWarehousePage(Map searchMap) {
         List<Map<String, Object>> mapList = warehouseMapper.queryUserByWarehousePages(searchMap);
         //转换
         List<Object[]> list = ListArraysConvert.listMapToArrayConvert(mapList);
@@ -160,16 +160,13 @@ public class WarehouseService implements IWarehouseService {
     }
 
     @Override
-    public PageResponse<List> findWarehouseByUser(Map searchMap) {
+    public PageResponse<List> findWarehouseByUserPage(Map searchMap) {
         Long userId = MapUtils.getLong(searchMap, "userId");
         Long tenantId = MapUtils.getLong(searchMap, "tenantId");
         List<SmartWarehouseEntity>  warehouseEntityList =  warehouseMapper.selectWarehouseLists(userId,tenantId);
         PageResponse pageResponse = new PageResponse();
         pageResponse.setRows(warehouseEntityList);
         pageResponse.setTotal(warehouseEntityList.size());
-        //Map resultMap = new HashMap();
-        //resultMap.put("rows",warehouseEntityList);
-        //resultMap.put("tatol",warehouseEntityList.size());
         return pageResponse;
     }
 

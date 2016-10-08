@@ -6,6 +6,9 @@ import com.sin.smart.main.service.IWarehouseService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WarehouseServiceTest  extends SpringTxTestCase {
 
     @Autowired
@@ -24,6 +27,15 @@ public class WarehouseServiceTest  extends SpringTxTestCase {
     @Test
     public void testDeleteWarehouse(){
         warehouseService.removeWarehouse(2L);
+    }
+
+    @Test
+    public void testGetWarehouse(){
+        Map map = new HashMap<>();
+        //map.put("offset",1);
+        map.put("page","1");
+        map.put("pageSize",20);
+        warehouseService.queryUserByWarehousePage(map);
     }
 
 }

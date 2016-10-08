@@ -37,6 +37,13 @@
     description, create_user, create_time, update_user, update_time, is_module_default
   </sql>
 
+  <!-- query limit 子句，传递offset参数使用offset，如果不传递通过page和pageSize计算获得offset-->
+  <sql id="queryLimitClause">
+    <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
+      LIMIT ${offset}, ${pageSize}
+    </if>
+  </sql>
+
   <!-- query where 子句 -->
   <sql id="queryWhereClause">
     <where>

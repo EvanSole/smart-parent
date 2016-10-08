@@ -29,7 +29,7 @@
         AND id = #{id,jdbcType=BIGINT}
       </if>
       <if test="codeId != null">
-        AND code_id = #{codeId,jdbcType=VARCHAR}
+        AND code_id = #{codeId,jdbcType=BIGINT}
       </if>
       <if test="codeValue != null" >
         AND code_value = #{codeValue,jdbcType=VARCHAR}
@@ -51,10 +51,10 @@
 
   </sql>
 
-  <!-- query limit 子句 -->
+  <!-- query limit 子句，传递offset参数使用offset，如果不传递通过page和pageSize计算获得offset-->
   <sql id="queryLimitClause">
     <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
-      LIMIT #{offset}, #{pageSize}
+      LIMIT ${offset}, ${pageSize}
     </if>
   </sql>
 

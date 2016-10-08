@@ -39,7 +39,7 @@ public class UserServiceTest extends SpringTxTestCase {
     @Test
     public void testQueryUserPages(){
         SmartUserDTO userDTO = new SmartUserDTO();
-        userDTO.setOffset(1);
+        userDTO.setPage(1);
         userDTO.setPageSize(15);
         PageResponse pageResponse = userService.queryUserPages(userDTO);
         System.out.println(JSON.toJSONString(pageResponse.getRows()));

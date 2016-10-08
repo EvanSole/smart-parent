@@ -7,6 +7,7 @@ import com.sin.smart.entity.main.SmartTenantEntity;
 
 import java.util.List;
 
+
 public interface ITenantService {
 
     PageResponse<List<SmartTenantEntity>> queryTenantPages(SmartTenantDTO tenantDTO);

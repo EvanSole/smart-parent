@@ -64,10 +64,10 @@
 
   </sql>
 
-  <!-- query limit 子句 -->
+  <!-- query limit 子句，传递offset参数使用offset，如果不传递通过page和 pageSize计算获得-->
   <sql id="queryLimitClause">
     <if test="offset != null and offset >= 0 and pageSize != null and pageSize > 0">
-      LIMIT #{offset}, #{pageSize}
+      LIMIT ${offset}, ${pageSize}
     </if>
   </sql>
 

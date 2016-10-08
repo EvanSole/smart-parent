@@ -4,6 +4,7 @@ import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
 import com.sin.smart.dto.SmartWarehouseDTO;
 import com.sin.smart.main.service.IWarehouseService;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,9 +59,10 @@ public class WarehouseController extends BaseController {
 
     //查询已分配用户
     @RequestMapping(value = "/{id}/user", method = RequestMethod.GET)
-    public ResponseResult queryUserByWarehouseId(@PathVariable Long id,@RequestParam Map map) {
-        map.put("warehouseId", id);
-        return getSucResultData(warehouseService.queryUserByWarehouse(map));
+    public ResponseResult queryUserByWarehouseId(@PathVariable Long id,@RequestParam Map searchMap) {
+        searchMap.put("warehouseId", id);
+        searchMap.put("offset",getOffset(MapUtils.getInteger(searchMap,"page"),MapUtils.getInteger(searchMap,"pageSize")));
+        return getSucResultData(warehouseService.queryUserByWarehousePage(searchMap));
     }
 
     //删除已分配用户

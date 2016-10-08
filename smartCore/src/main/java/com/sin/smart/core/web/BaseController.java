@@ -125,12 +125,12 @@ public class BaseController {
     }
 
     protected ResponseResult getFaultResultData(Object obj){
-        ResponseResult responseResult = new ResponseResult(messages);
+        ResponseResult responseResult = new ResponseResult();
         responseResult.setFaultResult(obj);
         return responseResult;
     }
     protected ResponseResult getSucResultData(Object obj){
-        ResponseResult responseResult = new ResponseResult(messages);
+        ResponseResult responseResult = new ResponseResult();
         responseResult.setResult(obj);
         return responseResult;
     }
@@ -149,6 +149,13 @@ public class BaseController {
      */
     protected DbShardVO getDbShardVO(DbShareField...source) {
         return ShareDbUtil.getDbShardVO(this.getSessionCurrentUser(),this.getCurrentWarehouseId(),source);
+    }
+
+    protected Integer getOffset(Integer page,Integer pageSize) {
+        if(pageSize<=0){
+            pageSize = 1;
+        }
+        return (page-1)*pageSize;
     }
 
     /**

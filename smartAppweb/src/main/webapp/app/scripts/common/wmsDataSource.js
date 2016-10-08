@@ -47,6 +47,10 @@ define(['app', 'kendo', 'scripts/common/sync'],function(app, kendo){
                     if(responseData.result){
                         data = responseData.result.rows;
                     }
+                    data = _.map(data, function (record) {
+                        record.total = responseData.result.total;
+                        return record;
+                    });
                     options.success(data);
                 });
         };
@@ -100,33 +104,12 @@ define(['app', 'kendo', 'scripts/common/sync'],function(app, kendo){
 
         };
         WmsOnlineTransport.prototype.destroy = function (options) {
-          // 逻辑上根据后台返回结果决定是否删除，因此把改方法的请求移动到preDestroy中
           options.success();
-  //            var transport = this,
-  //                parentDs = this.parentDs;
-  //            var $q = $sync(transport.url, "DELETE", {data: options.data.id});
-  //            var destroyFail = function() {
-  //              parentDs.add(options.data);
-  //            };
-  //            if (_.isFunction(transport.callback.destroy)) {
-  //                $q.then(function (xhr) {
-  //                    transport.callback.destroy(xhr, options.data);
-  //                }).then(function (xhr) {
-  //                        options.success();
-  //                    }, destroyFail);
-  //            } else {
-  //                $q.then(function (xhr) {
-  //                    options.success();
-  //                }, destroyFail);
-  //            }
         };
         WmsOnlineTransport.prototype.preDestroy = function (data) {
           var transport = this,
             parentDs = this.parentDs;
           var $q = $sync(transport.url, "DELETE", {data: data.id});
-//          var destroyFail = function() {
-//            return false;
-//          };
           if (_.isFunction(transport.callback.destroy)) {
             $q.then(function (xhr) {
               transport.callback.destroy(xhr, data);
@@ -154,7 +137,7 @@ define(['app', 'kendo', 'scripts/common/sync'],function(app, kendo){
             pageSize: 30,
             serverPaging: true,
             serverFiltering: true
-//            ,serverSorting: true
+            // serverSorting: true
         };
         return function DsFactory(options) {
             var ds;

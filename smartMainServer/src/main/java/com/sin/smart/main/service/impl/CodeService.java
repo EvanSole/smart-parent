@@ -39,9 +39,10 @@ public class CodeService implements ICodeService {
     public static final String CODE_HEADER_KEY = "codeHeaderKey";
 
     @Override
-    public PageResponse<List<SmartCodeHeaderEntity>> getCodeHeaderLists(Map searchMap) {
-        List<SmartCodeHeaderEntity> codeHeaderEntities = codeHeaderMapper.queryCodeHeaderPages(searchMap);
-        Integer totalSize = codeHeaderMapper.queryCodeHeaderPageCount(searchMap);
+    public PageResponse<List<SmartCodeHeaderEntity>> getCodeHeaderLists(SmartCodeHeaderDTO codeHeaderDTO) {
+        SmartCodeHeaderEntity codeHeaderEntity = BeanUtils.copyBeanPropertyUtils(codeHeaderDTO,SmartCodeHeaderEntity.class);
+        List<SmartCodeHeaderEntity> codeHeaderEntities = codeHeaderMapper.queryCodeHeaderPages(codeHeaderEntity);
+        Integer totalSize = codeHeaderMapper.queryCodeHeaderPageCount(codeHeaderEntity);
         PageResponse<List<SmartCodeHeaderEntity>> response = new PageResponse();
         response.setTotal(totalSize);
         response.setRows(codeHeaderEntities);
@@ -49,9 +50,9 @@ public class CodeService implements ICodeService {
     }
 
     @Override
-    public PageResponse<List<SmartCodeDetailEntity>> getCodeDetailLists(Map searchMap) {
-        List<SmartCodeDetailEntity> codeDetailEntities = codeDetailMapper.queryCodeDetailPages(searchMap);
-        Integer totalSize = codeDetailMapper.queryCodeDetailPageCount(searchMap);
+    public PageResponse<List<SmartCodeDetailEntity>> getCodeDetailLists(Map map) {
+        List<SmartCodeDetailEntity> codeDetailEntities = codeDetailMapper.queryCodeDetailPages(map);
+        Integer totalSize = codeDetailMapper.queryCodeDetailPageCount(map);
         PageResponse<List<SmartCodeDetailEntity>> response = new PageResponse();
         response.setTotal(totalSize);
         response.setRows(codeDetailEntities);

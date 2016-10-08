@@ -7,6 +7,7 @@ import com.sin.smart.main.service.IPermissionService;
 import com.sin.smart.main.service.IRoleService;
 
 import com.sin.smart.main.service.IUserService;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,7 +65,8 @@ public class RoleController extends BaseController {
     public ResponseResult queryUserByRoles(@PathVariable Long id,@RequestParam Map searchMap){
         searchMap.put("roleId",id);
         searchMap.put("tenantId",getSessionCurrentUser().getTenantId());
-        return getSucResultData(userService.queryUserByRoles(searchMap));
+        searchMap.put("offset",getOffset(MapUtils.getInteger(searchMap,"page"),MapUtils.getInteger(searchMap,"pageSize")));
+        return getSucResultData(userService.queryUserByRolesPage(searchMap));
     }
 
     @RequestMapping(value = "{id}/module", method = RequestMethod.GET)

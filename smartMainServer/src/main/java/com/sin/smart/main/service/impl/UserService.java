@@ -105,7 +105,7 @@ public class UserService extends BaseService implements IUserService {
     }
 
     @Override
-    public PageResponse<List> queryUserByRoles(Map searchMap) {
+    public PageResponse<List> queryUserByRolesPage(Map searchMap) {
         List<Map<String, Object>> mapList = userMapper.queryUserByRolePages(searchMap);
         //转换
         List<Object[]> list = ListArraysConvert.listMapToArrayConvert(mapList);

@@ -12,9 +12,9 @@ import java.util.Map;
 
 public interface ICodeService {
 
-     PageResponse<List<SmartCodeHeaderEntity>> getCodeHeaderLists(Map searchMap);
+     PageResponse<List<SmartCodeHeaderEntity>> getCodeHeaderLists(SmartCodeHeaderDTO codeHeaderDTO);
 
-     PageResponse<List<SmartCodeDetailEntity>>  getCodeDetailLists(Map searchMap);
+     PageResponse<List<SmartCodeDetailEntity>>  getCodeDetailLists(Map map);
 
      MessageResult createCodeHeader(SmartCodeHeaderDTO codeHeaderDTO);
 

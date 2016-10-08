@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface CodeHeaderMapper {
 
-    List<SmartCodeHeaderEntity> queryCodeHeaderPages(Map searchMap);
+    List<SmartCodeHeaderEntity> queryCodeHeaderPages(SmartCodeHeaderEntity codeHeaderEntity);
 
-    Integer queryCodeHeaderPageCount(Map searchMap);
+    Integer queryCodeHeaderPageCount(SmartCodeHeaderEntity codeHeaderEntity);
 
     Integer insertCodeHeader(SmartCodeHeaderEntity codeHeaderEntity);
 

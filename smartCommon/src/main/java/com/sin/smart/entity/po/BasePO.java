@@ -6,9 +6,8 @@ public class BasePO implements Serializable {
 
 	private String orderBy;
 	private Integer offset = 0;  //从第几条开始
-	private Integer pageSize = 15;//每页多少条
+	private Integer pageSize = 30;//每页多少条
 	private Integer page = 1; //当前第几页
-	private Integer total;
 
 	public Integer getPage() {
 		return page;
@@ -46,11 +45,4 @@ public class BasePO implements Serializable {
 		this.orderBy = orderBy;
 	}
 
-	public Integer getTotal() {
-		return total;
-	}
-
-	public void setTotal(Integer total) {
-		this.total = total;
-	}
 }

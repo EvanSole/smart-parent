@@ -9,9 +9,9 @@ import java.util.Map;
 
 public interface CodeDetailMapper {
 
-    List<SmartCodeDetailEntity> queryCodeDetailPages(Map searchMap);
+    List<SmartCodeDetailEntity> queryCodeDetailPages(Map map);
 
-    Integer queryCodeDetailPageCount(Map searchMap);
+    Integer queryCodeDetailPageCount(Map map);
 
     Integer deleteByPrimaryKey(Long detailId);
 

@@ -6,17 +6,10 @@ define(['scripts/controller/controller', '../../model/system/codeModel'], functi
                 var codeHeaderUrl = $url.systemCodeHeaderUrl,
                     codeHeaderColumns = [
                         WMS.GRIDUTILS.CommonOptionButton(),
-                        { title: '列表名称', field: 'listName',align: 'left', width: "200px",
-                            filterable: {cell: {
-                                enabled: true,
-                                delay: 1500
-                            }}},
+                        { title: '列表名称', field: 'listName',align: 'left', width: "180px", filterable: {cell: {enabled: true, delay: 1500}}},
                         { filterable: false, title: '只读', field: 'isReadOnly', template: WMS.UTILS.checkboxDisabledTmp("isReadOnly"), align: 'left', width: "75px"},
                         { filterable: false, title: '系统', field: 'isSystem', template: WMS.UTILS.checkboxDisabledTmp("isSystem"), align: 'left', width: "75px"},
-                        { filterable: {cell: {
-                            enabled: true,
-                            delay: 1500
-                        }}, title: '列表说明', field: 'description', align: 'left', width: "200px"}
+                        { filterable: {cell: {enabled: true, delay: 1500}}, title: '列表说明', field: 'description', align: 'left', width: "200px"}
                     ],
 
                     codeDetailColumns = [

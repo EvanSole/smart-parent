@@ -7,6 +7,7 @@ import com.sin.smart.entity.CurrentUserEntity;
 import com.sin.smart.main.service.IRoleService;
 import com.sin.smart.main.service.IUserService;
 import com.sin.smart.main.service.IWarehouseService;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,7 +73,8 @@ public class UserController extends BaseController {
     public ResponseResult queryWarehouseByUser(@PathVariable Long id,@RequestParam Map searchMap) throws Exception {
         searchMap.put("userId",id);
         searchMap.put("tenantId",this.getSessionCurrentUser().getTenantId());
-        return getSucResultData(warehouseService.findWarehouseByUser(searchMap));
+        searchMap.put("offset",getOffset(MapUtils.getInteger(searchMap,"page"),MapUtils.getInteger(searchMap,"pageSize")));
+        return getSucResultData(warehouseService.findWarehouseByUserPage(searchMap));
     }
 
     //查询已分配角色
@@ -80,6 +82,7 @@ public class UserController extends BaseController {
     public ResponseResult queryRolesByUser(@PathVariable Long id,@RequestParam Map searchMap) throws Exception {
         searchMap.put("userId",id);
         searchMap.put("tenantId",this.getSessionCurrentUser().getTenantId());
+        searchMap.put("offset",getOffset(MapUtils.getInteger(searchMap,"page"),MapUtils.getInteger(searchMap,"pageSize")));
         return getSucResultData(roleService.queryRolesByUserPages(searchMap));
     }
 

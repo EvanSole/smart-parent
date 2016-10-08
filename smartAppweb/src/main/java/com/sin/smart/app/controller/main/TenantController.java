@@ -25,7 +25,7 @@ public class TenantController extends BaseController {
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public ResponseResult getTenantList(SmartTenantDTO tenantDTO) throws Exception {
-        return  new ResponseResult(tenantService.queryTenantPages(tenantDTO));
+        return  getSucResultData(tenantService.queryTenantPages(tenantDTO));
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
