@@ -643,6 +643,28 @@
         </configuration>
       </plugin>
 
+      <!-- 将项目所有包放到一个指定目录 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.9</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/libs</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- pmd 代码检查规范-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -670,9 +692,9 @@
 
   <!-- maven profiles 参数化构建配置 start-->
   <profiles>
-    <!-- 开发环境，执行指令 mvn clean package -DskipTests -P deploy  -->
+    <!-- 开发环境，执行指令 mvn clean package -DskipTests -P develop  -->
     <profile>
-      <id>deploy</id>
+      <id>develop</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>

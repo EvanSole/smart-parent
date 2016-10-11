@@ -4,7 +4,6 @@ import com.sin.smart.core.web.BaseController;
 import com.sin.smart.core.web.ResponseResult;
 import com.sin.smart.dto.SmartCodeDetailDTO;
 import com.sin.smart.dto.SmartCodeHeaderDTO;
-import com.sin.smart.entity.main.SmartCodeHeaderEntity;
 import com.sin.smart.main.service.ICodeService;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
