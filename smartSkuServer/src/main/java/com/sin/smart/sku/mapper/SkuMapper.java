@@ -13,6 +13,6 @@ public interface SkuMapper {
      */
     SmartSkuEntity getSkuByBarcode(@Param("barcode") String barcode,@Param("splitTableKey") String splitTableKey);
 
-    SmartSkuEntity saveSku(@Param("skuEntity") SmartSkuEntity skuEntity, @Param("splitTableKey") String splitTableKey);
+    Integer saveSku(@Param("skuEntity") SmartSkuEntity skuEntity, @Param("splitTableKey") String splitTableKey);
 
 }

@@ -20,7 +20,7 @@ public class SkuService extends BaseService implements ISkuService {
     }
 
     @Override
-    public SmartSkuEntity saveSku(SmartSkuEntity skuEntity, DbShardVO dbshardVO) throws Exception {
+    public Integer saveSku(SmartSkuEntity skuEntity, DbShardVO dbshardVO) throws Exception {
         return skuMapper.saveSku(skuEntity,getSplitTableKey(dbshardVO));
     }
 }

@@ -66,15 +66,14 @@ public class ShardTableUtil {
 		TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
 		List<String> tableList = null;
 		try {
-			Statement stmt = CCJSqlParserUtil.parse(sql);
-			if (sql.indexOf("update") == 0) {
+			Statement stmt = CCJSqlParserUtil.parse(newSql);
+			if (newSql.toLowerCase().indexOf("update") == 0) {
 				Update update = (Update) stmt;
 				tableList = tablesNamesFinder.getTableList(update);
-			} else if (sql.indexOf("insert") == 0) {
+			} else if (newSql.toLowerCase().indexOf("insert") == 0) {
 				Insert insert = (Insert) stmt;
 				tableList = tablesNamesFinder.getTableList(insert);
-
-			} else if (sql.indexOf("delete") == 0) {
+			} else if (newSql.toLowerCase().indexOf("delete") == 0) {
 				Delete delete = (Delete) stmt;
 				tableList = tablesNamesFinder.getTableList(delete);
 			} else {
@@ -84,7 +83,7 @@ public class ShardTableUtil {
 			int suffix = getTableIndex(splitflag);
 			if (suffix > 0) {
 				for (String table : tableList) {
-					newSql = sql.replaceAll(table, table + "_" + suffix);
+					newSql = newSql.replaceAll(table, table + "_" + suffix);
 				}
 			}
 			return newSql;

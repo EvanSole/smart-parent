@@ -4,6 +4,8 @@ import com.sin.smart.entity.po.BasePO;
 
 public class SmartSkuEntity extends BasePO {
 
+    private Long id;
+
     private Long tenantId;
 
     private Long warehouseId;
@@ -31,6 +33,14 @@ public class SmartSkuEntity extends BasePO {
     private String updateUser;
 
     private Long updateTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getTenantId() {
         return tenantId;

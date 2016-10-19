@@ -28,12 +28,12 @@ public class SkuServiceTest extends SpringTxTestCase {
             skuEntity.setWarehouseId(1L);
             skuEntity.setTenantId(88L);
             skuEntity.setStorerId(88L);
-            skuEntity.setSku("TERE4531122");
-            skuEntity.setItemName("畅青");
+            skuEntity.setSku("11TERE4531122");
+            skuEntity.setItemName("11畅青");
             skuEntity.setDatasourceCode("apple");
             skuEntity.setIsActive(new Byte("1"));
-            skuEntity.setUpc("AAACFABB47652");
-            skuEntity.setBarcode("GFTF24523451122");
+            skuEntity.setUpc("11AAACFABB47652");
+            skuEntity.setBarcode("11GFTF24523451122");
             skuService.saveSku(skuEntity,getDbshardVO());
         } catch (Exception e) {
             e.printStackTrace();

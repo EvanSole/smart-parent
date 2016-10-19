@@ -30,4 +30,10 @@
     WHERE barcode = #{barcode,jdbcType=VARCHAR}
   </select>
 
+  <insert id="saveSku" parameterType="com.sin.smart.entity.sku.SmartSkuEntity">
+    INSERT INTO  t_smart_sku (tenant_id,warehouse_id,storer_id,sku,upc,barcode,item_name,datasource_code)
+    VALUE (#{skuEntity.tenantId},#{skuEntity.warehouseId},#{skuEntity.storerId},#{skuEntity.sku},
+    #{skuEntity.upc},#{skuEntity.barcode},#{skuEntity.itemName},#{skuEntity.datasourceCode})
+  </insert>
+
 </mapper>

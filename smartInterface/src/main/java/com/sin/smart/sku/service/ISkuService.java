@@ -7,5 +7,5 @@ public interface ISkuService {
 
     SmartSkuEntity getSkuByBarcode(String barcode, DbShardVO dbShardVO);
 
-    SmartSkuEntity saveSku(SmartSkuEntity skuEntity, DbShardVO dbshardVO) throws Exception;
+    Integer saveSku(SmartSkuEntity skuEntity, DbShardVO dbshardVO) throws Exception;
 }

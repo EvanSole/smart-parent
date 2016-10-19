@@ -103,94 +103,94 @@
   <insert id="insertModule" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
     insert into t_smart_module
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="typeCode != null" >
-        type_code,
-      </if>
-      <if test="moduleType != null" >
-        module_type,
-      </if>
-      <if test="parentId != null and parentId !=0 " >
-        parent_id,
-      </if>
-      <if test="moduleName != null" >
-        module_name,
-      </if>
-      <if test="modulePath != null" >
-        module_Path,
-      </if>
-      <if test="description != null" >
-        description,
-      </if>
-      <if test="position != null" >
-        position,
-      </if>
-      <if test="isVisible != null" >
-        is_visible,
-      </if>
-      <if test="isDel != null" >
-        is_del,
-      </if>
-      <if test="icons != null">
-        icons,
-      </if>
-      <if test="createUser != null" >
-        create_user,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateUser != null" >
-        update_user,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="typeCode != null" >
-        #{typeCode,jdbcType=VARCHAR},
-      </if>
-      <if test="moduleType != null" >
-        #{moduleType,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null and parentId !=0 " >
-        #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="moduleName != null" >
-        #{moduleName,jdbcType=VARCHAR},
-      </if>
-      <if test="modulePath != null" >
-        #{modulePath,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="position != null" >
-        #{position,jdbcType=INTEGER},
-      </if>
-      <if test="isVisible != null" >
-        #{isVisible,jdbcType=BIT},
-      </if>
-      <if test="isDel != null" >
-        #{isDel,jdbcType=BIT},
-      </if>
-      <if test="icons != null" >
-        #{icons,jdbcType=VARCHAR},
-      </if>
-      <if test="createUser != null" >
-        #{createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=BIGINT},
-      </if>
-      <if test="updateUser != null" >
-        #{updateUser,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
+  <if test="typeCode != null" >
+    type_code,
+  </if>
+  <if test="moduleType != null" >
+    module_type,
+  </if>
+  <if test="parentId != null and parentId !=0 " >
+    parent_id,
+  </if>
+  <if test="moduleName != null" >
+    module_name,
+  </if>
+  <if test="modulePath != null" >
+    module_Path,
+  </if>
+  <if test="description != null" >
+    description,
+  </if>
+  <if test="position != null" >
+    position,
+  </if>
+  <if test="isVisible != null" >
+    is_visible,
+  </if>
+  <if test="isDel != null" >
+    is_del,
+  </if>
+  <if test="icons != null">
+    icons,
+  </if>
+  <if test="createUser != null" >
+    create_user,
+  </if>
+  <if test="createTime != null" >
+    create_time,
+  </if>
+  <if test="updateUser != null" >
+    update_user,
+  </if>
+  <if test="updateTime != null" >
+    update_time,
+  </if>
+</trim>
+  <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <if test="typeCode != null" >
+      #{typeCode,jdbcType=VARCHAR},
+    </if>
+    <if test="moduleType != null" >
+      #{moduleType,jdbcType=VARCHAR},
+    </if>
+    <if test="parentId != null and parentId !=0 " >
+      #{parentId,jdbcType=BIGINT},
+    </if>
+    <if test="moduleName != null" >
+      #{moduleName,jdbcType=VARCHAR},
+    </if>
+    <if test="modulePath != null" >
+      #{modulePath,jdbcType=VARCHAR},
+    </if>
+    <if test="description != null" >
+      #{description,jdbcType=VARCHAR},
+    </if>
+    <if test="position != null" >
+      #{position,jdbcType=INTEGER},
+    </if>
+    <if test="isVisible != null" >
+      #{isVisible,jdbcType=BIT},
+    </if>
+    <if test="isDel != null" >
+      #{isDel,jdbcType=BIT},
+    </if>
+    <if test="icons != null" >
+      #{icons,jdbcType=VARCHAR},
+    </if>
+    <if test="createUser != null" >
+      #{createUser,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null" >
+      #{createTime,jdbcType=BIGINT},
+    </if>
+    <if test="updateUser != null" >
+      #{updateUser,jdbcType=VARCHAR},
+    </if>
+    <if test="updateTime != null" >
+      #{updateTime,jdbcType=BIGINT},
+    </if>
+  </trim>
+</insert>
 
   <update id="updateModule" parameterType="com.sin.smart.entity.main.SmartModuleEntity" >
     update t_smart_module
